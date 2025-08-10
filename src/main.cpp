@@ -4,7 +4,8 @@
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
 #include "autons.h"    // IWYU pragma: keep
-
+#include "globals.hpp"
+using namespace std;
 // controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
@@ -91,6 +92,19 @@ lemlib::ExpoDriveCurve steerCurve(13, // joystick deadband out of 127
 // create the chassis
 lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
 
+
+// auton num
+int autonNum = 0;
+
+void leftScreenButton() {
+    autonNum = (autonNum - 1 > 0) ? autonNum - 1 : autonNum = autons.size()-1;
+}
+
+void rightScreenButton() {
+    autonNum = (autonNum + 1 < autons.size()) ? autonNum + 1 : autonNum = 0;
+}
+
+
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -99,6 +113,10 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors
  */
 void initialize() {
     pros::lcd::initialize(); // initialize brain screen
+    pros::lcd::register_btn0_cb(leftScreenButton);
+    pros::lcd::register_btn2_cb(rightScreenButton);
+
+    
     chassis.calibrate(); // calibrate sensors
 
     // the default rate is 50. however, if you need to change the rate, you
@@ -124,19 +142,28 @@ void initialize() {
     });
 }
 
+int autonSelection = 0;
 /**
  * Runs while the robot is disabled
  */
-void disabled() {}
+void disabled() {
+
+    
+}
 
 /**
  * runs after initialize if the robot is connected to field control
  */
-void competition_initialize() {}
+
+
+
+void competition_initialize() {
+
+}
 
 // get a path used for pure pursuit
 // this needs to be put outside a function
-ASSET(example_txt); // '.' replaced with "_" to make c++ happy
+//ASSET(example_txt); // '.' replaced with "_" to make c++ happy
 
 /**
  * Runs during auto
@@ -168,8 +195,9 @@ void autonomous() {
     // chassis.waitUntil(10);
     // pros::lcd::print(4, "Traveled 10 inches during pure pursuit!");
     // // wait until the movement is done
-    auton1(chassis);
-    pros::lcd::print(4, "pure pursuit finished!");
+    autonNum = 0; // Change this to whichever auton you want to run
+    autons[autonNum]();
+    
 }
 
 /**
