@@ -94,14 +94,26 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors
 
 
 // auton num
-int autonNum = 0;
+int autonIndex;
 
-void leftScreenButton() {
-    autonNum = (autonNum - 1 > 0) ? autonNum - 1 : autonNum = autons.size()-1;
+
+//using ternary (if)
+/*void leftScreenButton() {
+    autonIndex = (autonIndex - 1 >= 0) ? autonIndex - 1 : autons.size()-1;
 }
 
 void rightScreenButton() {
-    autonNum = (autonNum + 1 < autons.size()) ? autonNum + 1 : autonNum = 0;
+    autonIndex = (autonIndex + 1 < autons.size()) ? autonIndex + 1 : autonIndex = 0;
+}*/
+
+
+//using modulo (math)
+void leftScreenButton() {
+    autonIndex = (autonIndex - 1 + autons.size()) % (autons.size());
+}
+
+void rightScreenButton() {
+    autonIndex = (autonIndex + 1) % (autons.size());
 }
 
 
@@ -112,6 +124,8 @@ void rightScreenButton() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
+    autonIndex = 0;
+
     pros::lcd::initialize(); // initialize brain screen
     pros::lcd::register_btn0_cb(leftScreenButton);
     pros::lcd::register_btn2_cb(rightScreenButton);
@@ -134,6 +148,9 @@ void initialize() {
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            pros::lcd::print(3, "auton index: %d", autonIndex);
+            pros::lcd::print(4, "%s", std::get<0>(autons[autonIndex]));
+            
             // log position telemetry
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             // delay to save resources
@@ -142,7 +159,6 @@ void initialize() {
     });
 }
 
-int autonSelection = 0;
 /**
  * Runs while the robot is disabled
  */
@@ -195,8 +211,9 @@ void autonomous() {
     // chassis.waitUntil(10);
     // pros::lcd::print(4, "Traveled 10 inches during pure pursuit!");
     // // wait until the movement is done
-    autonNum = 0; // Change this to whichever auton you want to run
-    autons[autonNum]();
+
+    //autonIndex = 0; // Change this to whichever auton you want to run
+    std::get<1>(autons[autonIndex])();
     
 }
 
@@ -266,7 +283,7 @@ void opcontrol() {
 
 
         // blocker
-        if (controller.get_digital(DIGITAL_LEFT)) {
+        if (controller.get_digital_new_press(DIGITAL_LEFT)) {
             blocker.toggle();
         }
 

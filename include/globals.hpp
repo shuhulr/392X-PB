@@ -4,4 +4,3 @@
 
 // Declare chassis so other files can use it
 extern lemlib::Chassis chassis;
-
