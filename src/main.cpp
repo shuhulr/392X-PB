@@ -5,6 +5,8 @@
 #include "pros/rtos.hpp"
 #include "autons.h"    // IWYU pragma: keep
 #include "globals.hpp"
+
+
 using namespace std;
 // controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
@@ -20,21 +22,21 @@ pros::Motor fly(11);
 pros::Motor indexer(-20);
 
 // pneumatics
-pros::adi::Pneumatics blocker('A', true);
+pros::adi::Pneumatics blocker('A', false);
 
 
 // Inertial Sensor on port 10
 pros::Imu imu(9);
 
 // tracking wheels
-// horizontal tracking wheel encoder. Rotation sensor, port 20, not reversed
-pros::Rotation horizontalEnc(8);
-// vertical tracking wheel encoder. Rotation sensor, port 11, reversed
+// horizontal tracking wheel encoder. Rotation sensor, port 8, not reversed
+pros::Rotation horizontalEnc(-8);
+// vertical tracking wheel encoder. Rotation sensor, port 7, not reversed
 pros::Rotation verticalEnc(7);
 // horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
-lemlib::TrackingWheel horizontal(&horizontalEnc, lemlib::Omniwheel::NEW_2, -5.75);
+lemlib::TrackingWheel horizontal(&horizontalEnc, lemlib::Omniwheel::NEW_2, -6);
 // vertical tracking wheel. 2.75" diameter, 2.5" offset, left of the robot (negative)
-lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_2, -2.5);
+lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_2, 1.125);
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
