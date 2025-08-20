@@ -30,13 +30,13 @@ pros::Imu imu(9);
 
 // tracking wheels
 // horizontal tracking wheel encoder. Rotation sensor, port 8, not reversed
-pros::Rotation horizontalEnc(-8);
+pros::Rotation horizontalEnc(8);
 // vertical tracking wheel encoder. Rotation sensor, port 7, not reversed
 pros::Rotation verticalEnc(7);
 // horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
-lemlib::TrackingWheel horizontal(&horizontalEnc, lemlib::Omniwheel::NEW_2, -6);
+lemlib::TrackingWheel horizontal(&horizontalEnc, 2, -3);
 // vertical tracking wheel. 2.75" diameter, 2.5" offset, left of the robot (negative)
-lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_2, 1.125);
+lemlib::TrackingWheel vertical(&verticalEnc, 2, 1.125);
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
@@ -60,10 +60,10 @@ lemlib::ControllerSettings linearController(10, // proportional gain (kP)
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(2, // proportional gain (kP)
-                                             0, // integral gain (kI)
-                                             0, // derivative gain (kD)
-                                             3, // anti windup
+lemlib::ControllerSettings angularController(1.62, // proportional gain (kP)
+                                             0.1, // integral gain (kI)
+                                             12, // derivative gain (kD)
+                                             5, // anti windup
                                              1, // small error range, in degrees
                                              100, // small error range timeout, in milliseconds
                                              3, // large error range, in degrees
@@ -144,12 +144,17 @@ void initialize() {
     // works, refer to the fmtlib docs
 
     // thread to for brain screen and position logging
+
+
+    //pros::Task pidTuner()
+
     pros::Task screenTask([&]() {
         while (true) {
             // print robot location to the brain screen
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            printf("\nTheta: %f", chassis.getPose().theta);
             pros::lcd::print(3, "auton index: %d", autonIndex);
             pros::lcd::print(4, "%s", std::get<0>(autons[autonIndex]));
             

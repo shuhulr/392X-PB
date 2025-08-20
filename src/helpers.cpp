@@ -1,7 +1,7 @@
 #include "globals.hpp"
 
 
-void PIDLog(){
+void PIDLog() {
 
 }
 
