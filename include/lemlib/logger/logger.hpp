@@ -1,12 +1,12 @@
 #pragma once
 
 #include <memory>
-#include <array>
+#include <array>  // IWYU pragma: keep
 
 #define FMT_HEADER_ONLY
-#include "fmt/core.h"
+#include "fmt/core.h" // IWYU pragma: keep
 
-#include "lemlib/logger/baseSink.hpp"
+#include "lemlib/logger/baseSink.hpp" // IWYU pragma: keep
 #include "lemlib/logger/infoSink.hpp"
 #include "lemlib/logger/telemetrySink.hpp"
 

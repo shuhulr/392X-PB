@@ -61,7 +61,7 @@ lemlib::ControllerSettings linearController(10, // proportional gain (kP)
 
 // angular motion controller
 lemlib::ControllerSettings angularController(1.62, // proportional gain (kP)
-                                             0.1, // integral gain (kI)
+                                             0.25, // integral gain (kI)
                                              12, // derivative gain (kD)
                                              5, // anti windup
                                              1, // small error range, in degrees
@@ -238,7 +238,6 @@ void opcontrol() {
         int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
         int rightY = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
         // move the chassis with curvature drive
-
         //rajeev drive
         chassis.arcade(rightY, leftX);
 
