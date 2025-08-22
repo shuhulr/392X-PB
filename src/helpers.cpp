@@ -6,13 +6,6 @@ void PIDLog() {
 
 }
 
-void moveDistance(int dist, int timeout, bool async) {
-    bool forwards = (dist >= 0);
-    float xtarget = chassis.getPose().x + dist * cos(chassis.getPose().theta);
-    float ytarget = chassis.getPose().y + dist * sin(chassis.getPose().theta);
-    chassis.moveToPoint(xtarget, ytarget, timeout, {.forwards = forwards}, async);
-}
-
 void turnToHeadingU30(float heading, int timeout, lemlib::TurnToHeadingParams params, bool async) {
     angularController.kP = 0;
     angularController.kI = 0;

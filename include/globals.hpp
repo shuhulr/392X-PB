@@ -8,5 +8,4 @@ extern lemlib::Chassis chassis;
 extern lemlib::ControllerSettings linearController;
 extern lemlib::ControllerSettings angularController;
 
-extern void moveDistance(int dist, int timeout, bool async = true);
 extern void turnToHeadingU30(float heading, int timeout, lemlib::TurnToHeadingParams params = {}, bool async = true);

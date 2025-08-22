@@ -48,13 +48,13 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(10, // proportional gain (kP)
-                                            0, // integral gain (kI)
-                                            3, // derivative gain (kD)
+lemlib::ControllerSettings linearController(6, // proportional gain (kP)
+                                            0.2, // integral gain (kI)
+                                            33, // derivative gain (kD)
                                             3, // anti windup
-                                            1, // small error range, in inches
+                                            0.5, // small error range, in inches
                                             100, // small error range timeout, in milliseconds
-                                            3, // large error range, in inches
+                                            2, // large error range, in inches
                                             500, // large error range timeout, in milliseconds
                                             20 // maximum acceleration (slew)
 );
@@ -154,7 +154,8 @@ void initialize() {
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-            printf("\nTheta: %f", chassis.getPose().theta);
+            // printf("\n Theta: %f", chassis.getPose().theta);
+            // printf("\n X: %f, Y: %f", chassis.getPose().x, chassis.getPose().y);
             pros::lcd::print(3, "auton index: %d", autonIndex);
             pros::lcd::print(4, "%s", std::get<0>(autons[autonIndex]));
             
