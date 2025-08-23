@@ -248,53 +248,53 @@ void opcontrol() {
 
         // intake
         if (controller.get_digital(DIGITAL_R1)) {
-            intake.move(127);
+            intake.move(128);
+            fly.move(128);
         }
 
         // outtake
         else if (controller.get_digital(DIGITAL_L1)) {
-            intake.move(-64);
-        }
-
-        else {
-            intake.brake();
-        }
-
-        // fly in (forward)
-        if (controller.get_digital(DIGITAL_R2)) {
-            fly.move(127);
-        }
-
-        // fly out (reverse)
-        else if (controller.get_digital(DIGITAL_L2)) {
+            intake.move(-128);
             fly.move(-128);
         }
 
-        else {
-            fly.brake();
+        // Long goal
+        if (controller.get_digital(DIGITAL_R2)) {
+            fly.move(96);
+            indexer.move(128);
+            intake.move(128);
         }
 
-        // index
-        if (controller.get_digital(DIGITAL_A)) {
-            indexer.move(127);
+        // Mid goal
+        else if (controller.get_digital(DIGITAL_L2)) {
+            indexer.move(128);
+            intake.move(128);
         }
 
-        // outdex
-        else if (controller.get_digital(DIGITAL_B)) {
+        // Low goal
+        if (controller.get_digital(DIGITAL_RIGHT)) {
+            indexer.move(128);
+            intake.move(-64);
+        }
+
+        // blocker
+        if (controller.get_digital_new_press(DIGITAL_R2)) blocker.extend();
+
+        if (controller.get_digital_new_press(DIGITAL_R1)) blocker.retract();
+
+        // outdexer
+        if (controller.get_digital_new_press(DIGITAL_DOWN)) {
             indexer.move(-128);
         }
 
-        else {
-            indexer.brake();
+        // if no intake or indexer or fly buttons are pressed, stop the motors
+        if (!controller.get_digital(DIGITAL_DOWN) && !controller.get_digital(DIGITAL_L2) && !controller.get_digital(DIGITAL_RIGHT) && !controller.get_digital(DIGITAL_R2)) {
+            indexer.move(0);
         }
-
-
-        // blocker
-        if (controller.get_digital_new_press(DIGITAL_LEFT)) {
-            blocker.toggle();
+        if (!controller.get_digital(DIGITAL_R1) && !controller.get_digital(DIGITAL_L1) && !controller.get_digital(DIGITAL_R2)) {
+            fly.move(0);
+            if (!controller.get_digital(DIGITAL_L2) && !controller.get_digital(DIGITAL_RIGHT)) intake.move(0);
         }
-
-
         // delay to save resources
         pros::delay(10);
     }
