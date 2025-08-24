@@ -19,3 +19,9 @@ void turnToHeadingU30(float heading, int timeout, lemlib::TurnToHeadingParams pa
     angularController.kD = 12;
     angularController.windupRange = 5;
 }
+
+void LoadBag() {
+    intake.move(128);
+    fly.move(128);
+    blocker.retract();
+}

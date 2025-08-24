@@ -6,6 +6,6 @@ extern std::vector<std::tuple<std::string, void(*)()>> autons;
 
 extern void PIDTest();
 
-extern void autonLeft();
+extern void BlueRightBonus();
 extern void autonRight();
 extern void autonSkills();

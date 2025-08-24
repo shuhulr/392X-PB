@@ -7,5 +7,11 @@
 extern lemlib::Chassis chassis;
 extern lemlib::ControllerSettings linearController;
 extern lemlib::ControllerSettings angularController;
+extern pros::Controller controller;
+extern pros::Motor intake;
+extern pros::Motor fly;
+extern pros::Motor indexer;
+extern pros::adi::Pneumatics blocker;
 
 extern void turnToHeadingU30(float heading, int timeout, lemlib::TurnToHeadingParams params = {}, bool async = true);
+extern void LoadBag();

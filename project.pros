@@ -635,7 +635,8 @@
       }
     },
     "upload_options": {
-      "description": "229V on top"
+      "description": "229V on top",
+      "slot": 2
     },
     "use_early_access": false
   }

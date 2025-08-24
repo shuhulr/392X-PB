@@ -9,6 +9,7 @@
 
 lemlib::Pose origin(0, 0, 0);
 
+lemlib::Pose BlueRightBonusStart(17, -53, 8.5);
 
 
 
@@ -31,10 +32,10 @@ void PIDTest() {
 
 }
 
-void autonLeft() {
-    chassis.setPose(origin); // origin should be a lemlib::Pose
-    
-    
+void BlueRightBonus() {
+    chassis.setPose(BlueRightBonusStart);
+    LoadBag();
+    chassis.moveDistance(24, 700, {}, false);
 }
 
 void autonRight() {
@@ -53,7 +54,7 @@ void autonSkills() {
 // vector of tuple of function description and pointers
 std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"PID testing auto", PIDTest},
-    {"left auto", autonLeft},
+    {"Blue Right Bonus", BlueRightBonus},
     {"right auto", autonRight},
     {"skills auto", autonSkills},
 };

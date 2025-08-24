@@ -48,8 +48,8 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(6, // proportional gain (kP)
-                                            0.2, // integral gain (kI)
+lemlib::ControllerSettings linearController(5.7, // proportional gain (kP)
+                                            0.22, // integral gain (kI)
                                             33, // derivative gain (kD)
                                             3, // anti windup
                                             0.5, // small error range, in inches
@@ -126,7 +126,7 @@ void rightScreenButton() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    autonIndex = 0;
+    autonIndex = 1;
 
     pros::lcd::initialize(); // initialize brain screen
     pros::lcd::register_btn0_cb(leftScreenButton);
