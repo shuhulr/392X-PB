@@ -23,6 +23,9 @@ pros::Motor indexer(-20);
 
 // pneumatics
 pros::adi::Pneumatics blocker('A', false);
+pros::adi::Pneumatics matchloader('B', false);
+pros::adi::Pneumatics descorer('C', false);
+
 
 
 // Inertial Sensor on port 10
@@ -246,6 +249,7 @@ void opcontrol() {
         //chassis.arcade(leftY, rightX);
 
 
+
         // intake
         if (controller.get_digital(DIGITAL_R1)) {
             intake.move(128);
@@ -272,25 +276,33 @@ void opcontrol() {
         }
 
         // Low goal
-        if (controller.get_digital(DIGITAL_RIGHT)) {
+        if (controller.get_digital(DIGITAL_Y)) {
             indexer.move(128);
             intake.move(-64);
         }
 
+        
+
         // blocker
+        if (controller.get_digital_new_press(DIGITAL_R1)) {
+            blocker.retract();
+        }
+
         if (controller.get_digital_new_press(DIGITAL_R2)) blocker.extend();
 
-        if (controller.get_digital_new_press(DIGITAL_R1)) blocker.retract();
+        // matchloader
+        if (controller.get_digital_new_press(DIGITAL_L2)) matchloader.extend();
 
         // outdexer
-        if (controller.get_digital_new_press(DIGITAL_DOWN)) {
-            indexer.move(-128);
-        }
+        if (controller.get_digital_new_press(DIGITAL_DOWN)) indexer.move(-128);
+
+        if (controller.get_digital_new_press(DIGITAL_RIGHT)) matchloader.toggle();
 
         // if no intake or indexer or fly buttons are pressed, stop the motors
-        if (!controller.get_digital(DIGITAL_DOWN) && !controller.get_digital(DIGITAL_L2) && !controller.get_digital(DIGITAL_RIGHT) && !controller.get_digital(DIGITAL_R2)) {
+        if (!controller.get_digital(DIGITAL_DOWN) && !controller.get_digital(DIGITAL_L2) && !controller.get_digital(DIGITAL_Y) && !controller.get_digital(DIGITAL_R2)) {
             indexer.move(0);
         }
+
         if (!controller.get_digital(DIGITAL_R1) && !controller.get_digital(DIGITAL_L1) && !controller.get_digital(DIGITAL_R2)) {
             fly.move(0);
             if (!controller.get_digital(DIGITAL_L2) && !controller.get_digital(DIGITAL_RIGHT)) intake.move(0);
