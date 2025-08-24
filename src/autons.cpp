@@ -34,8 +34,10 @@ void PIDTest() {
 
 void BlueRightBonus() {
     chassis.setPose(BlueRightBonusStart);
+    // chassis.moveDistance(30, 750, {.maxSpeed = 96});
+    chassis.moveToPoint(24, -22, 750, {.maxSpeed = 96, .minSpeed = 50, .earlyExitRange = 1});
     LoadBag();
-    chassis.moveDistance(24, 700, {}, false);
+    chassis.turnToPoint(67, 0, 700);
 }
 
 void autonRight() {
