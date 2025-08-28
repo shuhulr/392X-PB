@@ -25,3 +25,10 @@ void LoadBag() {
     fly.move(128);
     blocker.retract();
 }
+
+void ScoreHigh() {
+    indexer.move(128);
+    intake.move(128);
+    fly.move(128);
+    blocker.extend();
+}

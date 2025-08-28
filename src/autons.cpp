@@ -35,9 +35,36 @@ void PIDTest() {
 void BlueRightBonus() {
     chassis.setPose(BlueRightBonusStart);
     // chassis.moveDistance(30, 750, {.maxSpeed = 96});
-    chassis.moveToPoint(24, -22, 750, {.maxSpeed = 96, .minSpeed = 50, .earlyExitRange = 1});
+    chassis.moveToPoint(23, -18, 800, {.maxSpeed = 91.5, .minSpeed = 40, .earlyExitRange = 1});
     LoadBag();
-    chassis.turnToPoint(67, 0, 700);
+    chassis.turnToPoint(69, 0, 700);
+    chassis.moveDistance(18.5, 700, {}, false);
+    pros::delay(500);
+    matchloader.extend();
+    pros::delay(500);
+    chassis.moveDistance(-17, 700, {.forwards = false});
+    matchloader.retract();
+    chassis.turnToPoint(48, -48, 700, {}, false);
+    chassis.moveToPoint(48, -50, 800, {});
+    chassis.waitUntil(40);
+    matchloader.extend();
+    chassis.waitUntilDone();
+    chassis.turnToPoint(46, -72, 700, {}, false);
+    chassis.moveDistance(15, 700, {}, false);
+    chassis.moveDistance(15, 350, {.forwards = false}, false);
+    chassis.moveDistance(15, 400, {}, false);
+    pros::delay(1000);
+    chassis.moveDistance(-15, 700, {.forwards = false}, false);
+    matchloader.retract();
+    chassis.turnToHeading(0, 700, {});
+    pros::delay(500);
+    ScoreHigh();
+    fly.move(0);
+    chassis.waitUntilDone();
+    chassis.moveDistance(15, 700, {}, false);
+    pros::delay(300);
+    fly.move(128);
+
 }
 
 void autonRight() {

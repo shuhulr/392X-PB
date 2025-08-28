@@ -12,6 +12,9 @@ extern pros::Motor intake;
 extern pros::Motor fly;
 extern pros::Motor indexer;
 extern pros::adi::Pneumatics blocker;
+extern pros::adi::Pneumatics matchloader;
+extern pros::adi::Pneumatics descorer;
 
 extern void turnToHeadingU30(float heading, int timeout, lemlib::TurnToHeadingParams params = {}, bool async = true);
 extern void LoadBag();
+extern void ScoreHigh();
