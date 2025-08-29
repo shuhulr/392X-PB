@@ -12,7 +12,7 @@ using namespace std;
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // motor groups
-pros::MotorGroup leftMotors({1, -2, -3}, pros::MotorGearset::blue); // left motor group - ports 1, 2 (reversed), 3
+pros::MotorGroup leftMotors({16, -2, -3}, pros::MotorGearset::blue); // left motor group - ports 1, 2 (reversed), 3
 pros::MotorGroup rightMotors({-4, 5, 6}, pros::MotorGearset::blue); // right motor group - ports 4 (reversed), 5, 6 (reversed)
 
 
@@ -25,6 +25,7 @@ pros::Motor indexer(-20);
 pros::adi::Pneumatics blocker('A', false);
 pros::adi::Pneumatics matchloader('B', false);
 pros::adi::Pneumatics descorer('C', false);
+pros::adi::Pneumatics instigator('C',false);
 
 
 
@@ -264,7 +265,7 @@ void opcontrol() {
 
         // Long goal
         if (controller.get_digital(DIGITAL_R2)) {
-            fly.move(96);
+            fly.move(128);
             indexer.move(128);
             intake.move(128);
         }
@@ -281,6 +282,11 @@ void opcontrol() {
             intake.move(-64);
         }
 
+        //fly it in incase cooked
+        if (controller.get_digital(DIGITAL_UP)) {
+            fly.move(128);
+        }
+
         
 
         // blocker
@@ -289,6 +295,11 @@ void opcontrol() {
         }
 
         if (controller.get_digital_new_press(DIGITAL_R2)) blocker.extend();
+
+        // instigator
+        if (controller.get_digital_new_press(DIGITAL_B)) instigator.extend();
+
+        if (controller.get_digital_new_release(DIGITAL_B)) instigator.retract();
 
         // matchloader
         if (controller.get_digital_new_press(DIGITAL_L2)) matchloader.extend();
