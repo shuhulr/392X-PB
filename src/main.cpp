@@ -12,7 +12,7 @@ using namespace std;
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // motor groups
-pros::MotorGroup leftMotors({16, -2, -3}, pros::MotorGearset::blue); // left motor group - ports 1, 2 (reversed), 3
+pros::MotorGroup leftMotors({15, -2, -3}, pros::MotorGearset::blue); // left motor group - ports 1, 2 (reversed), 3
 pros::MotorGroup rightMotors({-4, 5, 6}, pros::MotorGearset::blue); // right motor group - ports 4 (reversed), 5, 6 (reversed)
 
 

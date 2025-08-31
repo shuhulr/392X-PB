@@ -14,6 +14,7 @@ extern pros::Motor indexer;
 extern pros::adi::Pneumatics blocker;
 extern pros::adi::Pneumatics matchloader;
 extern pros::adi::Pneumatics descorer;
+extern pros::adi::Pneumatics instigator;
 
 extern void turnToHeadingU30(float heading, int timeout, lemlib::TurnToHeadingParams params = {}, bool async = true);
 extern void LoadBag();
