@@ -12,21 +12,19 @@ using namespace std;
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // motor groups
-pros::MotorGroup leftMotors({15, -2, -3}, pros::MotorGearset::blue); // left motor group - ports 1, 2 (reversed), 3
+pros::MotorGroup leftMotors({1, -2, -3}, pros::MotorGearset::blue); // left motor group - ports 1, 2 (reversed), 3
 pros::MotorGroup rightMotors({-4, 5, 6}, pros::MotorGearset::blue); // right motor group - ports 4 (reversed), 5, 6 (reversed)
 
 
 // motors
-pros::Motor intake(10);
-pros::Motor fly(11);
-pros::Motor indexer(-20);
+pros::Motor intake(8);
+pros::Motor fly(7);
 
 // pneumatics
-pros::adi::Pneumatics blocker('A', false);
-pros::adi::Pneumatics matchloader('B', false);
-pros::adi::Pneumatics descorer('C', false);
-pros::adi::Pneumatics instigator('C',false);
-
+pros::adi::Pneumatics drop('B', false);
+pros::adi::Pneumatics matchloader('H', false);
+pros::adi::Pneumatics descorer('A', false);
+pros::adi::Pneumatics odomLift('C', false);
 
 
 // Inertial Sensor on port 10
@@ -34,9 +32,9 @@ pros::Imu imu(9);
 
 // tracking wheels
 // horizontal tracking wheel encoder. Rotation sensor, port 8, not reversed
-pros::Rotation horizontalEnc(8);
+pros::Rotation horizontalEnc(10);
 // vertical tracking wheel encoder. Rotation sensor, port 7, not reversed
-pros::Rotation verticalEnc(7);
+pros::Rotation verticalEnc(11);
 // horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
 lemlib::TrackingWheel horizontal(&horizontalEnc, 2, -3);
 // vertical tracking wheel. 2.75" diameter, 2.5" offset, left of the robot (negative)
@@ -130,7 +128,7 @@ void rightScreenButton() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    autonIndex = 1;
+    autonIndex = 0;
 
     pros::lcd::initialize(); // initialize brain screen
     pros::lcd::register_btn0_cb(leftScreenButton);
@@ -254,16 +252,58 @@ void opcontrol() {
         // intake
         if (controller.get_digital(DIGITAL_R1)) {
             intake.move(128);
-            fly.move(128);
         }
 
         // outtake
         else if (controller.get_digital(DIGITAL_L1)) {
             intake.move(-128);
+        }
+        
+        else {
+            intake.move(0);
+        }
+
+
+        if (controller.get_digital(DIGITAL_L2)) {
+            fly.move(128);
+        }
+
+        else if (controller.get_digital(DIGITAL_R2)) {
             fly.move(-128);
         }
 
-        // Long goal
+        else {
+            fly.move(0);
+        }
+
+
+        // drop DOWN
+        if (controller.get_digital_new_press(DIGITAL_DOWN)) {
+            drop.toggle();
+        }
+
+        // matchloader B
+        if (controller.get_digital_new_press(DIGITAL_B)) {
+            matchloader.toggle();
+        }
+
+        // descorer A
+        if (controller.get_digital_new_press(DIGITAL_A)) {
+            descorer.toggle();
+        }
+
+        // odomlift UP
+        if (controller.get_digital_new_press(DIGITAL_UP)) {
+            odomLift.toggle();
+        }
+
+        
+
+
+
+
+
+        /*// Long goal
         if (controller.get_digital(DIGITAL_R2)) {
             fly.move(128);
             indexer.move(128);
@@ -308,16 +348,15 @@ void opcontrol() {
         if (controller.get_digital_new_press(DIGITAL_DOWN)) indexer.move(-128);
 
         if (controller.get_digital_new_press(DIGITAL_RIGHT)) matchloader.toggle();
+*/
 
         // if no intake or indexer or fly buttons are pressed, stop the motors
-        if (!controller.get_digital(DIGITAL_DOWN) && !controller.get_digital(DIGITAL_L2) && !controller.get_digital(DIGITAL_Y) && !controller.get_digital(DIGITAL_R2)) {
-            indexer.move(0);
-        }
 
-        if (!controller.get_digital(DIGITAL_R1) && !controller.get_digital(DIGITAL_L1) && !controller.get_digital(DIGITAL_R2)) {
-            fly.move(0);
-            if (!controller.get_digital(DIGITAL_L2) && !controller.get_digital(DIGITAL_RIGHT)) intake.move(0);
-        }
+        /*if (!controller.get_digital(DIGITAL_R1) && !controller.get_digital(DIGITAL_L1)) {
+            intake.move(0);
+            
+        }   
+        if (!controller.get_digital(DIGITAL_L2) && !controller.get_digital(DIGITAL_RIGHT)) intake.move(0);*/
         // delay to save resources
         pros::delay(10);
     }

@@ -26,31 +26,14 @@ void turnToHeadingU30(float heading, int timeout, lemlib::TurnToHeadingParams pa
 void LoadBag() {
     intake.move(128);
     fly.move(128);
-    blocker.retract();
 }
 
 void ScoreHigh() {
-    indexer.move(128);
     intake.move(128);
     fly.move(128);
-    blocker.extend();
-    pros::Task instigateTask([&]() {
-        while(true) {
-            if (intake.get_efficiency() > 85) {
-                instigator.extend();
-                pros::delay(300);
-                instigator.retract();
-            }
-            pros::delay(10);
-        }
-    });
 }
 
 void StopAll() {
     intake.move(0);
     fly.move(0);
-    indexer.move(0);
-    blocker.retract();
-    instigator.retract();
-    instigateTask.remove();
 }
