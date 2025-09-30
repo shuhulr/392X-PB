@@ -36,23 +36,23 @@ pros::Rotation horizontalEnc(10);
 // vertical tracking wheel encoder. Rotation sensor, port 7, not reversed
 pros::Rotation verticalEnc(11);
 // horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
-lemlib::TrackingWheel horizontal(&horizontalEnc, 2, -3);
+lemlib::TrackingWheel horizontal(&horizontalEnc, 2, -5.1);
 // vertical tracking wheel. 2.75" diameter, 2.5" offset, left of the robot (negative)
-lemlib::TrackingWheel vertical(&verticalEnc, 2, 1.125);
+lemlib::TrackingWheel vertical(&verticalEnc, 2, 0.25);
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group
-                              12.67, // 10 inch track width
+                              11.75, // 10 inch track width
                               lemlib::Omniwheel::NEW_325, // using new 3.25" omnis
                               450, // drivetrain rpm is 360
                               2 // horizontal drift is 2. If we had traction wheels, it would have been 8
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(5.7, // proportional gain (kP)
-                                            0.22, // integral gain (kI)
-                                            33, // derivative gain (kD)
+lemlib::ControllerSettings linearController(5, // proportional gain (kP)
+                                            0, // integral gain (kI)
+                                            0, // derivative gain (kD)
                                             3, // anti windup
                                             0.5, // small error range, in inches
                                             100, // small error range timeout, in milliseconds
@@ -99,16 +99,6 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors
 
 // auton num
 int autonIndex;
-
-
-//using ternary (if)
-/*void leftScreenButton() {
-    autonIndex = (autonIndex - 1 >= 0) ? autonIndex - 1 : autons.size()-1;
-}
-
-void rightScreenButton() {
-    autonIndex = (autonIndex + 1 < autons.size()) ? autonIndex + 1 : autonIndex = 0;
-}*/
 
 
 //using modulo (math)

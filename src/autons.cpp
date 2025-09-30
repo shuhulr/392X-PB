@@ -17,11 +17,12 @@ void PIDTest() {
     chassis.setPose(origin);
     
     // chassis.turnToHeading(90, 500);
-    for (int i = 0; i<4; i++) {
+    for (int i = 0; i<1; i++) {
         //printf("\n 1 %f", chassis.getPose().theta);
         
-        // chassis.turnToHeading(i*30-1, 2000, {}, false);
-        chassis.moveDistance(6*pow(2, i), 2000, {}, false);
+        // // chassis.turnToHeading(i*30-1, 2000, {}, false);
+        // chassis.moveDistance(6*pow(2, i), 2000, {}, false);
+        chassis.moveDistance(24, 2000, {}, false);
         
         //pros::delay(3000);
         //printf("\n 2 %f", chassis.getPose().theta);
