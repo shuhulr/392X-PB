@@ -18,7 +18,7 @@ pros::MotorGroup rightMotors({-4, 5, 6}, pros::MotorGearset::blue); // right mot
 
 // motors
 pros::Motor intake(8);
-pros::Motor fly(7);
+pros::Motor fly(-7);
 
 // pneumatics
 pros::adi::Pneumatics drop('B', false);
@@ -249,22 +249,26 @@ void opcontrol() {
             intake.move(-128);
         }
         
+        // stop take
         else {
             intake.move(0);
         }
 
 
-        if (controller.get_digital(DIGITAL_L2)) {
+        //
+        if (controller.get_digital(DIGITAL_R2)) {
             fly.move(128);
         }
-
-        else if (controller.get_digital(DIGITAL_R2)) {
+        else if (controller.get_digital(DIGITAL_L2)) {
             fly.move(-128);
         }
-
+        else if (controller.get_digital(DIGITAL_R1)) {
+            fly.move(-32);
+        }
         else {
             fly.move(0);
         }
+
 
 
         // drop DOWN
@@ -288,9 +292,6 @@ void opcontrol() {
         }
 
         
-
-
-
 
 
         /*// Long goal
