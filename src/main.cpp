@@ -28,13 +28,13 @@ pros::adi::Pneumatics odomLift('C', false);
 
 
 // Inertial Sensor on port 10
-pros::Imu imu(9);
+pros::Imu imu(12);
 
 // tracking wheels
 // horizontal tracking wheel encoder. Rotation sensor, port 8, not reversed
 pros::Rotation horizontalEnc(10);
 // vertical tracking wheel encoder. Rotation sensor, port 7, not reversed
-pros::Rotation verticalEnc(11);
+pros::Rotation verticalEnc(-11);
 // horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
 lemlib::TrackingWheel horizontal(&horizontalEnc, 2, -5.1);
 // vertical tracking wheel. 2.75" diameter, 2.5" offset, left of the robot (negative)
@@ -62,9 +62,9 @@ lemlib::ControllerSettings linearController(5, // proportional gain (kP)
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(1.62, // proportional gain (kP)
-                                             0.25, // integral gain (kI)
-                                             12, // derivative gain (kD)
+lemlib::ControllerSettings angularController(1.26, // proportional gain (kP)
+                                             0, // integral gain (kI)
+                                             7, // derivative gain (kD)
                                              5, // anti windup
                                              1, // small error range, in degrees
                                              100, // small error range timeout, in milliseconds
@@ -143,9 +143,9 @@ void initialize() {
     pros::Task screenTask([&]() {
         while (true) {
             // print robot location to the brain screen
-            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            pros::lcd::print(0, "X: %.4f", chassis.getPose().x); // x
+            pros::lcd::print(1, "Y: %.4f", chassis.getPose().y); // y
+            pros::lcd::print(2, "Theta: %.3f", chassis.getPose().theta); // heading
             // printf("\n Theta: %f", chassis.getPose().theta);
             // printf("\n X: %f, Y: %f", chassis.getPose().x, chassis.getPose().y);
             pros::lcd::print(3, "auton index: %d", autonIndex);

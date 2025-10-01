@@ -4,6 +4,7 @@
 #include <vector>
 #include <tuple>
 #include "pros/llemu.hpp"
+#include "pros/rtos.hpp"
 #include <cstddef> // IWYU pragma: keep
 
 
@@ -16,19 +17,32 @@ lemlib::Pose BlueRightBonusStart(17, -53, 8.5);
 void PIDTest() {
     chassis.setPose(origin);
     
-    // chassis.turnToHeading(90, 500);
-    for (int i = 0; i<1; i++) {
-        //printf("\n 1 %f", chassis.getPose().theta);
+    chassis.turnToHeading(30, 5000, {}, false);
+    pros::delay(3000);
+    chassis.setPose(origin);
+    chassis.turnToHeading(60, 5000, {}, false);
+    pros::delay(3000);
+    chassis.setPose(origin);
+    chassis.turnToHeading(90, 5000, {}, false);
+    pros::delay(3000);
+    chassis.setPose(origin);
+    chassis.turnToHeading(135, 5000, {}, false);
+    pros::delay(3000);
+    chassis.setPose(origin);
+    chassis.turnToHeading(179, 5000, {}, false);
+    // Error: 23, 60, 92, 138, 183
+    // for (int i = 0; i<1; i++) {
+    //     //printf("\n 1 %f", chassis.getPose().theta);
         
-        // // chassis.turnToHeading(i*30-1, 2000, {}, false);
-        // chassis.moveDistance(6*pow(2, i), 2000, {}, false);
-        chassis.moveDistance(24, 2000, {}, false);
+    //     // // chassis.turnToHeading(i*30-1, 2000, {}, false);
+    //     // chassis.moveDistance(6*pow(2, i), 2000, {}, false);
+    //     chassis.moveDistance(24, 2000, {}, false);
         
-        //pros::delay(3000);
-        //printf("\n 2 %f", chassis.getPose().theta);
-        pros::delay(3000);
-        chassis.setPose(origin);
-    }
+    //     //pros::delay(3000);
+    //     //printf("\n 2 %f", chassis.getPose().theta);
+    //     pros::delay(3000);
+    //     chassis.setPose(origin);
+    // }
     //moveDistance(24, 4000);
 
 }
