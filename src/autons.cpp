@@ -4,7 +4,7 @@
 #include <vector>
 #include <tuple>
 #include "pros/llemu.hpp"
-#include "pros/rtos.hpp"
+#include "pros/rtos.hpp" // IWYU pragma: keep
 #include <cstddef> // IWYU pragma: keep
 
 
@@ -30,13 +30,13 @@ void PIDTest() {
     // pros::delay(3000);
     // chassis.setPose(origin);
     // chassis.turnToHeading(179, 700, {}, false);
-    chassis.moveDistance(24, 2000, {}, false);
-    // for (int i = 0; i<1; i++) {
+    chassis.moveToPose(24, 48, 0, 5000, {}, false);
+    // for (int i = 0; i<4; i++) {
     //     //printf("\n 1 %f", chassis.getPose().theta);
         
     //     // // chassis.turnToHeading(i*30-1, 2000, {}, false);
-    //     // chassis.moveDistance(6*pow(2, i), 2000, {}, false);
-    //     chassis.moveDistance(24, 2000, {}, false);
+    //     chassis.moveDistance(6*pow(2, i), 1000, {}, false);
+    //     // chassis.moveDistance(24, 2000, {}, false);
         
     //     //pros::delay(3000);
     //     //printf("\n 2 %f", chassis.getPose().theta);
@@ -49,36 +49,7 @@ void PIDTest() {
 
 void BlueRightBonus() {
     chassis.setPose(BlueRightBonusStart);
-    // chassis.moveDistance(30, 750, {.maxSpeed = 96});
-    chassis.moveToPoint(23, -18, 800, {.maxSpeed = 91.5, .minSpeed = 40, .earlyExitRange = 1});
-    LoadBag();
-    chassis.turnToPoint(69, 0, 700);
-    chassis.moveDistance(18.5, 700, {}, false);
-    pros::delay(500);
-    matchloader.extend();
-    pros::delay(500);
-    chassis.moveDistance(-17, 700, {.forwards = false});
-    matchloader.retract();
-    chassis.turnToPoint(48, -48, 700, {}, false);
-    chassis.moveToPoint(48, -50, 800, {});
-    chassis.waitUntil(40);
-    matchloader.extend();
-    chassis.waitUntilDone();
-    chassis.turnToPoint(46, -72, 700, {}, false);
-    chassis.moveDistance(15, 700, {}, false);
-    chassis.moveDistance(15, 350, {.forwards = false}, false);
-    chassis.moveDistance(15, 400, {}, false);
-    pros::delay(1000);
-    chassis.moveDistance(-15, 700, {.forwards = false}, false);
-    matchloader.retract();
-    chassis.turnToHeading(0, 700, {});
-    pros::delay(500);
-    ScoreHigh();
-    fly.move(0);
-    chassis.waitUntilDone();
-    chassis.moveDistance(15, 700, {}, false);
-    pros::delay(300);
-    fly.move(128);
+    chassis.moveDistance(24, 800, {.maxSpeed = 90}, false);
 
 }
 

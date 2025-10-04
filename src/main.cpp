@@ -50,15 +50,15 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(6, // proportional gain (kP)
-                                            0, // integral gain (kI)
-                                            8, // derivative gain (kD)
-                                            3, // anti windup
+lemlib::ControllerSettings linearController(5.15, // proportional gain (kP)
+                                            0.3, // integral gain (kI)
+                                            15.5, // derivative gain (kD)
+                                            2, // anti windup
                                             0.5, // small error range, in inches
                                             100, // small error range timeout, in milliseconds
                                             2, // large error range, in inches
                                             500, // large error range timeout, in milliseconds
-                                            10 // maximum acceleration (slew)
+                                            15 // maximum acceleration (slew)
 );
 
 // angular motion controller
@@ -118,7 +118,7 @@ void rightScreenButton() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    autonIndex = 0;
+    autonIndex = 1;
 
     pros::lcd::initialize(); // initialize brain screen
     pros::lcd::register_btn0_cb(leftScreenButton);
