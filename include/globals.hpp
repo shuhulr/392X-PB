@@ -25,5 +25,7 @@ extern void stopIntaking();
 extern void stopDrive();
 extern void IntakeBoth();
 extern void antijam();
+extern void antijamFly();
 
 extern bool intaking;
+extern bool flying;

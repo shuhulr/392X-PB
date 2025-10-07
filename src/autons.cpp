@@ -50,6 +50,7 @@ void PIDTest() {
 
 void BlueRightBonus() {
     pros::Task antijamTask = pros::Task([]() { antijam(); });
+    pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
     chassis.setPose(BlueRightBonusStart);
     Intake();
     chassis.moveDistance(24, 800, {.maxSpeed = 90});
