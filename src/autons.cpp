@@ -11,6 +11,7 @@
 lemlib::Pose origin(0, 0, 0);
 
 lemlib::Pose BlueRightBonusStart(16, -49, 15);
+lemlib::Pose BlueLeftAWPStart(-16, -49, -15);
 
 
 
@@ -51,36 +52,48 @@ void BlueRightBonus() {
     pros::Task antijamTask = pros::Task([]() { antijam(); });
     chassis.setPose(BlueRightBonusStart);
     Intake();
-    pros::delay(1000);
-    stopIntaking();
-    pros::delay(1000);
+    chassis.moveDistance(24, 800, {.maxSpeed = 90});
+    chassis.waitUntil(23);
+    matchloader.extend();
+    chassis.moveDistance(10, 700, {}, false);
+    chassis.moveDistance(-14, 900, {.forwards = false}, false);
+    matchloader.retract();
+    pros::delay(250);
+    chassis.moveToPose(48, -58, -180, 3000, {.maxSpeed = 100});
+    chassis.waitUntil(26);
+    matchloader.extend();
+    chassis.waitUntilDone();
+    moveWithVoltage(50, 50);
+    pros::delay(400);
+    moveWithVoltage(25, 25);
+    pros::delay(200);
+    moveWithVoltage(-25, -25);
+    pros::delay(200);
+    moveWithVoltage(25, 25);
+    pros::delay(400);
+    moveWithVoltage(-25, -25);
+    pros::delay(300);
+    moveWithVoltage(50, 50);
+    pros::delay(750);
+    chassis.moveToPose(48.5, -33, -180, 2200, {.forwards = false}, false);
+    moveWithVoltage(-25, -25);
+    pros::delay(500);
+    IntakeBoth();
+}
+
+void BlueLeftAWP() {
+    pros::Task antijamTask = pros::Task([]() { antijam(); });
+    chassis.setPose(BlueRightBonusStart);
     Intake();
+    chassis.moveDistance(24, 800, {.maxSpeed = 90});
+    chassis.waitUntil(22);
+    matchloader.extend();
+    chassis.moveDistance(6, 500, {}, false);
+    pros::delay(500);
+    chassis.moveToPose(-18, -15, -135, 3000, {});
+    moveWithVoltage(-50, -50);
+    pros::delay(500);
     
-    // chassis.moveDistance(24, 800, {.maxSpeed = 90});
-    // chassis.waitUntil(22);
-    // matchloader.extend();
-    // chassis.moveDistance(6, 500, {}, false);
-    // pros::delay(500);
-    // matchloader.retract();
-    // chassis.moveDistance(-10, 1000, {.forwards = false}, false);
-    // chassis.moveToPose(48, -58, -180, 3000, {});
-    // chassis.waitUntil(26);
-    // matchloader.extend();
-    // chassis.waitUntilDone();
-    // moveWithVoltage(50, 50);
-    // pros::delay(00);
-    // moveWithVoltage(25, 25);
-    // pros::delay(200);
-    // moveWithVoltage(-25, -25);
-    // pros::delay(200);
-    // moveWithVoltage(25, 25);
-    // pros::delay(400);
-    // moveWithVoltage(-25, -25);
-    // pros::delay(400);
-    // moveWithVoltage(25, 25);
-    // pros::delay(200);
-    // chassis.moveToPose(48, -31.5, -180, 3000, {.forwards = false}, false);
-    // IntakeBoth();
 }
 
 void autonRight() {
