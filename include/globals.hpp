@@ -11,11 +11,19 @@ extern lemlib::ControllerSettings angularController;
 extern pros::Controller controller;
 extern pros::Motor intake;
 extern pros::Motor fly;
+extern pros::MotorGroup leftMotors;
+extern pros::MotorGroup rightMotors;
 extern pros::adi::Pneumatics drop;
 extern pros::adi::Pneumatics matchloader;
 extern pros::adi::Pneumatics descorer;
 extern pros::adi::Pneumatics odomLift;
 
 extern void turnToHeadingU30(float heading, int timeout, lemlib::TurnToHeadingParams params = {}, bool async = true);
-extern void LoadBag();
-extern void ScoreHigh();
+extern void Intake();
+extern void moveWithVoltage(int left, int right);
+extern void stopIntaking();
+extern void stopDrive();
+extern void IntakeBoth();
+extern void antijam();
+
+extern bool intaking;

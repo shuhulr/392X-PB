@@ -10,7 +10,7 @@
 
 lemlib::Pose origin(0, 0, 0);
 
-lemlib::Pose BlueRightBonusStart(17, -53, 8.5);
+lemlib::Pose BlueRightBonusStart(16, -49, 15);
 
 
 
@@ -48,9 +48,39 @@ void PIDTest() {
 }
 
 void BlueRightBonus() {
+    pros::Task antijamTask = pros::Task([]() { antijam(); });
     chassis.setPose(BlueRightBonusStart);
-    chassis.moveDistance(24, 800, {.maxSpeed = 90}, false);
-
+    Intake();
+    pros::delay(1000);
+    stopIntaking();
+    pros::delay(1000);
+    Intake();
+    
+    // chassis.moveDistance(24, 800, {.maxSpeed = 90});
+    // chassis.waitUntil(22);
+    // matchloader.extend();
+    // chassis.moveDistance(6, 500, {}, false);
+    // pros::delay(500);
+    // matchloader.retract();
+    // chassis.moveDistance(-10, 1000, {.forwards = false}, false);
+    // chassis.moveToPose(48, -58, -180, 3000, {});
+    // chassis.waitUntil(26);
+    // matchloader.extend();
+    // chassis.waitUntilDone();
+    // moveWithVoltage(50, 50);
+    // pros::delay(00);
+    // moveWithVoltage(25, 25);
+    // pros::delay(200);
+    // moveWithVoltage(-25, -25);
+    // pros::delay(200);
+    // moveWithVoltage(25, 25);
+    // pros::delay(400);
+    // moveWithVoltage(-25, -25);
+    // pros::delay(400);
+    // moveWithVoltage(25, 25);
+    // pros::delay(200);
+    // chassis.moveToPose(48, -31.5, -180, 3000, {.forwards = false}, false);
+    // IntakeBoth();
 }
 
 void autonRight() {
