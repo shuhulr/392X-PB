@@ -21,7 +21,7 @@ pros::Motor intake(8);
 pros::Motor fly(-7);
 
 // pneumatics
-pros::adi::Pneumatics drop('B', false);
+pros::adi::Pneumatics drop('B', true, true);
 pros::adi::Pneumatics matchloader('H', false);
 pros::adi::Pneumatics descorer('A', false);
 pros::adi::Pneumatics odomLift('C', false);
@@ -118,7 +118,7 @@ void rightScreenButton() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    autonIndex = 1;
+    autonIndex = 2;
 
     pros::lcd::initialize(); // initialize brain screen
     pros::lcd::register_btn0_cb(leftScreenButton);
@@ -150,7 +150,11 @@ void initialize() {
             // printf("\n X: %f, Y: %f", chassis.getPose().x, chassis.getPose().y);
             pros::lcd::print(3, "auton index: %d", autonIndex);
             pros::lcd::print(4, "%s", std::get<0>(autons[autonIndex]));
-            
+
+            pros::lcd::print(5, "Left: %f    Right: %f", leftMotors.get_temperature(), rightMotors.get_temperature());
+            pros::lcd::print(6, "Intake: %f", intake.get_temperature());
+            pros::lcd::print(7, "Fly: %f", fly.get_temperature());
+
             // log position telemetry
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             // delay to save resources
@@ -282,7 +286,7 @@ void opcontrol() {
         }
 
         // descorer A
-        if (controller.get_digital_new_press(DIGITAL_A)) {
+        if (controller.get_digital_new_press(DIGITAL_Y)) {
             descorer.toggle();
         }
 

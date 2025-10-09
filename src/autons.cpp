@@ -84,16 +84,53 @@ void BlueRightBonus() {
 
 void BlueLeftAWP() {
     pros::Task antijamTask = pros::Task([]() { antijam(); });
-    chassis.setPose(BlueRightBonusStart);
+    pros ::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
+    chassis.setPose(BlueLeftAWPStart);
     Intake();
     chassis.moveDistance(24, 800, {.maxSpeed = 90});
     chassis.waitUntil(22);
     matchloader.extend();
-    chassis.moveDistance(6, 500, {}, false);
-    pros::delay(500);
-    chassis.moveToPose(-18, -15, -135, 3000, {});
+    chassis.moveDistance(10, 700, {}, false);
+    pros::delay(200);
+    chassis.moveDistance(-6, 500, {.forwards = false}, false);
+    pros::delay(100);
+    matchloader.retract();
+    // drop.retract();
+    // chassis.moveToPose(-18, -18, -135, 1500, {.forwards = false}, false);
+    chassis.turnToPoint(0, 0, 700, {.forwards = false}, false);
+    chassis.moveDistance(-15, 700, {.forwards = false}, false);
+    drop.retract();
     moveWithVoltage(-50, -50);
+    pros::delay(100);
+    stopDrive();
+    IntakeBoth();
+    pros::delay(1000);
+    drop.extend();
+    stopIntaking();
+    chassis.moveDistance(30, 1000, {.minSpeed = 50, .earlyExitRange = 8}, false);
+    chassis.moveToPose(-48,  -58, -180, 3000, {.maxSpeed = 100});
+    chassis.waitUntil(26);
+    matchloader.extend();
+    chassis.waitUntilDone();
+    Intake();
+
+    moveWithVoltage(50, 50);
+    pros::delay(400);
+    moveWithVoltage(25, 25);
+    pros::delay(200);
+    moveWithVoltage(-25, -25);
+    pros::delay(200);
+    moveWithVoltage(25, 25);
+    pros::delay(400);
+    moveWithVoltage(-25, -25);
+    pros::delay(300);
+    moveWithVoltage(50, 50);
+    pros::delay(750);
+    chassis.moveToPose(-48.5, -33, -180, 2200, {.forwards = false}, false);
+    moveWithVoltage(-25, -25);
     pros::delay(500);
+    IntakeBoth();
+
     
 }
 
@@ -114,7 +151,7 @@ void autonSkills() {
 std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"PID testing auto", PIDTest},
     {"Blue Right Bonus", BlueRightBonus},
-    {"right auto", autonRight},
+    {"Blue Left AWP", BlueLeftAWP},
     {"skills auto", autonSkills},
 };
 
