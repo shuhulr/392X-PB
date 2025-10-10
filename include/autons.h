@@ -10,3 +10,4 @@ extern void BlueRightBonus();
 extern void BlueLeftAWP();
 extern void autonRight();
 extern void autonSkills();
+extern void BlueRightAWP();

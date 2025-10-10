@@ -108,7 +108,7 @@ void BlueLeftAWP() {
     drop.extend();
     stopIntaking();
     chassis.moveDistance(30, 1000, {.minSpeed = 50, .earlyExitRange = 8}, false);
-    chassis.moveToPose(-48,  -58, -180, 3000, {.maxSpeed = 100});
+    chassis.moveToPose(-48,  -60, -180, 2500, {.maxSpeed = 100});
     chassis.waitUntil(26);
     matchloader.extend();
     chassis.waitUntilDone();
@@ -134,6 +134,59 @@ void BlueLeftAWP() {
     
 }
 
+void BlueRightAWP() {
+    pros::Task antijamTask = pros::Task([]() { antijam(); });
+    pros ::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
+    chassis.setPose(BlueRightBonusStart);
+    Intake();
+    chassis.moveDistance(24, 800, {.maxSpeed = 90});
+    chassis.waitUntil(22);
+    matchloader.extend();
+    chassis.moveDistance(10, 700, {}, false);
+    pros::delay(200);
+    chassis.moveDistance(-6, 500, {.forwards = false}, false);
+    pros::delay(50);
+    matchloader.retract();
+    // drop.retract();
+    // chassis.moveToPose(-18, -18, -135, 1500, {.forwards = false}, false);
+    chassis.turnToPoint(0, 0, 700, {}, false);
+    chassis.moveDistance(15, 700, {}, false);
+    lowFunnel.retract();
+    moveWithVoltage(-50, -50);
+    pros::delay(100);
+    stopDrive();
+    chassis.turnToHeading(-60, 500, {}, false);
+    intake.move(-90);
+    pros::delay(2000);
+    stopIntaking();
+    chassis.moveDistance(-18, 800, {.forwards = false}, false);
+    lowFunnel.extend();
+    chassis.moveToPose(48,  -60, -180, 2500, {.maxSpeed = 100});
+    chassis.waitUntil(26);
+    matchloader.extend();
+    chassis.waitUntilDone();
+    Intake();
+
+    moveWithVoltage(50, 50);
+    pros::delay(400);
+    moveWithVoltage(25, 25);
+    pros::delay(200);
+    moveWithVoltage(-25, -25);
+    pros::delay(200);
+    moveWithVoltage(25, 25);
+    pros::delay(400);
+    moveWithVoltage(-25, -25);
+    pros::delay(300);
+    moveWithVoltage(50, 50);
+    pros::delay(500);
+    chassis.moveToPose(48.5, -33, -180, 2100, {.forwards = false}, false);
+    moveWithVoltage(-30, -30);
+    pros::delay(100);
+    IntakeBoth();
+
+    
+}
+
 void autonRight() {
     // Another auton example
     chassis.setPose(origin);
@@ -152,6 +205,7 @@ std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"PID testing auto", PIDTest},
     {"Blue Right Bonus", BlueRightBonus},
     {"Blue Left AWP", BlueLeftAWP},
+    {"Blue Right AWP", BlueRightAWP},
     {"skills auto", autonSkills},
 };
 

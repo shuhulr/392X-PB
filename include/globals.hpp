@@ -17,6 +17,7 @@ extern pros::adi::Pneumatics drop;
 extern pros::adi::Pneumatics matchloader;
 extern pros::adi::Pneumatics descorer;
 extern pros::adi::Pneumatics odomLift;
+extern pros::adi::Pneumatics lowFunnel;
 
 extern void turnToHeadingU30(float heading, int timeout, lemlib::TurnToHeadingParams params = {}, bool async = true);
 extern void Intake();

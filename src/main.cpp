@@ -22,6 +22,7 @@ pros::Motor fly(-7);
 
 // pneumatics
 pros::adi::Pneumatics drop('B', true, true);
+pros::adi::Pneumatics lowFunnel('G', true, true);
 pros::adi::Pneumatics matchloader('H', false);
 pros::adi::Pneumatics descorer('A', false);
 pros::adi::Pneumatics odomLift('C', false);
@@ -118,7 +119,7 @@ void rightScreenButton() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    autonIndex = 2;
+    autonIndex = 3;
 
     pros::lcd::initialize(); // initialize brain screen
     pros::lcd::register_btn0_cb(leftScreenButton);
@@ -250,7 +251,12 @@ void opcontrol() {
 
         // outtake
         else if (controller.get_digital(DIGITAL_L1)) {
-            intake.move(-128);
+            if(lowFunnel.is_extended()) {
+                intake.move(-128);
+            }
+            else {
+                intake.move(-64);
+            }
         }
         
         // stop take
@@ -293,6 +299,11 @@ void opcontrol() {
         // odomlift UP
         if (controller.get_digital_new_press(DIGITAL_UP)) {
             odomLift.toggle();
+        }
+
+        // bottom funnel
+        if (controller.get_digital_new_press(DIGITAL_LEFT)) {
+            lowFunnel.toggle();
         }
 
         
