@@ -135,12 +135,14 @@ void BlueLeftAWP() {
 }
 
 void BlueRightAWP() {
+    float startTime = pros::millis();
     pros::Task antijamTask = pros::Task([]() { antijam(); });
-    pros ::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
+    pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
     chassis.setPose(BlueRightBonusStart);
-    Intake();
     chassis.moveDistance(24, 800, {.maxSpeed = 90});
-    chassis.waitUntil(22);
+    chassis.waitUntil(10);
+    Intake();
+    chassis.waitUntil(18);
     matchloader.extend();
     chassis.moveDistance(10, 700, {}, false);
     pros::delay(200);
@@ -155,13 +157,15 @@ void BlueRightAWP() {
     moveWithVoltage(-50, -50);
     pros::delay(100);
     stopDrive();
+    intaking = false;
+    fly.move(-95);
     chassis.turnToHeading(-60, 500, {}, false);
-    intake.move(-90);
-    pros::delay(2000);
+    intake.move(-95);
+    pros::delay(1500);
     stopIntaking();
     chassis.moveDistance(-18, 800, {.forwards = false}, false);
     lowFunnel.extend();
-    chassis.moveToPose(48,  -60, -180, 2500, {.maxSpeed = 100});
+    chassis.moveToPose(48,  -60, -180, 2500, {.maxSpeed = 100, .maxAngularSpeed = 100});
     chassis.waitUntil(26);
     matchloader.extend();
     chassis.waitUntilDone();
@@ -178,13 +182,21 @@ void BlueRightAWP() {
     moveWithVoltage(-25, -25);
     pros::delay(300);
     moveWithVoltage(50, 50);
-    pros::delay(500);
-    chassis.moveToPose(48.5, -33, -180, 2100, {.forwards = false}, false);
+    pros::delay(400);
+    printf("\n\n\n\nPose before moveToPose: %f, %f, %f\n\n\n\n", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
+    chassis.moveToPose(48, -33, -180, 2400, {.forwards = false, .maxAngularSpeed = 10}, false);
+    printf("\n\n\n\nPose after moveToPose: %f, %f, %f\n\n\n\n", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
     moveWithVoltage(-30, -30);
     pros::delay(100);
     IntakeBoth();
-
-    
+    float endTime = pros::millis();
+    float elapsed = (endTime - startTime)/1000;
+    printf("\nBlueRightAWP start %f s\n", startTime);
+    printf("\nBlueRightAWP ended at %f s\n", endTime);
+    printf("\nBlueRightAWP took %f s\n", elapsed);
+    pros::lcd::print(6, "BlueRightAWP: %f s", elapsed);
+    // chassis.setPose(origin);
+    // chassis.moveToPose(-24, -48, -90, 5000, {.maxSpeed = 100});
 }
 
 void autonRight() {

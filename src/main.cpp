@@ -259,7 +259,7 @@ void opcontrol() {
                 intake.move(-128);
             }
             else {
-                intake.move(-64);
+                intake.move(-100);
             }
         }
         
