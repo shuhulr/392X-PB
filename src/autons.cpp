@@ -12,6 +12,7 @@ lemlib::Pose origin(0, 0, 0);
 
 lemlib::Pose BlueRightBonusStart(16, -49, 15);
 lemlib::Pose BlueLeftAWPStart(-16, -49, -15);
+lemlib::Pose Solo(15.5, -48, 90);
 
 
 
@@ -199,11 +200,115 @@ void BlueRightAWP() {
     // chassis.moveToPose(-24, -48, -90, 5000, {.maxSpeed = 100});
 }
 
-void autonRight() {
+void soloAWP() {
     // Another auton example
-    chassis.setPose(origin);
-    printf("autonright");
-    pros::lcd::print(5, "right");
+
+    // chassis.setPose(Solo);
+    // pros::Task antijamTask = pros::Task([]() { antijam(); });
+    // pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
+    // printf("autonright");
+    // pros::lcd::print(5, "right");
+    // chassis.moveDistance(28, 800, {}, false);
+    // Intake();
+    // chassis.turnToHeading(180, 700, {}, false);
+    // matchloader.extend();
+    // pros::delay(300);
+    // moveWithVoltage(50, 50);
+    // pros::delay(400);
+    // moveWithVoltage(25, 25);
+    // pros::delay(200);
+    // moveWithVoltage(-25, -25);
+    // pros::delay(200);
+    // moveWithVoltage(25, 25);
+    // pros::delay(400);
+    // moveWithVoltage(-25, -25);
+    // pros::delay(300);
+    // moveWithVoltage(50, 50);
+    // pros::delay(400);
+    // chassis.moveToPose(46, -33, 180, 2000, {.forwards = false, .maxAngularSpeed = 10}, false);
+    // moveWithVoltage(-30, -30);
+    // pros::delay(100);
+    // IntakeBoth();
+    // pros::delay(1000);
+    // stopIntaking();
+    
+    float startTime = pros::millis();
+    pros::Task antijamTask = pros::Task([]() { antijam(); });
+    pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
+    chassis.setPose(BlueRightBonusStart);
+    Intake();
+    chassis.moveDistance(24, 800, {.maxSpeed = 90});
+    chassis.waitUntil(18);
+    //matchloader.extend();
+    chassis.moveDistance(10, 700, {}, false);
+    pros::delay(200);
+    chassis.moveDistance(-6, 500, {.forwards = false}, false);
+    pros::delay(50);
+    //matchloader.retract();
+    // drop.retract();
+    // chassis.moveToPose(-18, -18, -135, 1500, {.forwards = false}, false);
+    chassis.turnToPoint(0, 0, 700, {}, false);
+    lowFunnel.retract();
+    chassis.moveDistance(13, 700, {}, false);
+    // moveWithVoltage(-50, -50);
+    // pros::delay(100);
+    // stopDrive();
+    intaking = false;
+    fly.move(-95);
+    chassis.turnToHeading(-60, 500, {}, false);
+    intake.move(-95);
+    pros::delay(1000);
+    stopIntaking();
+    chassis.moveDistance(-13, 700, {.forwards = false}, false);
+    lowFunnel.extend();
+    chassis.turnToPoint(-24, -22, 650, {}, false);
+    Intake();
+    chassis.moveDistance(37, 1000, {});
+    chassis.waitUntil(32);
+    matchloader.extend();
+    chassis.moveDistance(10, 700, {}, false);
+    chassis.moveDistance(-5, 500, {.forwards = false}, false);
+    chassis.turnToPoint(0, 0, 600, {.forwards = false}, false);
+    chassis.moveDistance(-17, 700, {.forwards = false}, false);
+    //moveWithVoltage(-50, -50);
+    drop.retract();
+    moveWithVoltage(-50, -50);
+    pros::delay(100);
+    stopDrive();
+    IntakeBoth();
+    pros::delay(1000);
+    drop.extend();
+    stopIntaking();
+    chassis.moveDistance(30, 1000, {.minSpeed = 50, .earlyExitRange = 8}, false);
+    chassis.moveToPose(-48,  -60, -180, 2500, {.maxSpeed = 100});
+    chassis.waitUntil(26);
+    matchloader.extend();
+    chassis.waitUntilDone();
+    Intake();
+
+    moveWithVoltage(50, 50);
+    pros::delay(400);
+    moveWithVoltage(25, 25);
+    pros::delay(200);
+    moveWithVoltage(-25, -25);
+    pros::delay(200);
+    moveWithVoltage(25, 25);
+    pros::delay(400);
+    moveWithVoltage(-25, -25);
+    pros::delay(300);
+    moveWithVoltage(50, 50);
+    pros::delay(750);
+    chassis.moveToPose(-48.5, -33, -180, 2200, {.forwards = false}, false);
+    moveWithVoltage(-25, -25);
+    pros::delay(500);
+    IntakeBoth();
+    float endTime = pros::millis();
+    float elapsed = (endTime - startTime)/1000;
+    printf("\nBlueRightAWP start %f s\n", startTime);
+    printf("\nBlueRightAWP ended at %f s\n", endTime);
+    printf("\nBlueRightAWP took %f s\n", elapsed);
+    pros::lcd::print(6, "BlueRightAWP: %f s", elapsed);
+
 }
 
 void autonSkills() {
@@ -218,7 +323,7 @@ std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"Blue Right Bonus", BlueRightBonus},
     {"Blue Left AWP", BlueLeftAWP},
     {"Blue Right AWP", BlueRightAWP},
-    {"skills auto", autonSkills},
+    {"solo AWP", soloAWP},
 };
 
 

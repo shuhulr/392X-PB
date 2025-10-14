@@ -28,9 +28,9 @@ pros::Motor fly(-7);
 
 // pneumatics
 pros::adi::Pneumatics drop('B', true, true);
-pros::adi::Pneumatics lowFunnel('G', true, true);
+pros::adi::Pneumatics lowFunnel('A', true, true);
 pros::adi::Pneumatics matchloader('H', false);
-pros::adi::Pneumatics descorer('A', false);
+pros::adi::Pneumatics descorer('G', false);
 pros::adi::Pneumatics odomLift('C', false);
 
 
@@ -141,7 +141,7 @@ void displayImage() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    autonIndex = 3;
+    autonIndex = 4;
 
     pros::lcd::initialize(); // initialize brain screen
     pros::lcd::register_btn0_cb(leftScreenButton);
@@ -228,7 +228,7 @@ void autonomous() {
  */
 void opcontrol() {
     
-    displayImage();
+    // displayImage();
     // controller
     // loop to continuously update motors
 
