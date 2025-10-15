@@ -212,6 +212,14 @@ void autonSkills() {
     pros::lcd::print(5, "skills");
 }
 
+void randomAhhTesting() {
+    lowFunnel.extend();
+    drop.extend();
+    odomLift.extend();
+    descorer.extend();
+    matchloader.extend();
+}
+
 // vector of tuple of function description and pointers
 std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"PID testing auto", PIDTest},
@@ -219,6 +227,7 @@ std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"Blue Left AWP", BlueLeftAWP},
     {"Blue Right AWP", BlueRightAWP},
     {"skills auto", autonSkills},
+    {"random testing", randomAhhTesting}
 };
 
 
