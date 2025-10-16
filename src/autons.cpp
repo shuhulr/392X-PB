@@ -233,21 +233,21 @@ void soloAWP() {
     // stopIntaking();
     
     float startTime = pros::millis();
-    pros::Task antijamTask = pros::Task([]() { antijam(); });
-    pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
     chassis.setPose(BlueRightBonusStart);
     Intake();
-    chassis.moveDistance(24, 800, {.maxSpeed = 90});
-    chassis.waitUntil(18);
+    chassis.moveDistance(26, 800, {.maxSpeed = 90}, false);
+    //chassis.waitUntil(18);
     //matchloader.extend();
-    chassis.moveDistance(10, 700, {}, false);
+    //chassis.moveDistance(10, 700, {}, false);
     pros::delay(200);
-    chassis.moveDistance(-6, 500, {.forwards = false}, false);
+    //chassis.moveDistance(-6, 500, {.forwards = false}, false);
     pros::delay(50);
     //matchloader.retract();
     // drop.retract();
     // chassis.moveToPose(-18, -18, -135, 1500, {.forwards = false}, false);
     chassis.turnToPoint(0, 0, 700, {}, false);
+    pros::Task antijamTask = pros::Task([]() { antijam(); });
+    pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
     lowFunnel.retract();
     chassis.moveDistance(13, 700, {}, false);
     // moveWithVoltage(-50, -50);
@@ -269,7 +269,7 @@ void soloAWP() {
     chassis.moveDistance(10, 700, {}, false);
     chassis.moveDistance(-5, 500, {.forwards = false}, false);
     chassis.turnToPoint(0, 0, 600, {.forwards = false}, false);
-    chassis.moveDistance(-17, 700, {.forwards = false}, false);
+    chassis.moveDistance(-14, 700, {.forwards = false}, false);
     //moveWithVoltage(-50, -50);
     drop.retract();
     moveWithVoltage(-50, -50);
@@ -279,15 +279,15 @@ void soloAWP() {
     pros::delay(1000);
     drop.extend();
     stopIntaking();
-    chassis.moveDistance(30, 1000, {.minSpeed = 50, .earlyExitRange = 8}, false);
+    chassis.moveDistance(30, 1000, {.minSpeed = 50, .earlyExitRange = 14}, false);
     chassis.moveToPose(-48,  -60, -180, 2500, {.maxSpeed = 100});
     chassis.waitUntil(26);
     matchloader.extend();
     chassis.waitUntilDone();
     Intake();
 
-    moveWithVoltage(50, 50);
-    pros::delay(400);
+    moveWithVoltage(70, 70);
+    pros::delay(500);
     moveWithVoltage(25, 25);
     pros::delay(200);
     moveWithVoltage(-25, -25);
@@ -317,6 +317,8 @@ void autonSkills() {
     pros::lcd::print(5, "skills");
 }
 
+void empty() {}
+
 // vector of tuple of function description and pointers
 std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"PID testing auto", PIDTest},
@@ -324,6 +326,7 @@ std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"Blue Left AWP", BlueLeftAWP},
     {"Blue Right AWP", BlueRightAWP},
     {"solo AWP", soloAWP},
+    {"empty auton", empty}
 };
 
 
