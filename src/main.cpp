@@ -141,7 +141,7 @@ void displayImage() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-    autonIndex = 4;
+    autonIndex = 3;
 
     pros::lcd::initialize(); // initialize brain screen
     pros::lcd::register_btn0_cb(leftScreenButton);
