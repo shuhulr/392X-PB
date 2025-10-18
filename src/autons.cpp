@@ -319,16 +319,17 @@ void autonSkills() {
     pros::lcd::print(5, "skills");
 }
 
-void empty() {}
-
 // vector of tuple of function description and pointers
 std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"PID testing auto", PIDTest},
     {"Blue Right Bonus", BlueRightBonus},
     {"Blue Left AWP", BlueLeftAWP},
     {"Blue Right AWP", BlueRightAWP},
+<<<<<<< HEAD
+    {"skills auto", autonSkills},
+    {"random testing", randomAhhTesting}
+=======
     {"solo AWP", soloAWP},
-    {"empty auton", empty}
 };
 
 
