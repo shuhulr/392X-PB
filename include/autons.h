@@ -8,6 +8,6 @@ extern void PIDTest();
 
 extern void BlueRightBonus();
 extern void BlueLeftAWP();
-extern void autonRight();
+extern void soloAWP();
 extern void autonSkills();
 extern void BlueRightAWP();
