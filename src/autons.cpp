@@ -325,10 +325,7 @@ std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"Blue Right Bonus", BlueRightBonus},
     {"Blue Left AWP", BlueLeftAWP},
     {"Blue Right AWP", BlueRightAWP},
-<<<<<<< HEAD
     {"skills auto", autonSkills},
-    {"random testing", randomAhhTesting}
-=======
     {"solo AWP", soloAWP},
 };
 

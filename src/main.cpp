@@ -31,16 +31,9 @@ pros::Motor fly(-7);
 // pneumatics
 pros::adi::Pneumatics lowFunnel('A', false);
 pros::adi::Pneumatics drop('B', true, true);
-<<<<<<< HEAD
 pros::adi::Pneumatics odomLift('C', true, true);
 pros::adi::Pneumatics descorer('G', false); 
 pros::adi::Pneumatics matchloader('H', false);
-=======
-pros::adi::Pneumatics lowFunnel('A', true, true);
-pros::adi::Pneumatics matchloader('H', false);
-pros::adi::Pneumatics descorer('G', false);
-pros::adi::Pneumatics odomLift('C', false);
->>>>>>> ac8f3ef216e0347375ed8690e360614cd6706f53
 
 
 // Inertial Sensor on port 10
@@ -265,12 +258,8 @@ void autonomous() {
  */
 void opcontrol() {
     
-<<<<<<< HEAD
     displayImage();
     pros::screen::touch_callback(touchHandler, TOUCH_PRESSED);
-=======
-    // displayImage();
->>>>>>> ac8f3ef216e0347375ed8690e360614cd6706f53
     // controller
     // loop to continuously update motors
 
