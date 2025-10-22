@@ -31,9 +31,9 @@ pros::Motor fly(-7);
 // pneumatics
 pros::adi::Pneumatics lowFunnel('A', false);
 pros::adi::Pneumatics drop('B', true, true);
-pros::adi::Pneumatics odomLift('C', true, true);
+pros::adi::Pneumatics odomLift('H', true, true);
 pros::adi::Pneumatics descorer('G', false); 
-pros::adi::Pneumatics matchloader('H', false);
+pros::adi::Pneumatics matchloader('C', false);
 
 
 // Inertial Sensor on port 10
