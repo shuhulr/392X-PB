@@ -121,53 +121,45 @@ void rightScreenButton() {
 
 lv_obj_t *img = nullptr;
 
-// Aura.
-bool touchEnabled = false;
-inline void black_background() { lv_obj_set_style_bg_color( lv_screen_active(), lv_color_hex(0x000000), 0); }
-void displayImage() {
-    pros::lcd::shutdown();
-    black_background();
-    // var for c array
-    LV_IMAGE_DECLARE(speedzappers_logo_rotated);
-    //declare and define the image object
-    img = lv_image_create(lv_screen_active());
-
-    // set the source data for the image
-    lv_image_set_src(img, &speedzappers_logo_rotated);
-
-    // alignment
-    lv_obj_align(img, LV_ALIGN_CENTER, 0, 0);
-    touchEnabled = true;
-    
-}
-void invisibleImage() {
-    lv_obj_add_flag(img, LV_OBJ_FLAG_HIDDEN);
+inline void black_background() { 
+    lv_obj_set_style_bg_color(lv_screen_active(), lv_color_hex(0x000000), 0);
 }
 
+// Hide (or rather delete) the image when clicked
+void hideImage(lv_event_t *e) {
+    if (img) {
+        lv_obj_delete(img);  // delete it entirely instead of hiding
+        img = nullptr;
+    }
 
-void lcdSetup() {
-    pros::lcd::initialize(); // initialize brain screen
+    // Re-enable the PROS LCD
+    pros::lcd::initialize(); 
     pros::lcd::register_btn0_cb(leftScreenButton);
-    pros::lcd::register_btn1_cb(displayImage);
     pros::lcd::register_btn2_cb(rightScreenButton);
-    pros::lcd::print(2, "test");
 }
 
+void displayImage() {
+    pros::lcd::shutdown();  // disable LCD
+    black_background();
 
-/**
- * Runs initialization code. This occurs as soon as the program is started.
- *
- * All other competition modes are blocked by initialize; it is recommended
- * to keep execution time for this mode under a few seconds.
- */
- 
+    LV_IMAGE_DECLARE(speedzappers_logo_rotated);
+
+    // Create image object
+    img = lv_image_create(lv_screen_active());
+    lv_image_set_src(img, &speedzappers_logo_rotated);
+    lv_obj_align(img, LV_ALIGN_CENTER, 0, 0);
+
+    // Make image clickable
+    lv_obj_add_flag(img, LV_OBJ_FLAG_CLICKABLE);
+
+    // Attach event to delete it on tap
+    lv_obj_add_event_cb(img, hideImage, LV_EVENT_CLICKED, nullptr);
+}
+
 void initialize() {
     autonIndex = 3;
-
-    pros::lcd::initialize(); // initialize brain screen
-    pros::lcd::register_btn0_cb(leftScreenButton);
-    pros::lcd::register_btn1_cb(displayImage);
-    pros::lcd::register_btn2_cb(rightScreenButton);
+    displayImage();
+    
     
     chassis.calibrate(); // calibrate sensors
 
@@ -208,17 +200,6 @@ void initialize() {
     });
     
 }
-void touchHandler() {
-    if (!touchEnabled) return;
-    touchEnabled = false;
-
-    pros::lcd::initialize(); // initialize brain screen
-    pros::lcd::register_btn0_cb(leftScreenButton);
-    pros::lcd::register_btn1_cb(displayImage);
-    pros::lcd::register_btn2_cb(rightScreenButton);
-    invisibleImage();
-
-}
 
 
 /**
@@ -257,9 +238,6 @@ void autonomous() {
  * Runs in driver control
  */
 void opcontrol() {
-    
-    displayImage();
-    pros::screen::touch_callback(touchHandler, TOUCH_PRESSED);
     // controller
     // loop to continuously update motors
 
