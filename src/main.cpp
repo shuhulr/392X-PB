@@ -1,5 +1,6 @@
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
+#include "lemlib/logger/telemetrySink.hpp"
 #include "liblvgl/core/lv_obj.h"
 #include "liblvgl/core/lv_obj_pos.h"
 #include "liblvgl/display/lv_display.h"
@@ -9,10 +10,11 @@
 #include "liblvgl/widgets/image/lv_image.h"
 #include "pros/adi.hpp"
 #include "pros/misc.h"
+#include "pros/optical.hpp"
 #include "pros/rtos.hpp"
 #include "autons.h"    // IWYU pragma: keep
 #include "globals.hpp"
-#include "pros/screen.h"
+#include "pros/screen.h" // IWYU pragma: keep
 
 
 using namespace std;
@@ -28,6 +30,12 @@ pros::MotorGroup rightMotors({-4, 5, 6}, pros::MotorGearset::blue); // right mot
 pros::Motor intake(8);
 pros::Motor fly(-7);
 
+// optical disconnect on port 12
+pros::Optical opticalSensor(12);
+
+// game color (0 for red, 1 for blue, -1 for none)
+int gameColor = 0;
+
 // pneumatics
 pros::adi::Pneumatics lowFunnel('A', false);
 pros::adi::Pneumatics drop('B', true, true);
@@ -37,7 +45,8 @@ pros::adi::Pneumatics matchloader('C', false);
 
 
 // Inertial Sensor on port 10
-pros::Imu imu(12);
+pros::Imu imu(15);
+
 
 // tracking wheels
 // horizontal tracking wheel encoder. Rotation sensor, port 8, not reversed
@@ -196,6 +205,45 @@ void initialize() {
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             // delay to save resources
             pros::delay(50);
+        }
+    });
+    
+    opticalSensor.set_led_pwm(100); // set the LED power to 100%
+    pros::Task colorSort([]() {
+        while(true) {
+            // read the color sensor
+            double hue = opticalSensor.get_hue();
+
+            int colorState = -1;
+
+            // determine the color
+            if (200 <= hue && hue <= 240) {
+                colorState = 1; // blue
+            }
+            else if (350 <= hue || hue <= 20) {
+                colorState = 0; // red
+            }
+            
+            string colorStr = (colorState == 0) ? "R" : (colorState == 1) ? "B" : "N/A";
+            if (gameColor == 0) {
+                controller.set_text(0, 0, "GC: Red");
+            }
+            else if (gameColor == 1) {
+                controller.set_text(0, 0, "GC: Blue");
+            }
+            if (gameColor == -1) {
+                controller.set_text(0, 0, "GC: N/A");
+            }
+            else if (colorState == -1) {
+                controller.set_text(1, 0, "C: None   ");
+            }
+            else if (colorState == gameColor) {
+                controller.set_text(1, 0, "C: Ally " + colorStr);
+            }
+            else {
+                controller.set_text(1, 0, "C: Opp " + colorStr);
+            }
+            
         }
     });
     
