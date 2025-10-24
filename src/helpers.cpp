@@ -59,7 +59,7 @@ void IntakeBoth() {
 
 void antijam() {
     while (67 > 41) {
-        if ((intaking) && (intake.get_efficiency() < 5) && (intake.get_voltage() > 3000)) {
+        if ((intaking) && (intake.get_efficiency() < 5) && (intake.get_voltage() > 5000)) {
             intaking = false;
             intake.move(-127);
             pros::delay(150);

@@ -168,7 +168,7 @@ void BlueRightAWP() {
     stopIntaking();
     chassis.moveDistance(-18, 800, {.forwards = false}, false);
     lowFunnel.extend();
-    chassis.moveToPose(47.5,  -60, -180, 2500, {.maxSpeed = 100, .maxAngularSpeed = 100});
+    chassis.moveToPose(47,  -60, -180, 2500, {.maxSpeed = 100, .maxAngularSpeed = 100});
     chassis.waitUntil(26);
     matchloader.extend();
     chassis.waitUntilDone();

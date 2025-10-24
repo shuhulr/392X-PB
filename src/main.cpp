@@ -235,13 +235,13 @@ void initialize() {
                 controller.set_text(0, 0, "GC: N/A");
             }
             else if (colorState == -1) {
-                controller.set_text(1, 0, "C: None   ");
+                controller.set_text(1, 0, "C: None     ");
             }
             else if (colorState == gameColor) {
-                controller.set_text(1, 0, "C: Ally " + colorStr);
+                controller.set_text(1, 0, "C: Ally " + colorStr + "    ");
             }
             else {
-                controller.set_text(1, 0, "C: Opp " + colorStr);
+                controller.set_text(1, 0, "C: Opp " + colorStr + "    ");
             }
             
         }
