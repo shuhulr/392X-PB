@@ -34,7 +34,7 @@ pros::Motor fly(-7);
 pros::Optical opticalSensor(12);
 
 // game color (0 for red, 1 for blue, -1 for none)
-int gameColor = 0;
+int gameColor = -1;
 
 // pneumatics
 pros::adi::Pneumatics lowFunnel('A', false);
@@ -130,9 +130,9 @@ void rightScreenButton() {
 
 lv_obj_t *img = nullptr;
 
-inline void black_background() { 
-    lv_obj_set_style_bg_color(lv_screen_active(), lv_color_hex(0x000000), 0);
-}
+inline void black_background() { lv_obj_set_style_bg_color(lv_screen_active(), lv_color_hex(0x000000), 0); }
+
+void displayImage(); 
 
 // Hide (or rather delete) the image when clicked
 void hideImage(lv_event_t *e) {
@@ -144,6 +144,7 @@ void hideImage(lv_event_t *e) {
     // Re-enable the PROS LCD
     pros::lcd::initialize(); 
     pros::lcd::register_btn0_cb(leftScreenButton);
+    pros::lcd::register_btn1_cb(displayImage);
     pros::lcd::register_btn2_cb(rightScreenButton);
 }
 
@@ -208,44 +209,46 @@ void initialize() {
         }
     });
     
-    opticalSensor.set_led_pwm(100); // set the LED power to 100%
-    pros::Task colorSort([]() {
-        while(true) {
-            // read the color sensor
-            double hue = opticalSensor.get_hue();
+    if (gameColor != -1) {
+        opticalSensor.set_led_pwm(100); // set the LED power to 100%
+        pros::Task colorSort([]() {
+            while(true) {
+                // read the color sensor
+                double hue = opticalSensor.get_hue();
 
-            int colorState = -1;
+                int colorState = -1;
 
-            // determine the color
-            if (200 <= hue && hue <= 240) {
-                colorState = 1; // blue
+                // determine the color
+                if (200 <= hue && hue <= 240) {
+                    colorState = 1; // blue
+                }
+                else if (350 <= hue || hue <= 20) {
+                    colorState = 0; // red
+                }
+                
+                string colorStr = (colorState == 0) ? "R" : (colorState == 1) ? "B" : "N/A";
+                if (gameColor == 0) {
+                    controller.set_text(0, 0, "GC: Red");
+                }
+                else if (gameColor == 1) {
+                    controller.set_text(0, 0, "GC: Blue");
+                }
+                if (gameColor == -1) {
+                    controller.set_text(0, 0, "GC: N/A");
+                }
+                else if (colorState == -1) {
+                    controller.set_text(1, 0, "C: None     ");
+                }
+                else if (colorState == gameColor) {
+                    controller.set_text(1, 0, "C: Ally " + colorStr + "    ");
+                }
+                else {
+                    controller.set_text(1, 0, "C: Opp " + colorStr + "    ");
+                }
+                
             }
-            else if (350 <= hue || hue <= 20) {
-                colorState = 0; // red
-            }
-            
-            string colorStr = (colorState == 0) ? "R" : (colorState == 1) ? "B" : "N/A";
-            if (gameColor == 0) {
-                controller.set_text(0, 0, "GC: Red");
-            }
-            else if (gameColor == 1) {
-                controller.set_text(0, 0, "GC: Blue");
-            }
-            if (gameColor == -1) {
-                controller.set_text(0, 0, "GC: N/A");
-            }
-            else if (colorState == -1) {
-                controller.set_text(1, 0, "C: None     ");
-            }
-            else if (colorState == gameColor) {
-                controller.set_text(1, 0, "C: Ally " + colorStr + "    ");
-            }
-            else {
-                controller.set_text(1, 0, "C: Opp " + colorStr + "    ");
-            }
-            
-        }
-    });
+        });
+    }
     
 }
 
