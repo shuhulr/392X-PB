@@ -58,20 +58,18 @@ void IntakeBoth() {
 }
 
 void antijam() {
-    while (67 > 41) {
+    while (true) {
         if ((intaking) && (intake.get_efficiency() < 5) && (intake.get_voltage() > 5000)) {
-            intaking = false;
             intake.move(-127);
             pros::delay(150);
             intake.move(127);
-            intaking = true;
         }
         pros::delay(20);
     }
 }
 
 void antijamFly() {
-    while (67 > 41) {
+    while (true) {
         if ((flying) && (fly.get_efficiency() < 2) && (fly.get_voltage() > 3000)) {
             flying = false;
             fly.move(-127);

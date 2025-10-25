@@ -1,6 +1,6 @@
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
-#include "lemlib/logger/telemetrySink.hpp"
+#include "lemlib/logger/telemetrySink.hpp" // IWYU pragma: keep
 #include "liblvgl/core/lv_obj.h"
 #include "liblvgl/core/lv_obj_pos.h"
 #include "liblvgl/display/lv_display.h"
@@ -18,6 +18,13 @@
 
 
 using namespace std;
+
+// auton num
+int autonIndex = 2;
+
+// odom lift flag
+bool odomLiftRaise = false;
+
 // controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
@@ -37,7 +44,7 @@ pros::Optical opticalSensor(12);
 int gameColor = -1;
 
 // pneumatics
-pros::adi::Pneumatics lowFunnel('A', false);
+pros::adi::Pneumatics lowFunnel('A', true, true);
 pros::adi::Pneumatics drop('B', true, true);
 pros::adi::Pneumatics odomLift('H', true, true);
 pros::adi::Pneumatics descorer('G', false); 
@@ -115,8 +122,6 @@ lemlib::ExpoDriveCurve steerCurve(13, // joystick deadband out of 127
 lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
 
 
-// auton num
-int autonIndex;
 
 
 //using modulo (math)
@@ -167,7 +172,6 @@ void displayImage() {
 }
 
 void initialize() {
-    autonIndex = 3;
     displayImage();
     
     
@@ -268,6 +272,7 @@ void disabled() {
 
 
 void competition_initialize() {
+    odomLiftRaise = true;
 }
 
 // get a path used for pure pursuit
@@ -291,6 +296,10 @@ void autonomous() {
 void opcontrol() {
     // controller
     // loop to continuously update motors
+
+    if(odomLiftRaise) {
+        odomLift.retract();
+    }
 
     while (true) {
         // get joystick positions
@@ -319,7 +328,7 @@ void opcontrol() {
                 intake.move(-128);
             }
             else {
-                intake.move(-100);
+                intake.move(-110);
             }
         }
         
@@ -355,8 +364,8 @@ void opcontrol() {
             matchloader.toggle();
         }
 
-        // descorer A
-        if (controller.get_digital_new_press(DIGITAL_A)) {
+        // descorer RIGHT
+        if (controller.get_digital_new_press(DIGITAL_RIGHT)) {
             descorer.toggle();
         }
 
@@ -365,8 +374,8 @@ void opcontrol() {
             odomLift.toggle();
         }
 
-        // bottom funnel RIGHT
-        if (controller.get_digital_new_press(DIGITAL_RIGHT)) {
+        // bottom funnel A
+        if (controller.get_digital_new_press(DIGITAL_A)) {
             lowFunnel.toggle();
         }
 

@@ -16,38 +16,6 @@ lemlib::Pose Solo(15.5, -48, 90);
 
 
 
-void PIDTest() {
-    chassis.setPose(origin);
-    
-    // chassis.turnToHeading(30, 700, {}, false);
-    // pros::delay(3000);
-    // chassis.setPose(origin);
-    // chassis.turnToHeading(60, 700, {}, false);
-    // pros::delay(3000);
-    // chassis.setPose(origin);
-    // chassis.turnToHeading(90, 700, {}, false);
-    // pros::delay(3000);
-    // chassis.setPose(origin);
-    // chassis.turnToHeading(135, 700, {}, false);
-    // pros::delay(3000);
-    // chassis.setPose(origin);
-    // chassis.turnToHeading(179, 700, {}, false);
-    chassis.moveToPose(24, 48, 0, 5000, {}, false);
-    // for (int i = 0; i<4; i++) {
-    //     //printf("\n 1 %f", chassis.getPose().theta);
-        
-    //     // // chassis.turnToHeading(i*30-1, 2000, {}, false);
-    //     chassis.moveDistance(6*pow(2, i), 1000, {}, false);
-    //     // chassis.moveDistance(24, 2000, {}, false);
-        
-    //     //pros::delay(3000);
-    //     //printf("\n 2 %f", chassis.getPose().theta);
-    //     pros::delay(3000);
-    //     chassis.setPose(origin);
-    // }
-    //moveDistance(24, 4000);
-
-}
 
 void BlueRightBonus() {
     pros::Task antijamTask = pros::Task([]() { antijam(); });
@@ -149,23 +117,23 @@ void BlueRightAWP() {
     matchloader.extend();
     chassis.moveDistance(10, 700, {}, false);
     pros::delay(200);
-    chassis.moveDistance(-6, 500, {.forwards = false}, false);
+    chassis.moveDistance(-7, 500, {.forwards = false}, false);
     pros::delay(50);
     matchloader.retract();
-    // drop.retract();
     // chassis.moveToPose(-18, -18, -135, 1500, {.forwards = false}, false);
+    lowFunnel.toggle();
     chassis.turnToPoint(0, 0, 700, {}, false);
-    chassis.moveDistance(15, 700, {}, false);
-    lowFunnel.retract();
-    moveWithVoltage(-50, -50);
-    pros::delay(100);
+    chassis.moveDistance(15.5, 700, {}, false);
+    // moveWithVoltage(-50, -50);
+    // pros::delay(100);
     stopDrive();
     intaking = false;
     fly.move(-95);
-    chassis.turnToHeading(-60, 500, {}, false);
-    intake.move(-95);
-    pros::delay(1500);
+    chassis.turnToHeading(-67, 500, {}, false);
+    intake.move(-128);
+    pros::delay(680);
     stopIntaking();
+    pros::delay(200);
     chassis.moveDistance(-18, 800, {.forwards = false}, false);
     lowFunnel.extend();
     chassis.moveToPose(47,  -60, -180, 2500, {.maxSpeed = 100, .maxAngularSpeed = 100});
@@ -173,23 +141,24 @@ void BlueRightAWP() {
     matchloader.extend();
     chassis.waitUntilDone();
     Intake();
+    fly.move(-32);
 
     moveWithVoltage(50, 50);
-    pros::delay(400);
-    moveWithVoltage(25, 25);
-    pros::delay(200);
+    pros::delay(600);
+    // moveWithVoltage(25, 25);
+    // pros::delay(200);
     moveWithVoltage(-25, -25);
     pros::delay(200);
-    moveWithVoltage(25, 25);
-    pros::delay(400);
-    moveWithVoltage(-25, -25);
-    pros::delay(300);
     moveWithVoltage(50, 50);
     pros::delay(400);
+    // moveWithVoltage(-25, -25);
+    // pros::delay(200);
+    // moveWithVoltage(50, 50);
+    // pros::delay(450);
     printf("\n\n\n\nPose before moveToPose: %f, %f, %f\n\n\n\n", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
-    chassis.moveToPose(48, -33, -180, 2400, {.forwards = false, .maxAngularSpeed = 10}, false);
+    chassis.moveToPose(47.8, -33, -180, 2200, {.forwards = false, .maxAngularSpeed = 10}, false);
     printf("\n\n\n\nPose after moveToPose: %f, %f, %f\n\n\n\n", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
-    moveWithVoltage(-30, -30);
+    moveWithVoltage(-50, -50);
     pros::delay(100);
     IntakeBoth();
     float endTime = pros::millis();
@@ -317,16 +286,52 @@ void autonSkills() {
     chassis.setPose({0, 0, 0});
     printf("autonskills");
     pros::lcd::print(5, "skills");
+    lowFunnel.toggle();
+}
+
+
+void PIDTest() {
+    chassis.setPose(origin);
+    
+    // chassis.turnToHeading(30, 700, {}, false);
+    // pros::delay(3000);
+    // chassis.setPose(origin);
+    // chassis.turnToHeading(60, 700, {}, false);
+    // pros::delay(3000);
+    // chassis.setPose(origin);
+    // chassis.turnToHeading(90, 700, {}, false);
+    // pros::delay(3000);
+    // chassis.setPose(origin);
+    // chassis.turnToHeading(135, 700, {}, false);
+    // pros::delay(3000);
+    // chassis.setPose(origin);
+    // chassis.turnToHeading(179, 700, {}, false);
+    chassis.moveToPose(24, 48, 0, 5000, {}, false);
+    // for (int i = 0; i<4; i++) {
+    //     //printf("\n 1 %f", chassis.getPose().theta);
+        
+    //     // // chassis.turnToHeading(i*30-1, 2000, {}, false);
+    //     chassis.moveDistance(6*pow(2, i), 1000, {}, false);
+    //     // chassis.moveDistance(24, 2000, {}, false);
+        
+    //     //pros::delay(3000);
+    //     //printf("\n 2 %f", chassis.getPose().theta);
+    //     pros::delay(3000);
+    //     chassis.setPose(origin);
+    // }
+    //moveDistance(24, 4000);
+
 }
 
 // vector of tuple of function description and pointers
 std::vector<std::tuple<std::string, void(*)()>> autons = {
-    {"PID testing auto", PIDTest},
     {"Blue Right Bonus", BlueRightBonus},
     {"Blue Left AWP", BlueLeftAWP},
     {"Blue Right AWP", BlueRightAWP},
     {"skills auto", autonSkills},
     {"solo AWP", soloAWP},
+    {"testing auto", PIDTest},
+
 };
 
 
