@@ -13,7 +13,7 @@ lemlib::Pose origin(0, 0, 0);
 
 lemlib::Pose BlueRightBonusStart(16, -49, 15);
 lemlib::Pose BlueLeftAWPStart(-16, -49, -15);
-lemlib::Pose Solo(15.5, -48, 90);
+lemlib::Pose SoloStart(-9, -45, 19);
 
 
 
