@@ -20,7 +20,7 @@
 using namespace std;
 
 // auton num
-int autonIndex = 2;
+int autonIndex = 5;
 
 // odom lift flag
 bool odomLiftRaise = false;
@@ -328,7 +328,7 @@ void opcontrol() {
                 intake.move(-128);
             }
             else {
-                intake.move(-110);
+                intake.move(-100);
             }
         }
         
