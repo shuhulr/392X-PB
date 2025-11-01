@@ -13,7 +13,7 @@ lemlib::Pose origin(0, 0, 0);
 
 lemlib::Pose BlueRightBonusStart(16, -49, 15);
 lemlib::Pose BlueLeftAWPStart(-16, -49, -15);
-lemlib::Pose SoloStart(-9, -45, 19);
+lemlib::Pose SoloStart(-9, -45, 20);
 
 
 
@@ -208,15 +208,64 @@ void BlueRightAWP() {
 }
 
 void soloAWP() {
+    // start position and timer
     float startTime = pros::millis();
-    chassis.setPose(BlueRightBonusStart);
-    // Intake();
+    chassis.setPose(SoloStart);
+    // move to low goal
     chassis.moveDistance(30, 800, {.maxSpeed = 90}, false);
     pros::delay(100);
-    // matchloader.extend();
+    // drop ball in low goal
+    matchloader.extend();
+    pros::delay(130);
     Intake();
+    pros::delay(150);
+    // come out of low goal
+    matchloader.retract();
+    stopIntaking();
+    pros::delay(150);
+    chassis.moveDistance(-7, 500, {.forwards = false}, false);
+    // move to 3 stack
+    chassis.turnToPoint(-24, -24, 750, {}, false);
+    Intake();
+    chassis.moveDistance(20, 900, {.maxSpeed = 60});
+    chassis.waitUntil(11);
+    matchloader.extend();
+    chassis.waitUntilDone();
+
+    chassis.turnToPoint(0, 0, 700, {.forwards = false}, false);
+    chassis.moveDistance(-15, 700, {.forwards = false}, false);
+    drop.retract();
+    moveWithVoltage(-50, -50);
+    pros::delay(100);
+    stopDrive();
+    IntakeBoth();
+    pros::delay(450);
+    drop.extend();
+    stopIntaking();
+    chassis.moveDistance(30, 1000, {.minSpeed = 50, .earlyExitRange = 8}, false);
+    chassis.moveToPose(-47.5,  -60, -180, 2500, {.maxSpeed = 100});
+    chassis.waitUntil(26);
+    matchloader.extend();
+    Intake();
+    fly.move(-32);
+    chassis.waitUntilDone();
+
+    moveWithVoltage(60, 60);
+    pros::delay(500);
+    moveWithVoltage(25, 25);
+    pros::delay(100);
+    moveWithVoltage(-25, -25);
+    pros::delay(200);
+    moveWithVoltage(50, 50);
     pros::delay(300);
-    chassis.swingToHeading(-135, lemlib::DriveSide::LEFT, 800, {.direction = AngularDirection::CW_CLOCKWISE}, false);
+    // moveWithVoltage(-25, -25);
+    // pros::delay(200);
+    // moveWithVoltage(50, 50);
+    // pros::delay(400);
+    chassis.moveToPose(-48, -33, -180, 2200, {.forwards = false, .maxAngularSpeed = 10}, false);
+    moveWithVoltage(-25, -25);
+    pros::delay(500);
+    IntakeBoth();
 }
 
 void autonSkills() {
