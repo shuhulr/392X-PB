@@ -13,7 +13,7 @@ lemlib::Pose origin(0, 0, 0);
 
 lemlib::Pose BlueRightBonusStart(16, -49, 15);
 lemlib::Pose BlueLeftAWPStart(-16, -49, -15);
-lemlib::Pose SoloStart(-9, -45, 20);
+lemlib::Pose SoloStart(-10, -45, 20);
 
 
 
@@ -212,7 +212,7 @@ void soloAWP() {
     float startTime = pros::millis();
     chassis.setPose(SoloStart);
     // move to low goal
-    chassis.moveDistance(30, 800, {.maxSpeed = 90}, false);
+    chassis.moveDistance(30.5, 800, {.maxSpeed = 90}, false);
     pros::delay(100);
     // drop ball in low goal
     matchloader.extend();
@@ -227,12 +227,13 @@ void soloAWP() {
     // move to 3 stack
     chassis.turnToPoint(-24, -24, 750, {}, false);
     Intake();
-    chassis.moveDistance(20, 900, {.maxSpeed = 60});
+    chassis.moveDistance(21, 900, {.maxSpeed = 60});
     chassis.waitUntil(11);
     matchloader.extend();
     chassis.waitUntilDone();
-
+    // turn to middle goal
     chassis.turnToPoint(0, 0, 700, {.forwards = false}, false);
+    // go to middle goal and score
     chassis.moveDistance(-15, 700, {.forwards = false}, false);
     drop.retract();
     moveWithVoltage(-50, -50);
@@ -242,6 +243,7 @@ void soloAWP() {
     pros::delay(450);
     drop.extend();
     stopIntaking();
+    // come out of middle goal and move to match loader
     chassis.moveDistance(30, 1000, {.minSpeed = 50, .earlyExitRange = 8}, false);
     chassis.moveToPose(-47.5,  -60, -180, 2500, {.maxSpeed = 100});
     chassis.waitUntil(26);
@@ -249,19 +251,14 @@ void soloAWP() {
     Intake();
     fly.move(-32);
     chassis.waitUntilDone();
-
-    moveWithVoltage(60, 60);
+    // matchload
+    moveWithVoltage(90, 90);
     pros::delay(500);
-    moveWithVoltage(25, 25);
-    pros::delay(100);
     moveWithVoltage(-25, -25);
     pros::delay(200);
-    moveWithVoltage(50, 50);
+    moveWithVoltage(60, 60);
     pros::delay(300);
-    // moveWithVoltage(-25, -25);
-    // pros::delay(200);
-    // moveWithVoltage(50, 50);
-    // pros::delay(400);
+    // move to long goal and score
     chassis.moveToPose(-48, -33, -180, 2200, {.forwards = false, .maxAngularSpeed = 10}, false);
     moveWithVoltage(-25, -25);
     pros::delay(500);
