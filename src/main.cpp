@@ -20,7 +20,7 @@
 using namespace std;
 
 // auton num
-int autonIndex = 5;
+int autonIndex = 3;
 
 // odom lift flag
 bool odomLiftRaise = false;
@@ -346,7 +346,7 @@ void opcontrol() {
             fly.move(-128);
         }
         else if (controller.get_digital(DIGITAL_R1)) {
-            fly.move(-32);
+            // fly.move(-32);
         }
         else {
             fly.move(0);

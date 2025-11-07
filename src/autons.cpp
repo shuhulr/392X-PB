@@ -147,70 +147,48 @@ void BlueRightAWP() {
     float startTime = pros::millis();
     pros::Task antijamTask = pros::Task([]() { antijam(); });
     pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
-    chassis.setPose(BlueRightBonusStart);
-    chassis.moveDistance(25, 800, {.maxSpeed = 90});
-    Intake();
-    chassis.waitUntil(18);
+    chassis.setPose(7.5, -47.25, 0);
+    chassis.moveDistance(30, 800, {.maxSpeed = 90}, false); 
+    pros::delay(100);
+    chassis.turnToHeading(-20, 500, {}, false);
+    // drop ball in low goal
     matchloader.extend();
-    chassis.moveDistance(10, 700, {}, false);
-    pros::delay(200);
-    chassis.moveDistance(-7, 500, {.forwards = false}, false);
-    pros::delay(50);
+    pros::delay(130);
+    Intake();
+    intake.move(100);
+    pros::delay(150);
+    // come out of low goal
     matchloader.retract();
-    // chassis.moveToPose(-18, -18, -135, 1500, {.forwards = false}, false);
-    lowFunnel.toggle();
-    chassis.turnToPoint(0, 0, 700, {}, false);
-    chassis.moveDistance(15.5, 700, {}, false);
-    // moveWithVoltage(-50, -50);
-    // pros::delay(100);
-    stopDrive();
-    intaking = false;
-    fly.move(-95);
-    chassis.turnToHeading(-67, 500, {}, false);
-    intake.move(-128);
-    pros::delay(800);
     stopIntaking();
-    pros::delay(200);
-    chassis.moveDistance(-21, 800, {.forwards = false}, false);
-    lowFunnel.extend();
-    chassis.moveToPose(47,  -60, -180, 2400, {.maxSpeed = 100, .maxAngularSpeed = 100});
+    pros::delay(150);
+    chassis.turnToHeading(0, 500, {}, false);
+    chassis.moveDistance(-7, 500, {.forwards = false}, false);
+    // move to 3 stack
+    chassis.turnToPoint(24, -23, 700, {}, false);
+    Intake();
+    chassis.moveDistance(13, 700, {.maxSpeed = 60});
+    chassis.waitUntil(8);
+    matchloader.extend();
+    chassis.waitUntilDone();
+    pros::delay(250);
+    chassis.moveToPose(47.5, -58, -180, 3000, {.maxSpeed = 100});
     chassis.waitUntil(26);
     matchloader.extend();
-    Intake();
-    fly.move(-32);
     chassis.waitUntilDone();
-
     moveWithVoltage(60, 60);
-    pros::delay(600);
-    // moveWithVoltage(25, 25);
-    // pros::delay(200);
+    pros::delay(700);
+    chassis.moveToPose(47.5, -33, -180, 2200, {.forwards = false, .maxAngularSpeed = 10}, false);
     moveWithVoltage(-25, -25);
-    pros::delay(200);
-    moveWithVoltage(50, 50);
-    pros::delay(400);
-    // moveWithVoltage(-25, -25);
-    // pros::delay(200);
-    // moveWithVoltage(50, 50);
-    // pros::delay(450);
-    printf("\n\n\n\nPose before moveToPose: %f, %f, %f\n\n\n\n", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
-    chassis.moveToPose(47.8, -33, -180, 2200, {.forwards = false, .maxAngularSpeed = 10}, false);
-    printf("\n\n\n\nPose after moveToPose: %f, %f, %f\n\n\n\n", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
-    moveWithVoltage(-50, -50);
-    pros::delay(100);
+    pros::delay(500);
     IntakeBoth();
-    float endTime = pros::millis();
-    float elapsed = (endTime - startTime)/1000;
-    printf("\nBlueRightAWP start %f s\n", startTime);
-    printf("\nBlueRightAWP ended at %f s\n", endTime);
-    printf("\nBlueRightAWP took %f s\n", elapsed);
-    pros::lcd::print(6, "BlueRightAWP: %f s", elapsed);
-    // chassis.setPose(origin);
-    // chassis.moveToPose(-24, -48, -90, 5000, {.maxSpeed = 100});
+
 }
 
-void soloAWP2() {
+void soloAWP7ball() {
     // start position and timer
     float startTime = pros::millis();
+    pros::Task antijamTask = pros::Task([]() { antijam(); });
+    pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
     chassis.setPose(SoloStart);
     // move to low goal
     chassis.moveDistance(30.5, 800, {.maxSpeed = 90}, false);
@@ -268,10 +246,13 @@ void soloAWP2() {
 
 void soloAWP() {
     // start position and timer
+    pros::Task antijamTask = pros::Task([]() { antijam(); });
+    pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
+
     float startTime = pros::millis();
     chassis.setPose(SoloStart);
     // move to low goal
-    chassis.moveDistance(30.5, 800, {.maxSpeed = 90}, false);
+    chassis.moveDistance(31, 800, {.maxSpeed = 90}, false); 
     pros::delay(100);
     // drop ball in low goal
     matchloader.extend();
@@ -292,40 +273,43 @@ void soloAWP() {
     matchloader.extend();
     chassis.waitUntilDone();
     // turn to middle goal
-    chassis.turnToPoint(0, -0.5, 650, {.forwards = false}, false);
+    chassis.turnToPoint(-0.5, 0, 800, {.forwards = false}, false);
     // go to middle goal and score
     chassis.moveDistance(-15, 700, {.forwards = false}, false);
     drop.retract();
     moveWithVoltage(-50, -50);
-    pros::delay(100);
+    pros::delay(80);
     stopDrive();
     IntakeBoth();
     matchloader.retract();
-    pros::delay(450);
+    pros::delay(400);
     drop.extend();
     stopIntaking();
     // come out of middle goal and move to match loader
-    chassis.moveDistance(5, 500, {}, false);
-    chassis.turnToPoint(-48, -7, 700, {}, false);
+    chassis.moveDistance(16, 700, {}, false);
+    chassis.turnToPoint(-48, -5.5, 700, {}, false);
     chassis.moveDistance(26, 700, {}, false);
     matchloader.extend();
     Intake();
     pros::delay(500);
-    chassis.moveDistance(-30, 700, {.forwards = false}, false);
-    matchloader.retract();
+    chassis.moveDistance(-25, 700, {.forwards = false}, false);
+    // matchloader.retract();
     pros::delay(250);
-    chassis.moveDistance(6, 500, {}, false);
-    pros::delay(100);
+    // chassis.moveDistance(7, 500, {}, false);
+    // pros::delay(100);
     chassis.turnToPoint(-48, -70, 600, {}, false);
-    chassis.moveDistance(48, 1000, {.maxSpeed = 100});
-    chassis.waitUntil(20);
+    chassis.moveDistance(45, 900, {.maxSpeed = 80, .minSpeed = 50, .earlyExitRange = 2});
+    chassis.waitUntil(15);
     matchloader.extend();
     chassis.waitUntilDone();
-    moveWithVoltage(60, 80);
-    pros::delay(1000);
-    chassis.moveToPose(-48, -33, -180, 2200, {.forwards = false, .maxAngularSpeed = 10}, false);
-    moveWithVoltage(-50, -50);
-    pros::delay(200);
+    moveWithVoltage(40, 60);
+    pros::delay(100);
+    moveWithVoltage(40, 100);
+    pros::delay(700);
+    stopIntaking();
+    chassis.moveToPose(-48, -30, -180, 1950, {.forwards = false, .lead = 0.4, .maxAngularSpeed = 10}, false);
+    moveWithVoltage(-60, -60);
+    pros::delay(100);
     IntakeBoth();
 //     chassis.setPose(origin);
 // chassis.moveToPose(-5, -28, 0, 2200, {.forwards = false, .maxAngularSpeed = 10}, false);
