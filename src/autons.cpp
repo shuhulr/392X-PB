@@ -142,15 +142,15 @@ void BlueLeftAWP() {
     
 }
 
-void BlueRightAWP() {
+void BlueRightAWP() { // low goal
     // start: (-7.5, 47.25, 0) for new route
     float startTime = pros::millis();
     pros::Task antijamTask = pros::Task([]() { antijam(); });
     pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
     chassis.setPose(7.5, -47.25, 0);
     chassis.moveDistance(30, 800, {.maxSpeed = 90}, false); 
-    pros::delay(100);
-    chassis.turnToHeading(-20, 500, {}, false);
+    pros::delay(50);
+    chassis.turnToHeading(-22.5, 400, {}, false);
     // drop ball in low goal
     matchloader.extend();
     pros::delay(130);
@@ -161,8 +161,8 @@ void BlueRightAWP() {
     matchloader.retract();
     stopIntaking();
     pros::delay(150);
-    chassis.turnToHeading(0, 500, {}, false);
-    chassis.moveDistance(-7, 500, {.forwards = false}, false);
+    chassis.turnToHeading(20, 500, {}, false);
+    chassis.moveDistance(-8, 500, {.forwards = false}, false);
     // move to 3 stack
     chassis.turnToPoint(24, -23, 700, {}, false);
     Intake();
@@ -176,7 +176,7 @@ void BlueRightAWP() {
     matchloader.extend();
     chassis.waitUntilDone();
     moveWithVoltage(60, 60);
-    pros::delay(700);
+    pros::delay(800);
     chassis.moveToPose(47.5, -33, -180, 2200, {.forwards = false, .maxAngularSpeed = 10}, false);
     moveWithVoltage(-25, -25);
     pros::delay(500);
@@ -366,7 +366,7 @@ std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"Blue Right Bonus", BlueRightBonus},
     {"Blue Left Bonus", BlueLeftBonus},
     {"Blue Left AWP", BlueLeftAWP},
-    {"Blue Right AWP", BlueRightAWP},
+    {"Blue Right AWP (low goal)", BlueRightAWP},
     {"skills auto", autonSkills},
     {" AWP", soloAWP},
     {"testing auto", PIDTest},
