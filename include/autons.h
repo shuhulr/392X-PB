@@ -7,6 +7,7 @@ extern std::vector<std::tuple<std::string, void(*)()>> autons;
 extern void PIDTest();
 
 extern void BlueRightBonus();
+extern void BlueRightBonus9ball();
 extern void BlueLeftBonus();
 extern void BlueLeftAWP();
 extern void soloAWP();

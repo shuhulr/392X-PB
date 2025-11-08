@@ -53,6 +53,55 @@ void BlueRightBonus() {
     IntakeBoth();
 }
 
+void BlueRightBonus9ball() {
+    pros::Task antijamTask = pros::Task([]() { antijam(); });
+    pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
+    chassis.setPose(BlueRightBonusStart);
+    Intake();
+    fly.move(-32);
+    chassis.moveDistance(24, 800, {.maxSpeed = 85});
+    chassis.waitUntil(16);
+    matchloader.extend();
+    chassis.moveDistance(17, 750, {}, false);
+    matchloader.retract();
+    pros::delay(200);
+    chassis.turnToPoint(48, -7, 750, {}, false);
+    chassis.moveDistance(19, 800, {.maxSpeed = 85}, false);
+    matchloader.extend();
+    pros::delay(300);
+    chassis.moveDistance(-29, 800, {.forwards = false}, false);
+    matchloader.retract();
+
+    chassis.moveToPose(48, -64, -180, 1100, {.lead = 0.5, .maxSpeed = 100}, false);
+    pros::delay(200);
+    chassis.turnToPoint(48, -24, 700, {.forwards = false}, false);
+    chassis.moveDistance(-25, 800, {.forwards = false}, false);
+    
+    moveWithVoltage(-60, -60);
+    IntakeBoth();
+    pros::delay(2000);
+    // chassis.waitUntil(26);
+    // matchloader.extend();
+    // chassis.waitUntilDone();
+    stopIntaking();
+    matchloader.extend();
+    chassis.moveToPose(48, -64, -180, 1050, {.maxSpeed = 100, .maxAngularSpeed = 10}, false);
+
+
+
+    Intake();
+    moveWithVoltage(70, 70);
+    pros::delay(500);
+    moveWithVoltage(-30, -30);
+    pros::delay(100);
+    moveWithVoltage(50, 50);
+    pros::delay(300);
+    chassis.moveToPose(48, -33, -180, 2000, {.forwards = false, .lead = 0.6, .maxAngularSpeed = 10}, false);
+    moveWithVoltage(-60, -60);
+    pros::delay(100);
+    IntakeBoth();
+}
+
 void BlueLeftBonus() {
     pros::Task antijamTask = pros::Task([]() { antijam(); });
     pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
@@ -363,7 +412,7 @@ void PIDTest() {
 
 // vector of tuple of function description and pointers
 std::vector<std::tuple<std::string, void(*)()>> autons = {
-    {"Blue Right Bonus", BlueRightBonus},
+    {"Blue Right Bonus", BlueRightBonus9ball},
     {"Blue Left Bonus", BlueLeftBonus},
     {"Blue Left AWP", BlueLeftAWP},
     {"Blue Right AWP (low goal)", BlueRightAWP},

@@ -14,7 +14,7 @@
 using namespace std;
 
 // auton num
-int autonIndex = 3;
+int autonIndex = 0;
 
 // odom lift flag
 bool odomLiftRaise = false;
@@ -55,7 +55,7 @@ pros::Rotation horizontalEnc(10);
 // vertical tracking wheel encoder. Rotation sensor, port 7, not reversed
 pros::Rotation verticalEnc(-11);
 // horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
-lemlib::TrackingWheel horizontal(&horizontalEnc, 2, -4.1);
+lemlib::TrackingWheel horizontal(&horizontalEnc, 2, -3.6);
 // vertical tracking wheel. 2.75" diameter, 2.5" offset, left of the robot (negative)
 lemlib::TrackingWheel vertical(&verticalEnc, 2, 0.35);
 
