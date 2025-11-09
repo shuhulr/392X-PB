@@ -137,10 +137,68 @@ void BlueLeftBonus() {
     IntakeBoth();
 }
 
+void BlueLeftAWPPush() {
+    pros::Task antijamTask = pros::Task([]() { antijam(); });
+    pros ::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
+    chassis.setPose(BlueLeftAWPStart);
+    Intake();
+    fly.move(-32);
+    chassis.moveDistance(24.5, 800, {.maxSpeed = 90});
+    chassis.waitUntil(18);
+    matchloader.extend();
+    chassis.moveDistance(10, 700, {}, false);
+    pros::delay(200);
+    chassis.moveDistance(-6, 500, {.forwards = false}, false);
+    pros::delay(100);
+    //matchloader.retract();
+    // drop.retract();
+    // chassis.moveToPose(-18, -18, -135, 1500, {.forwards = false}, false);
+    chassis.turnToPoint(0, 0, 700, {.forwards = false}, false);
+    chassis.moveDistance(-15, 700, {.forwards = false}, false);
+    drop.retract();
+    moveWithVoltage(-50, -50);
+    pros::delay(100);
+    stopDrive();
+    IntakeBoth();
+    pros::delay(450);
+    drop.extend();
+    stopIntaking();
+    chassis.moveDistance(30, 1000, {.minSpeed = 50, .earlyExitRange = 8}, false);
+    chassis.moveToPose(-47.5,  -60, -180, 2500, {.maxSpeed = 100});
+    chassis.waitUntil(26);
+    //matchloader.extend();
+    Intake();
+    fly.move(-32);
+    chassis.waitUntilDone();
+
+    moveWithVoltage(  80, 80);
+    pros::delay(600);
+    moveWithVoltage(25, 25);
+    pros::delay(200);
+
+    // moveWithVoltage(-25, -25);
+    // pros::delay(200);
+    // moveWithVoltage(50, 50);
+    // pros::delay(300);
+    // moveWithVoltage(-25, -25);
+    // pros::delay(200);
+    // moveWithVoltage(50, 50);
+    // pros::delay(400);
+    chassis.moveToPose(-48.5, -33, -180, 2000, {.forwards = false, .lead = 0.5, .maxAngularSpeed = 10}, false);
+    moveWithVoltage(-50, -50);
+    IntakeBoth();
+    pros::delay(2000);
+    chassis.moveToPose(-36, -48, 180, 1000, {}, false);
+    chassis.turnToHeading(180, 500, {}, false);
+    chassis.moveDistance(-21, 900, {.forwards = false}, false);
+}
+
 void BlueLeftAWP() {
     pros::Task antijamTask = pros::Task([]() { antijam(); });
     pros ::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
     chassis.setPose(BlueLeftAWPStart);
+    pros::delay(500);
+    // DELETE TS ABOVE
     Intake();
     fly.move(-32);
     chassis.moveDistance(24.5, 800, {.maxSpeed = 90});
@@ -183,7 +241,7 @@ void BlueLeftAWP() {
     // pros::delay(200);
     // moveWithVoltage(50, 50);
     // pros::delay(400);
-    chassis.moveToPose(-48, -33, -180, 2200, {.forwards = false, .maxAngularSpeed = 10}, false);
+    chassis.moveToPose(-48.5, -33, -180, 2200, {.forwards = false, .maxAngularSpeed = 10}, false);
     moveWithVoltage(-25, -25);
     pros::delay(500);
     IntakeBoth();
@@ -220,13 +278,15 @@ void BlueRightAWP() { // low goal
     matchloader.extend();
     chassis.waitUntilDone();
     pros::delay(250);
-    chassis.moveToPose(47.5, -58, -180, 3000, {.maxSpeed = 100});
+    chassis.moveToPose(48, -58, -180, 3000, {.maxSpeed = 100});
     chassis.waitUntil(26);
     matchloader.extend();
     chassis.waitUntilDone();
-    moveWithVoltage(60, 60);
-    pros::delay(800);
-    chassis.moveToPose(47.5, -33, -180, 2200, {.forwards = false, .maxAngularSpeed = 10}, false);
+    moveWithVoltage(50, 50);
+    pros::delay(100);
+     moveWithVoltage(80, 80);
+    pros::delay(700);
+    chassis.moveToPose(48, -33, -180, 2200, {.forwards = false, .maxAngularSpeed = 10}, false);
     moveWithVoltage(-25, -25);
     pros::delay(500);
     IntakeBoth();
@@ -334,29 +394,33 @@ void soloAWP() {
     pros::delay(400);
     drop.extend();
     stopIntaking();
+    Intake();
     // come out of middle goal and move to match loader
     chassis.moveDistance(16, 700, {}, false);
-    chassis.turnToPoint(-48, -5.5, 700, {}, false);
-    chassis.moveDistance(26, 700, {}, false);
+    chassis.turnToPoint(-48, -6.5, 700, {}, false);
+    chassis.moveDistance(25, 700, {}, false);
     matchloader.extend();
-    Intake();
-    pros::delay(500);
+    intaking = false;
+    pros::delay(460);
     chassis.moveDistance(-25, 700, {.forwards = false}, false);
     // matchloader.retract();
-    pros::delay(250);
+    pros::delay(150);
     // chassis.moveDistance(7, 500, {}, false);
     // pros::delay(100);
-    chassis.turnToPoint(-48, -70, 600, {}, false);
-    chassis.moveDistance(45, 900, {.maxSpeed = 80, .minSpeed = 50, .earlyExitRange = 2});
-    chassis.waitUntil(15);
+    chassis.turnToPoint(-48.5, -45, 600, {}, false);
+    intaking = true;
+    chassis.moveDistance(35.5, 840, {}, false);
+    chassis.turnToPoint(-48.5, -70, 650, {}, false);
+    chassis.moveDistance(22, 580, {}, false);
+
     matchloader.extend();
-    chassis.waitUntilDone();
-    moveWithVoltage(40, 60);
+    moveWithVoltage(50, 50);
     pros::delay(100);
-    moveWithVoltage(40, 100);
-    pros::delay(700);
+    moveWithVoltage(70, 70);
+    pros::delay(450);
+    // chassis.turnToHeading(180, 550, {}, false);
     stopIntaking();
-    chassis.moveToPose(-48, -30, -180, 1950, {.forwards = false, .lead = 0.4, .maxAngularSpeed = 10}, false);
+    chassis.moveToPose(-48.8, -30, -180, 1800, {.forwards = false, .lead = 0.4, .maxAngularSpeed = 10}, false);
     moveWithVoltage(-60, -60);
     pros::delay(100);
     IntakeBoth();
@@ -415,6 +479,7 @@ std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"Blue Right Bonus", BlueRightBonus9ball},
     {"Blue Left Bonus", BlueLeftBonus},
     {"Blue Left AWP", BlueLeftAWP},
+    {"Blue Left AWP Push", BlueLeftAWPPush},
     {"Blue Right AWP (low goal)", BlueRightAWP},
     {"skills auto", autonSkills},
     {" AWP", soloAWP},
