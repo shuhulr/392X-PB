@@ -160,20 +160,20 @@ void BlueLeftAWPPush() {
     pros::delay(100);
     stopDrive();
     IntakeBoth();
-    pros::delay(450);
+    pros::delay(400);
     drop.extend();
     stopIntaking();
     chassis.moveDistance(30, 1000, {.minSpeed = 50, .earlyExitRange = 8}, false);
-    chassis.moveToPose(-47.5,  -60, -180, 2500, {.maxSpeed = 100});
+    chassis.moveToPose(-47.5,  -56, -180, 2350, {.maxSpeed = 100});
     chassis.waitUntil(26);
     //matchloader.extend();
     Intake();
     fly.move(-32);
     chassis.waitUntilDone();
 
-    moveWithVoltage(  80, 80);
+    moveWithVoltage(110, 110);
     pros::delay(600);
-    moveWithVoltage(25, 25);
+    moveWithVoltage(51, 51);
     pros::delay(200);
 
     // moveWithVoltage(-25, -25);
@@ -188,9 +188,11 @@ void BlueLeftAWPPush() {
     moveWithVoltage(-50, -50);
     IntakeBoth();
     pros::delay(2000);
-    chassis.moveToPose(-36, -48, 180, 1000, {}, false);
-    chassis.turnToHeading(180, 500, {}, false);
-    chassis.moveDistance(-21, 900, {.forwards = false}, false);
+    stopIntaking();
+    chassis.moveToPose(-35, -48, 180, 1000, {}, false);
+    chassis.turnToHeading(177.5, 550, {}, false);
+    // comment
+    chassis.moveDistance(-25, 1000, {.forwards = false}, false);
 }
 
 void BlueLeftAWP() {
@@ -288,7 +290,7 @@ void BlueRightAWP() { // low goal
     pros::delay(700);
     chassis.moveToPose(48, -33, -180, 2200, {.forwards = false, .maxAngularSpeed = 10}, false);
     moveWithVoltage(-25, -25);
-    pros::delay(500);
+    pros::delay(400);
     IntakeBoth();
 
 }
