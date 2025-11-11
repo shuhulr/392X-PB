@@ -19,6 +19,9 @@ int autonIndex = 5;
 // odom lift flag
 bool odomLiftRaise = false;
 
+// screen task flag
+bool screenTaskRunning = true;
+
 // controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
@@ -147,7 +150,7 @@ void initialize() {
     //pros::Task pidTuner()
 
     pros::Task screenTask([&]() {
-        while (true) {
+        while (screenTaskRunning) {
             // print robot location to the brain screen
             pros::lcd::print(0, "X: %.4f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %.4f", chassis.getPose().y); // y
@@ -240,6 +243,7 @@ void competition_initialize() {
  * This is an example autonomous routine which demonstrates a lot of the features LemLib has to offer
  */
 void autonomous() {
+    screenTaskRunning = false; // stop the screen task during auton
     //autonIndex = 0; // Change this to whichever auton you want to run
     std::get<1>(autons[autonIndex])();
     

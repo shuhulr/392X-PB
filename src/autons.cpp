@@ -436,20 +436,78 @@ void soloSig() {
     chassis.setPose(SoloSigStart);
     pros::Task antijamTask = pros::Task([]() { antijam(); });
     pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
+    // move to matchloader
     chassis.moveDistance(29, 700, {}, false);
     matchloader.extend();
     chassis.turnToHeading(180, 600, {}, false);
     Intake();
     moveWithVoltage(60, 60);
     pros::delay(200);
+    // matchload
     moveWithVoltage(40, 40);
-    pros::delay(550);
-    chassis.turnToPoint(48, -24, 500, {.forwards = false}, false);
-    chassis.moveDistance(-30, 700, {.forwards = false}, false);
+    pros::delay(650);
+    // turn and move to goal
+    // chassis.moveToPose(48.5, -33, -180, 1700, {.forwards = false, .lead = 0.5, .maxAngularSpeed = 10}, false);
+    chassis.moveToPoint(48, -32, 900, {.forwards = false, .maxAngularSpeed = 10}, false);
+    // score
+    // chassis.turnToPoint(48.5, -24, 500, {.forwards = false}, false);
+    // chassis.moveDistance(-30, 700, {.forwards = false}, false);
+    // score
     IntakeBoth();
     moveWithVoltage(-50, -50);
     pros::delay(1500);
     stopIntaking();
+    matchloader.retract();
+    // go to first 3 stack
+    chassis.moveDistance(7, 450, {}, false);
+    Intake();
+    chassis.moveToPose(12, -23, -90, 1650, {.lead = 0.5, .minSpeed = 50, .earlyExitRange = 8});
+    chassis.waitUntil(24);
+    matchloader.extend();
+    chassis.waitUntilDone();
+    matchloader.retract();
+    // go to second 3 stack
+    chassis.moveToPose(-22, -23, -90, 1500, {.lead = 0.4});
+
+    // chassis.moveDistance(35, 800, {.maxSpeed = 80});
+    chassis.waitUntil(24);
+    matchloader.extend();
+    chassis.waitUntilDone();
+    chassis.turnToPoint(0, 0, 650, {.forwards = false}, false);
+    // go to middle goal and score
+    chassis.moveDistance(-16, 700, {.forwards = false}, false);
+    drop.retract();
+    IntakeBoth();
+    moveWithVoltage(-50, -50);
+    pros::delay(100);
+    stopDrive();
+    pros::delay(450);
+    drop.extend();
+    Intake();
+    // come out of middle goal and move to match loader
+    chassis.moveDistance(30, 1000, {.minSpeed = 50, .earlyExitRange = 8}, false);
+    chassis.moveToPose(-47.5,  -62, -180, 1800, {.lead = 0.5, .maxSpeed = 100});
+    chassis.waitUntil(26);
+    fly.move(-32);
+    chassis.waitUntilDone();
+
+    moveWithVoltage(80, 80);
+    pros::delay(600);
+    moveWithVoltage(50, 50);
+    pros::delay(200);
+
+    // moveWithVoltage(-25, -25);
+    // pros::delay(200);
+    // moveWithVoltage(50, 50);
+    // pros::delay(300);
+    // moveWithVoltage(-25, -25);
+    // pros::delay(200);
+    // moveWithVoltage(50, 50);
+    // pros::delay(400);
+    chassis.moveToPoint(-48, -32, 1000, {.forwards = false}, false);
+    moveWithVoltage(-50, -50);
+    IntakeBoth();
+
 }
 
 void autonSkills() {
