@@ -14,7 +14,7 @@
 using namespace std;
 
 // auton num
-int autonIndex = 3;
+int autonIndex = 5;
 
 // odom lift flag
 bool odomLiftRaise = false;

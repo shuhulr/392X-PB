@@ -14,7 +14,7 @@ lemlib::Pose origin(0, 0, 0);
 lemlib::Pose BlueRightBonusStart(16, -49, 15);
 lemlib::Pose BlueLeftAWPStart(-16, -49, -15);
 lemlib::Pose SoloStart(-10, -45, 20);
-
+lemlib::Pose SoloSigStart(15.5, -48, 90);
 
 
 
@@ -430,6 +430,26 @@ void soloAWP() {
 
 }
 
+void soloSig() {
+    chassis.setPose(SoloSigStart);
+    pros::Task antijamTask = pros::Task([]() { antijam(); });
+    pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
+    chassis.moveDistance(29, 700, {}, false);
+    matchloader.extend();
+    chassis.turnToHeading(180, 600, {}, false);
+    Intake();
+    moveWithVoltage(60, 60);
+    pros::delay(200);
+    moveWithVoltage(40, 40);
+    pros::delay(550);
+    chassis.turnToPoint(48, -24, 500, {.forwards = false}, false);
+    chassis.moveDistance(-30, 700, {.forwards = false}, false);
+    IntakeBoth();
+    moveWithVoltage(-50, -50);
+    pros::delay(1500);
+    stopIntaking();
+}
+
 void autonSkills() {
     chassis.setPose({0, 0, 0});
     printf("autonskills");
@@ -481,9 +501,11 @@ std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"Blue Left AWP", BlueLeftAWP},
     {"Blue Left AWP Push", BlueLeftAWPPush},
     {"Blue Right AWP (low goal)", BlueRightAWP},
+    {"Solo Sig AWP", soloSig},
+    {"Solo AWP 7 Ball", soloAWP7ball},
+    {"Half AWP", soloAWP},
     {"skills auto", autonSkills},
-    {" AWP", soloAWP},
-    {"testing auto", PIDTest},
+    {"testing auto", PIDTest}
 
 };
 
