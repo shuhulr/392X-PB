@@ -62,11 +62,11 @@ void BlueRightBonus9ball() {
     chassis.moveDistance(24, 800, {.maxSpeed = 85});
     chassis.waitUntil(16);
     matchloader.extend();
-    chassis.moveDistance(17, 750, {}, false);
+    chassis.moveDistance(13, 700, {}, false);
     matchloader.retract();
     pros::delay(200);
-    chassis.turnToPoint(48, -7, 750, {}, false);
-    chassis.moveDistance(19, 800, {.maxSpeed = 85}, false);
+    chassis.turnToPoint(48, -3, 10, {}, false);
+    chassis.moveDistance(18, 800, {.maxSpeed = 85}, false);
     matchloader.extend();
     pros::delay(300);
     chassis.moveDistance(-29, 800, {.forwards = false}, false);
@@ -90,13 +90,80 @@ void BlueRightBonus9ball() {
 
 
     Intake();
-    moveWithVoltage(70, 70);
-    pros::delay(500);
+    moveWithVoltage(110, 110);
+    pros::delay(600);
     moveWithVoltage(-30, -30);
+    pros::delay(50);
+    moveWithVoltage(100, 100);
     pros::delay(100);
-    moveWithVoltage(50, 50);
-    pros::delay(300);
     chassis.moveToPose(48, -33, -180, 2000, {.forwards = false, .lead = 0.6, .maxAngularSpeed = 10}, false);
+    // chassis.moveDistance(-35, 1200, {.forwards = false, .maxSpeed = 67}, false);
+    moveWithVoltage(-60, -60);
+    pros::delay(100);
+    IntakeBoth();
+}
+
+void BlueLeft9Ball2Goal() {
+    pros::Task antijamTask = pros::Task([]() { antijam(); });
+    pros ::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
+    chassis.setPose(BlueLeftAWPStart);
+    Intake();
+    fly.move(-32);
+    chassis.moveDistance(24.5, 800, {.maxSpeed = 90});
+    chassis.waitUntil(18);
+    matchloader.extend();
+    chassis.moveDistance(10, 700, {}, false);
+    pros::delay(200);
+    chassis.moveDistance(-6, 500, {.forwards = false}, false);
+    pros::delay(100);
+    //matchloader.retract();
+    // drop.retract();
+    // chassis.moveToPose(-18, -18, -135, 1500, {.forwards = false}, false);
+    chassis.turnToPoint(0, 0, 700, {.forwards = false}, false);
+    chassis.moveDistance(-15, 700, {.forwards = false}, false);
+    drop.retract();
+    moveWithVoltage(-50, -50);
+    pros::delay(100);
+    stopDrive();
+    IntakeBoth();
+    pros::delay(400);
+    drop.extend();
+    stopIntaking();
+    matchloader.retract();
+    chassis.turnToPoint(-48, -7, 1000, {}, false);
+
+    chassis.moveDistance(30, 1000, {.maxSpeed = 85}, false);
+    matchloader.extend();
+    pros::delay(300);
+    chassis.moveDistance(-20, 800, {.forwards = false}, false);
+    matchloader.retract();
+
+    chassis.moveToPose(-48, -64, -180, 1100, {.lead = 0.5, .maxSpeed = 100}, false);
+    pros::delay(200);
+    chassis.turnToPoint(-48, -24, 700, {.forwards = false}, false);
+    chassis.moveDistance(-25, 800, {.forwards = false}, false);
+    
+    moveWithVoltage(-60, -60);
+    IntakeBoth();
+    pros::delay(1000);
+    // chassis.waitUntil(26);
+    // matchloader.extend();
+    // chassis.waitUntilDone();
+    stopIntaking();
+    matchloader.extend();
+    chassis.moveToPose(-48, -64, -180, 1050, {.maxSpeed = 100, .maxAngularSpeed = 10}, false);
+
+
+
+    Intake();
+    moveWithVoltage(110, 110);
+    pros::delay(600);
+    moveWithVoltage(-30, -30);
+    pros::delay(50);
+    moveWithVoltage(100, 100);
+    pros::delay(100);
+    chassis.moveToPose(-48, -33, -180, 2000, {.forwards = false, .lead = 0.6, .maxAngularSpeed = 10}, false);
+    // chassis.moveDistance(-35, 1200, {.forwards = false, .maxSpeed = 67}, false);
     moveWithVoltage(-60, -60);
     pros::delay(100);
     IntakeBoth();
@@ -556,6 +623,7 @@ void PIDTest() {
 
 // vector of tuple of function description and pointers
 std::vector<std::tuple<std::string, void(*)()>> autons = {
+    {"Blue Left 9 Ball 2 Goal", BlueLeft9Ball2Goal},
     {"Blue Right Bonus", BlueRightBonus9ball},
     {"Blue Left Bonus", BlueLeftBonus},
     {"Blue Left AWP", BlueLeftAWP},
