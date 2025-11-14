@@ -9,19 +9,23 @@
 #include <cstddef> // IWYU pragma: keep
 
 
+// auton num
+int autonIndex = 6;
+
+
 lemlib::Pose origin(0, 0, 0);
 
-lemlib::Pose BlueRightBonusStart(16, -49, 15);
-lemlib::Pose BlueLeftAWPStart(-16, -49, -15);
+lemlib::Pose RightStandardStart(16, -49, 15);
+lemlib::Pose LeftStandardStart(-16, -49, -15);
 lemlib::Pose SoloStart(-10, -45, 20);
 lemlib::Pose SoloSigStart(15.5, -48, 90);
 
 
 
-void BlueRightBonus() {
+void RightBonus() {
     pros::Task antijamTask = pros::Task([]() { antijam(); });
     pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
-    chassis.setPose(BlueRightBonusStart);
+    chassis.setPose(RightStandardStart);
     Intake();
     fly.move(-32);
     chassis.moveDistance(24, 800, {.maxSpeed = 85});
@@ -53,10 +57,10 @@ void BlueRightBonus() {
     IntakeBoth();
 }
 
-void BlueRightBonus9ball() {
+void RightBonus9ball() {
     pros::Task antijamTask = pros::Task([]() { antijam(); });
     pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
-    chassis.setPose(BlueRightBonusStart);
+    chassis.setPose(RightStandardStart);
     Intake();
     fly.move(-32);
     chassis.moveDistance(24, 800, {.maxSpeed = 85});
@@ -103,10 +107,10 @@ void BlueRightBonus9ball() {
     IntakeBoth();
 }
 
-void BlueLeft9Ball2Goal() {
+void Left9Ball2Goal() {
     pros::Task antijamTask = pros::Task([]() { antijam(); });
     pros ::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
-    chassis.setPose(BlueLeftAWPStart);
+    chassis.setPose(LeftStandardStart);
     Intake();
     fly.move(-32);
     chassis.moveDistance(24.5, 800, {.maxSpeed = 90});
@@ -169,10 +173,10 @@ void BlueLeft9Ball2Goal() {
     IntakeBoth();
 }
 
-void BlueLeftBonus() {
+void LeftBonus() {
     pros::Task antijamTask = pros::Task([]() { antijam(); });
     pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
-    chassis.setPose(BlueLeftAWPStart);
+    chassis.setPose(LeftStandardStart);
     Intake();
     fly.move(-32);
     chassis.moveDistance(24, 800, {.maxSpeed = 90});
@@ -204,10 +208,10 @@ void BlueLeftBonus() {
     IntakeBoth();
 }
 
-void BlueLeftAWPPush() {
+void LeftAWPPush() {
     pros::Task antijamTask = pros::Task([]() { antijam(); });
     pros ::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
-    chassis.setPose(BlueLeftAWPStart);
+    chassis.setPose(LeftStandardStart);
     Intake();
     fly.move(-32);
     chassis.moveDistance(24.5, 800, {.maxSpeed = 90});
@@ -262,10 +266,10 @@ void BlueLeftAWPPush() {
     chassis.moveDistance(-25, 1000, {.forwards = false}, false);
 }
 
-void BlueLeftAWP() {
+void LeftAWP() {
     pros::Task antijamTask = pros::Task([]() { antijam(); });
     pros ::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
-    chassis.setPose(BlueLeftAWPStart);
+    chassis.setPose(LeftStandardStart);
     pros::delay(500);
     // DELETE TS ABOVE
     Intake();
@@ -318,7 +322,7 @@ void BlueLeftAWP() {
     
 }
 
-void BlueRightAWP() { // low goal
+void RightAWP() { // low goal
     // start: (-7.5, 47.25, 0) for new route
     float startTime = pros::millis();
     pros::Task antijamTask = pros::Task([]() { antijam(); });
@@ -548,11 +552,14 @@ void soloSig() {
     moveWithVoltage(-50, -50);
     pros::delay(100);
     stopDrive();
-    pros::delay(450);
+    pros::delay(380);
     drop.extend();
     Intake();
     // come out of middle goal and move to match loader
     chassis.moveDistance(30, 1000, {.minSpeed = 50, .earlyExitRange = 8}, false);
+    printf("X: %.4f", chassis.getPose().x); // x
+    printf("Y: %.4f", chassis.getPose().y); // y
+    printf("Theta: %.3f", chassis.getPose().theta); // heading
     chassis.moveToPose(-47.5,  -62, -180, 1800, {.lead = 0.5, .maxSpeed = 100});
     chassis.waitUntil(26);
     fly.move(-32);
@@ -623,17 +630,17 @@ void PIDTest() {
 
 // vector of tuple of function description and pointers
 std::vector<std::tuple<std::string, void(*)()>> autons = {
-    {"Blue Left 9 Ball 2 Goal", BlueLeft9Ball2Goal},
-    {"Blue Right Bonus", BlueRightBonus9ball},
-    {"Blue Left Bonus", BlueLeftBonus},
-    {"Blue Left AWP", BlueLeftAWP},
-    {"Blue Left AWP Push", BlueLeftAWPPush},
-    {"Blue Right AWP (low goal)", BlueRightAWP},
-    {"Solo Sig AWP", soloSig},
-    {"Solo AWP 7 Ball", soloAWP7ball},
-    {"Half AWP", soloAWP},
-    {"skills auto", autonSkills},
-    {"testing auto", PIDTest}
+    {"Left 9 Ball 2 Goal", Left9Ball2Goal}, // 0
+    {"Right Bonus", RightBonus9ball}, // 1
+    {"Left Bonus", LeftBonus}, // 2
+    {"Left AWP", LeftAWP}, // 3
+    {"Left AWP Push", LeftAWPPush}, // 4
+    {"Right AWP (low goal)", RightAWP}, // 5
+    {"Solo Sig AWP", soloSig}, // 6
+    {"Solo AWP 7 Ball", soloAWP7ball}, // 7
+    {"Half AWP", soloAWP}, // 8
+    {"skills auto", autonSkills}, // 9
+    {"testing auto", PIDTest} // 10
 
 };
 

@@ -10,11 +10,7 @@
 #include "globals.hpp"
 #include "pros/screen.h" // IWYU pragma: keep
 
-
-using namespace std;
-
-// auton num
-int autonIndex = 0;
+extern int autonIndex;
 
 // odom lift flag
 bool odomLiftRaise = false;
@@ -188,7 +184,7 @@ void initialize() {
                     colorState = 0; // red
                 }
                 
-                string colorStr = (colorState == 0) ? "R" : (colorState == 1) ? "B" : "N/A";
+                std::string colorStr = (colorState == 0) ? "R" : (colorState == 1) ? "B" : "N/A";
                 if (gameColor == 0) {
                     controller.set_text(0, 0, "GC: Red");
                 }
