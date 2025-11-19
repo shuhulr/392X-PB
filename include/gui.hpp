@@ -1,7 +1,7 @@
 #pragma once
 
-#include "main.h"
-#include "pros/apix.h"
+#include "main.h" // IWYU pragma: keep
+#include "pros/apix.h" // IWYU pragma: keep
 #include <vector>
 #include <tuple>
 #include <string>

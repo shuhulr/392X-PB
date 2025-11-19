@@ -345,7 +345,7 @@ class Chassis {
          *
          * @example main.cpp
          */
-        Chassis(Drivetrain drivetrain, ControllerSettings linearSettings, ControllerSettings angularSettings,
+        Chassis(Drivetrain drivetrain, ControllerSettings linearSettings, ControllerSettings angularSettings, ControllerSettings angularSettingsU30,
                 OdomSensors sensors, DriveCurve* throttleCurve = &defaultDriveCurve,
                 DriveCurve* steerCurve = &defaultDriveCurve);
         /**
@@ -939,6 +939,7 @@ class Chassis {
          * @warning Do not interact with these unless you know what you are doing
          */
         PID angularPID;
+        PID angularU30PID;
     protected:
         /**
          * @brief Indicates that this motion is queued and blocks current task until this motion reaches front of queue
@@ -956,6 +957,7 @@ class Chassis {
 
         ControllerSettings lateralSettings;
         ControllerSettings angularSettings;
+        ControllerSettings angularU30Settings;
         Drivetrain drivetrain;
         OdomSensors sensors;
         DriveCurve* throttleCurve;
@@ -965,6 +967,8 @@ class Chassis {
         ExitCondition lateralSmallExit;
         ExitCondition angularLargeExit;
         ExitCondition angularSmallExit;
+        ExitCondition angularU30SmallExit;
+        ExitCondition angularU30LargeExit;
     private:
         pros::Mutex mutex;
 };

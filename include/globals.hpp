@@ -8,6 +8,7 @@
 extern lemlib::Chassis chassis;
 extern lemlib::ControllerSettings linearController;
 extern lemlib::ControllerSettings angularController;
+extern lemlib::ControllerSettings angularControllerU30;
 extern pros::Controller controller;
 extern pros::Motor intake;
 extern pros::Motor fly;

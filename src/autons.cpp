@@ -12,6 +12,8 @@
 // auton num
 int autonIndex = 6;
 
+extern bool screenTaskRunning;
+
 
 lemlib::Pose origin(0, 0, 0);
 
@@ -69,7 +71,7 @@ void RightBonus9ball() {
     chassis.moveDistance(13, 700, {}, false);
     matchloader.retract();
     pros::delay(200);
-    chassis.turnToPoint(48, -3, 10, {}, false);
+    chassis.turnToPoint(48, -3, 600, {}, false);
     chassis.moveDistance(18, 800, {.maxSpeed = 85}, false);
     matchloader.extend();
     pros::delay(300);
@@ -256,12 +258,12 @@ void LeftAWPPush() {
     // moveWithVoltage(50, 50);
     // pros::delay(400);
     chassis.moveToPose(-48.5, -33, -180, 2000, {.forwards = false, .lead = 0.5, .maxAngularSpeed = 10}, false);
-    moveWithVoltage(-50, -50);
+    moveWithVoltage(-90, -90);
     IntakeBoth();
     pros::delay(2000);
     stopIntaking();
     chassis.moveToPose(-35, -48, 180, 1000, {}, false);
-    chassis.turnToHeading(177.5, 550, {}, false);
+    chassis.turnToHeading(176, 550, {}, false);
     // comment
     chassis.moveDistance(-25, 1000, {.forwards = false}, false);
 }
@@ -504,82 +506,82 @@ void soloAWP() {
 }
 
 void soloSig() {
+    screenTaskRunning = false;
     chassis.setPose(SoloSigStart);
     pros::Task antijamTask = pros::Task([]() { antijam(); });
     pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
     // move to matchloader
-    chassis.moveDistance(29, 700, {}, false);
+    chassis.moveDistance(30, 700, {}, false);
     matchloader.extend();
     chassis.turnToHeading(180, 600, {}, false);
     Intake();
     moveWithVoltage(60, 60);
-    pros::delay(200);
+    pros::delay(150);
+    moveWithVoltage(35, 35);
+    pros::delay(700);
     // matchload
-    moveWithVoltage(40, 40);
-    pros::delay(650);
+    // chassis.turnToPoint(48, -24, 500, {.forwards = false}, false);
     // turn and move to goal
     // chassis.moveToPose(48.5, -33, -180, 1700, {.forwards = false, .lead = 0.5, .maxAngularSpeed = 10}, false);
-    chassis.moveToPoint(48, -32, 900, {.forwards = false, .maxAngularSpeed = 10}, false);
+    chassis.moveToPoint(48, -28, 750, {.forwards = false, .maxAngularSpeed = 10}, false);
     // score
-    // chassis.turnToPoint(48.5, -24, 500, {.forwards = false}, false);
+    // chassis.turnToPoint(49, -24, 500, {.forwards = false}, false);
+    
     // chassis.moveDistance(-30, 700, {.forwards = false}, false);
     // score
     IntakeBoth();
-    moveWithVoltage(-50, -50);
-    pros::delay(1500);
+    moveWithVoltage(-80, -80);
+    pros::delay(1600);
     stopIntaking();
     matchloader.retract();
     // go to first 3 stack
-    chassis.moveDistance(7, 450, {}, false);
+    chassis.moveDistance(8, 400, {}, false);
     Intake();
-    chassis.moveToPose(12, -23, -90, 1650, {.lead = 0.5, .minSpeed = 50, .earlyExitRange = 8});
+    fly.move(-32);
+    chassis.moveToPose(12, -25, -90, 1400, {.lead = 0.5, .minSpeed = 50, .earlyExitRange = 8});
     chassis.waitUntil(24);
     matchloader.extend();
     chassis.waitUntilDone();
     matchloader.retract();
     // go to second 3 stack
-    chassis.moveToPose(-22, -23, -90, 1500, {.lead = 0.4});
+    chassis.moveToPose(-23, -24, -90, 1300, {.lead = 0.4});
 
     // chassis.moveDistance(35, 800, {.maxSpeed = 80});
-    chassis.waitUntil(24);
+    chassis.waitUntil(25.5);
     matchloader.extend();
     chassis.waitUntilDone();
-    chassis.turnToPoint(0, 0, 650, {.forwards = false}, false);
+    // chassis.turnToPoint(-5, -5, 500, {.forwards = false}, false);
+    chassis.turnToHeading(-134, 500, {}, false);
     // go to middle goal and score
-    chassis.moveDistance(-16, 700, {.forwards = false}, false);
+    chassis.moveDistance(-20, 650, {.forwards = false});
+    chassis.waitUntil(12);
     drop.retract();
     IntakeBoth();
+    intaking = false;
     moveWithVoltage(-50, -50);
-    pros::delay(100);
+    pros::delay(50);
     stopDrive();
-    pros::delay(380);
-    drop.extend();
-    Intake();
+    pros::delay(800);
     // come out of middle goal and move to match loader
-    chassis.moveDistance(30, 1000, {.minSpeed = 50, .earlyExitRange = 8}, false);
-    printf("X: %.4f", chassis.getPose().x); // x
-    printf("Y: %.4f", chassis.getPose().y); // y
-    printf("Theta: %.3f", chassis.getPose().theta); // heading
-    chassis.moveToPose(-47.5,  -62, -180, 1800, {.lead = 0.5, .maxSpeed = 100});
-    chassis.waitUntil(26);
+    // chassis.turnToPoint(-48, -48, 500, {});
+    // pros::delay(150);
+    stopIntaking();
+    Intake();
+    drop.extend();
     fly.move(-32);
     chassis.waitUntilDone();
+    chassis.moveDistance(45, 900, {}, false);
+    chassis.turnToPoint(-46, -70, 500, {}, false);
+    chassis.moveDistance(22, 700, {}, false);
 
     moveWithVoltage(80, 80);
-    pros::delay(600);
+    pros::delay(300);
     moveWithVoltage(50, 50);
-    pros::delay(200);
-
-    // moveWithVoltage(-25, -25);
-    // pros::delay(200);
-    // moveWithVoltage(50, 50);
-    // pros::delay(300);
-    // moveWithVoltage(-25, -25);
-    // pros::delay(200);
-    // moveWithVoltage(50, 50);
-    // pros::delay(400);
-    chassis.moveToPoint(-48, -32, 1000, {.forwards = false}, false);
-    moveWithVoltage(-50, -50);
+    pros::delay(100);
+    chassis.turnToPoint(-47.5, -24, 500, {.forwards = false}, false);
+    // go to long goal and score
+    chassis.moveToPoint(-48, -32, 750, {.forwards = false, .maxAngularSpeed = 10}, false);
+    moveWithVoltage(-100, -100);
     IntakeBoth();
 
 }
@@ -596,10 +598,20 @@ void autonSkills() {
 
 
 void PIDTest() {
+    screenTaskRunning = true;
     chassis.setPose(origin);
-    
-    // chassis.turnToHeading(30, 700, {}, false);
-    // pros::delay(3000);
+    chassis.turnToHeading(5, 700, {}, false);
+    pros::delay(3000);
+    chassis.setPose(origin);
+    chassis.turnToHeading(10, 700, {}, false);
+    pros::delay(3000);
+    chassis.setPose(origin);
+    chassis.turnToHeading(20, 700, {}, false);
+    pros::delay(3000);
+    chassis.setPose(origin);
+    chassis.turnToHeading(30, 700, {}, false);
+    // chassis.turnToHeading(90, 700, {}, false);
+
     // chassis.setPose(origin);
     // chassis.turnToHeading(60, 700, {}, false);
     // pros::delay(3000);
@@ -611,7 +623,9 @@ void PIDTest() {
     // pros::delay(3000);
     // chassis.setPose(origin);
     // chassis.turnToHeading(179, 700, {}, false);
-    chassis.moveToPose(24, 48, 0, 5000, {}, false);
+
+
+    // chassis.moveToPose(24, 48, 0, 5000, {}, false);
     // for (int i = 0; i<4; i++) {
     //     //printf("\n 1 %f", chassis.getPose().theta);
         

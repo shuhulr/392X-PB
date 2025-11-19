@@ -1,5 +1,7 @@
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
+#include "lemlib/chassis/chassis.hpp"
+#include "lemlib/logger/logger.hpp"
 #include "lemlib/logger/telemetrySink.hpp" // IWYU pragma: keep
 
 #include "pros/adi.hpp"
@@ -17,6 +19,7 @@ bool odomLiftRaise = false;
 
 // screen task flag
 bool screenTaskRunning = true;
+
 
 // controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
@@ -85,9 +88,20 @@ lemlib::ControllerSettings angularController(1.67, // proportional gain (kP)
                                              11.5, // derivative gain (kD)
                                              5, // anti windup
                                              1, // small error range, in degrees
-                                             100, // small error range timeout, in milliseconds
+                                             75, // small error range timeout, in milliseconds
                                              3, // large error range, in degrees
-                                             500, // large error range timeout, in milliseconds
+                                             250, // large error range timeout, in milliseconds
+                                             0 // maximum acceleration (slew)
+);
+
+lemlib::ControllerSettings angularControllerU30(4.3, // proportional gain (kP)
+                                             0.005, // integral gain (kI)
+                                             9, // derivative gain (kD)
+                                             5, // anti windup
+                                             1, // small error range, in degrees
+                                             75, // small error range timeout, in milliseconds
+                                             3, // large error range, in degrees
+                                             250, // large error range timeout, in milliseconds
                                              0 // maximum acceleration (slew)
 );
 
@@ -112,7 +126,7 @@ lemlib::ExpoDriveCurve steerCurve(13, // joystick deadband out of 127
 );
 
 // create the chassis
-lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
+lemlib::Chassis chassis(drivetrain, linearController, angularController, angularControllerU30, sensors, &throttleCurve, &steerCurve);
 
 //using modulo (math)
 void leftScreenButton() {
@@ -162,6 +176,7 @@ void initialize() {
 
             // log position telemetry
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+            // telemetry.log(Level level, fmt::format_string<T...> format, T &&args...)
             // delay to save resources
             pros::delay(50);
         }
@@ -312,6 +327,9 @@ void opcontrol() {
         // drop DOWN
         if (controller.get_digital_new_press(DIGITAL_DOWN)) {
             drop.toggle();
+            if(!drop.is_extended()) {
+                controller.rumble(".");
+            }
         }
 
         // matchloader B
