@@ -535,20 +535,21 @@ void soloSig() {
     stopIntaking();
     matchloader.retract();
     // go to first 3 stack
-    chassis.moveDistance(8, 400, {}, false);
+    // chassis.moveDistance(8, 400, {}, false);
     Intake();
     fly.move(-32);
-    chassis.moveToPose(12, -25, -90, 1400, {.lead = 0.5, .minSpeed = 50, .earlyExitRange = 8});
-    chassis.waitUntil(24);
-    matchloader.extend();
-    chassis.waitUntilDone();
+    // chassis.moveToPose(12, -25, -90, 1400, {.lead = 0.5, .minSpeed = 50, .earlyExitRange = 8});
+    // chassis.waitUntil(24);
+    // matchloader.extend();
+    // chassis.waitUntilDone();
+    chassis.swingToPoint(23, -23, lemlib::DriveSide::RIGHT, 700, {.forwards = true}, false);
     matchloader.retract();
     // go to second 3 stack
-    chassis.moveToPose(-23, -24, -90, 1300, {.lead = 0.4});
+    chassis.moveToPose(-23, -24, -90, 2000, {.lead = 0.4});
 
     // chassis.moveDistance(35, 800, {.maxSpeed = 80});
     chassis.waitUntil(25.5);
-    matchloader.extend();
+    // matchloader.extend();
     chassis.waitUntilDone();
     // chassis.turnToPoint(-5, -5, 500, {.forwards = false}, false);
     chassis.turnToHeading(-134, 500, {}, false);
