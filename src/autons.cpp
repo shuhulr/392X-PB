@@ -516,14 +516,14 @@ void soloSig() {
     chassis.turnToHeading(180, 600, {}, false);
     Intake();
     moveWithVoltage(60, 60);
-    pros::delay(150);
+    pros::delay(250);
     moveWithVoltage(35, 35);
-    pros::delay(700);
+    pros::delay(500);
     // matchload
-    // chassis.turnToPoint(48, -24, 500, {.forwards = false}, false);
+    chassis.turnToPoint(48, -24, 500, {.forwards = false}, false);
     // turn and move to goal
     // chassis.moveToPose(48.5, -33, -180, 1700, {.forwards = false, .lead = 0.5, .maxAngularSpeed = 10}, false);
-    chassis.moveToPoint(48, -28, 750, {.forwards = false, .maxAngularSpeed = 10}, false);
+    chassis.moveToPoint(48, -24, 750, {.forwards = false, .maxAngularSpeed = 10}, false);
     // score
     // chassis.turnToPoint(49, -24, 500, {.forwards = false}, false);
     

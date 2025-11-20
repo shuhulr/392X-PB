@@ -28,6 +28,7 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 pros::MotorGroup leftMotors({1, -2, -3}, pros::MotorGearset::blue); // left motor group - ports 1, 2 (reversed), 3
 pros::MotorGroup rightMotors({-4, 5, 6}, pros::MotorGearset::blue); // right motor group - ports 4 (reversed), 5, 6 (reversed)
 
+bool lowGoalSafety = false;
 
 // motors
 pros::Motor intake(8);
@@ -53,7 +54,7 @@ pros::Imu imu(15);
 
 // tracking wheels
 // horizontal tracking wheel encoder. Rotation sensor, port 8, not reversed
-pros::Rotation horizontalEnc(10);
+pros::Rotation horizontalEnc(-10);
 // vertical tracking wheel encoder. Rotation sensor, port 7, not reversed
 pros::Rotation verticalEnc(-11);
 // horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
@@ -255,6 +256,9 @@ void competition_initialize() {
  */
 void autonomous() {
     screenTaskRunning = false; // stop the screen task during auton
+
+    horizontalEnc.set_position(0);
+    verticalEnc.set_position(0);
     //autonIndex = 0; // Change this to whichever auton you want to run
     std::get<1>(autons[autonIndex])();
     
@@ -280,7 +284,7 @@ void opcontrol() {
         int rightY = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
         // move the chassis with curvature drive
         //rajeev drive
-        chassis.arcade(rightY, leftX);
+        chassis.arcade(rightY, 0.9 * leftX);
 
         //shuhul drive
         //chassis.arcade(leftY, rightX);
@@ -289,13 +293,19 @@ void opcontrol() {
 
         // intake
         if (controller.get_digital(DIGITAL_R1)) {
+            if (lowGoalSafety) {
+                lowFunnel.extend();
+                controller.rumble(".");
+                lowGoalSafety = false;
+            }
             intake.move(128);
         }
 
         // outtake
         else if (controller.get_digital(DIGITAL_L1)) {
-            if(lowFunnel.is_extended()) {
+            if(!lowFunnel.is_extended()) {
                 intake.move(-128);
+                lowGoalSafety = true;
             }
             else {
                 intake.move(-100);
@@ -314,9 +324,6 @@ void opcontrol() {
         }
         else if (controller.get_digital(DIGITAL_L2)) {
             fly.move(-128);
-        }
-        else if (controller.get_digital(DIGITAL_R1)) {
-            // fly.move(-32);
         }
         else {
             fly.move(0);
@@ -350,6 +357,8 @@ void opcontrol() {
         // bottom funnel A
         if (controller.get_digital_new_press(DIGITAL_A)) {
             lowFunnel.toggle();
+            if (lowFunnel.is_extended())
+                controller.rumble(".");
         }
 
         pros::delay(10);
