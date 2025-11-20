@@ -95,7 +95,7 @@ lemlib::ControllerSettings angularController(1.67, // proportional gain (kP)
                                              0 // maximum acceleration (slew)
 );
 
-lemlib::ControllerSettings angularControllerU30(4.3, // proportional gain (kP)
+lemlib::ControllerSettings angularControllerU30(4.35, // proportional gain (kP)
                                              0.005, // integral gain (kI)
                                              9, // derivative gain (kD)
                                              5, // anti windup

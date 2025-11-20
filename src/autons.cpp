@@ -5,12 +5,13 @@
 #include <vector>
 #include <tuple>
 #include "pros/llemu.hpp"
+#include "pros/motors.h"
 #include "pros/rtos.hpp" // IWYU pragma: keep
 #include <cstddef> // IWYU pragma: keep
 
 
 // auton num
-int autonIndex = 6;
+int autonIndex = 5;
 
 extern bool screenTaskRunning;
 
@@ -29,34 +30,53 @@ void RightBonus() {
     pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
     chassis.setPose(RightStandardStart);
     Intake();
-    fly.move(-32);
-    chassis.moveDistance(24, 800, {.maxSpeed = 85});
-    chassis.waitUntil(18);
-    matchloader.extend();
-    chassis.moveDistance(10, 700, {}, false);
-    chassis.moveDistance(-14, 900, {.forwards = false}, false);
-    matchloader.retract();
-    pros::delay(250);
-    chassis.moveToPose(47.5, -58, -180, 3000, {.maxSpeed = 100});
-    chassis.waitUntil(26);
+    chassis.moveDistance(28, 750, {.maxSpeed = 110});
+    chassis.waitUntil(15);
     matchloader.extend();
     chassis.waitUntilDone();
-    moveWithVoltage(50, 50);
-    pros::delay(400);
-    moveWithVoltage(25, 25);
-    pros::delay(200);
-    moveWithVoltage(-25, -25);
-    pros::delay(200);
-    moveWithVoltage(25, 25);
-    pros::delay(400);
-    moveWithVoltage(-25, -25);
-    pros::delay(200);
-    moveWithVoltage(50, 50);
-    pros::delay(450);
-    chassis.moveToPose(47.5, -33, -180, 2200, {.forwards = false, .maxAngularSpeed = 10}, false);
-    moveWithVoltage(-25, -25);
-    pros::delay(500);
+    pros::delay(100);
+    chassis.moveDistance(-10, 400, {.forwards = false}, false);
+    chassis.moveToPose(47.5, -72, -180, 2150, {.maxSpeed = 100, .minSpeed = 40}, false);
+    chassis.turnToPoint(48, -24, 500, {.forwards = false}, false);
+    chassis.moveToPoint(48, -24, 700, {.forwards = false, .maxAngularSpeed = 10}, false);
+    moveWithVoltage(-50, -50);
     IntakeBoth();
+    pros::delay(2000);
+    stopIntaking();
+    chassis.moveDistance(15, 300, {}, false);
+    chassis.turnToHeading(-115, 450, {}, false);
+    chassis.moveDistance(-11.5, 400, {.forwards = false}, false);
+    chassis.turnToHeading(180, 400, {}, false);
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+    chassis.moveDistance(-29, 800, {.forwards = false, .maxSpeed = 110}, false);
+
+}
+
+void Right4BallPush() {
+    pros::Task antijamTask = pros::Task([]() { antijam(); });
+    pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
+    chassis.setPose(SoloSigStart);
+    chassis.moveDistance(30, 700, {}, false);
+    matchloader.extend();
+    chassis.turnToHeading(182, 580, {}, false);
+    Intake();
+    moveWithVoltage(60, 60);
+    pros::delay(250);
+    moveWithVoltage(35, 35);
+    pros::delay(470);
+    chassis.turnToPoint(48, -24, 500, {.forwards = false}, false);
+    chassis.moveToPoint(48, -24, 700, {.forwards = false, .maxAngularSpeed = 10}, false);
+    moveWithVoltage(-50, -50);
+    IntakeBoth();
+    pros::delay(1500);
+    stopIntaking();
+    chassis.moveDistance(15, 300, {}, false);
+    chassis.turnToHeading(-115, 450, {}, false);
+    chassis.moveDistance(-11.5, 400, {.forwards = false}, false);
+    chassis.turnToHeading(180, 400, {}, false);
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+    chassis.moveDistance(-29, 800, {.forwards = false, .maxSpeed = 110}, false);
+
 }
 
 void RightBonus9ball() {
@@ -513,17 +533,17 @@ void soloSig() {
     // move to matchloader
     chassis.moveDistance(30, 700, {}, false);
     matchloader.extend();
-    chassis.turnToHeading(180, 600, {}, false);
+    chassis.turnToHeading(182, 580, {}, false);
     Intake();
     moveWithVoltage(60, 60);
     pros::delay(250);
     moveWithVoltage(35, 35);
-    pros::delay(500);
+    pros::delay(440);
     // matchload
     chassis.turnToPoint(48, -24, 500, {.forwards = false}, false);
     // turn and move to goal
     // chassis.moveToPose(48.5, -33, -180, 1700, {.forwards = false, .lead = 0.5, .maxAngularSpeed = 10}, false);
-    chassis.moveToPoint(48, -24, 750, {.forwards = false, .maxAngularSpeed = 10}, false);
+    chassis.moveToPoint(48, -24, 740, {.forwards = false, .maxAngularSpeed = 10}, false);
     // score
     // chassis.turnToPoint(49, -24, 500, {.forwards = false}, false);
     
@@ -535,27 +555,31 @@ void soloSig() {
     stopIntaking();
     matchloader.retract();
     // go to first 3 stack
-    // chassis.moveDistance(8, 400, {}, false);
+    chassis.moveDistance(8, 400, {}, false);
     Intake();
     fly.move(-32);
+    matchloader.retract();
     // chassis.moveToPose(12, -25, -90, 1400, {.lead = 0.5, .minSpeed = 50, .earlyExitRange = 8});
     // chassis.waitUntil(24);
     // matchloader.extend();
     // chassis.waitUntilDone();
-    chassis.swingToPoint(23, -23, lemlib::DriveSide::RIGHT, 700, {.forwards = true}, false);
-    matchloader.retract();
+    chassis.turnToPoint(23, -23, 550, {.forwards = true}, false);
+    chassis.moveDistance(25, 800, {.minSpeed = 50, .earlyExitRange = 8.5}, false);
+    matchloader.extend();
     // go to second 3 stack
-    chassis.moveToPose(-23, -24, -90, 2000, {.lead = 0.4});
+    chassis.moveToPose(-23, -26, -90, 1500, {.lead = 0.4});
+    chassis.waitUntil(10);
+    matchloader.retract();
 
     // chassis.moveDistance(35, 800, {.maxSpeed = 80});
-    chassis.waitUntil(25.5);
-    // matchloader.extend();
+    chassis.waitUntil(40);
+    matchloader.extend();
     chassis.waitUntilDone();
     // chassis.turnToPoint(-5, -5, 500, {.forwards = false}, false);
-    chassis.turnToHeading(-134, 500, {}, false);
+    chassis.turnToHeading(-135, 500, {}, false);
     // go to middle goal and score
     chassis.moveDistance(-20, 650, {.forwards = false});
-    chassis.waitUntil(12);
+    chassis.waitUntil(11);
     drop.retract();
     IntakeBoth();
     intaking = false;
@@ -571,7 +595,7 @@ void soloSig() {
     drop.extend();
     fly.move(-32);
     chassis.waitUntilDone();
-    chassis.moveDistance(45, 900, {}, false);
+    chassis.moveDistance(44, 900, {}, false);
     chassis.turnToPoint(-46, -70, 500, {}, false);
     chassis.moveDistance(22, 700, {}, false);
 
@@ -581,8 +605,8 @@ void soloSig() {
     pros::delay(100);
     chassis.turnToPoint(-47.5, -24, 500, {.forwards = false}, false);
     // go to long goal and score
-    chassis.moveToPoint(-48, -32, 750, {.forwards = false, .maxAngularSpeed = 10}, false);
-    moveWithVoltage(-100, -100);
+    chassis.moveToPoint(-48, -32, 740, {.forwards = false, .maxAngularSpeed = 15}, false);
+    moveWithVoltage(-80, -80);
     IntakeBoth();
 
 }
@@ -646,11 +670,11 @@ void PIDTest() {
 // vector of tuple of function description and pointers
 std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"Left 9 Ball 2 Goal", Left9Ball2Goal}, // 0
-    {"Right Bonus", RightBonus9ball}, // 1
+    {"Right Bonus", RightBonus}, // 1
     {"Left Bonus", LeftBonus}, // 2
     {"Left AWP", LeftAWP}, // 3
     {"Left AWP Push", LeftAWPPush}, // 4
-    {"Right AWP (low goal)", RightAWP}, // 5
+    {"4 ball push Right)", Right4BallPush}, // 5
     {"Solo Sig AWP", soloSig}, // 6
     {"Solo AWP 7 Ball", soloAWP7ball}, // 7
     {"Half AWP", soloAWP}, // 8
