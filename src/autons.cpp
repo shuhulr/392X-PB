@@ -138,8 +138,8 @@ void Left4Plus5() {
     chassis.moveDistance(24.5, 800, {.maxSpeed = 90});
     chassis.waitUntil(18);
     matchloader.extend();
-    chassis.moveDistance(10, 700, {}, false);
-    pros::delay(200);
+    chassis.moveDistance(10, 600, {}, false);
+    pros::delay(100);
     chassis.moveDistance(-6, 500, {.forwards = false}, false);
     pros::delay(100);
     //matchloader.retract();
@@ -154,43 +154,52 @@ void Left4Plus5() {
     moveWithVoltage(-50, -50);
     pros::delay(50);
     stopDrive();
-    pros::delay(1500);
-    // come out of middle goal and move to match loader
+    pros::delay(1650);
+    // come out of middle goal and move to 2 stack
     stopIntaking();
     Intake();
     drop.extend();
     fly.move(-32);
     chassis.waitUntilDone();
     matchloader.retract();
-    chassis.moveDistance(10, 700, {}, false);
-    chassis.turnToPoint(-40, -4, 1000, {}, false);
+    chassis.moveDistance(16, 700, {}, false);
 
-    chassis.moveDistance(20, 1000, {.maxSpeed = 85}, false);
-    chassis.turnToHeading(-90, 600, {}, false);
-    chassis.moveDistance(6, 600, {}, false);
-    pros::delay(100);
-    chassis.moveDistance(-20, 800, {.forwards = false}, false);
+    //go to turn to 2 stack
+    chassis.turnToPoint(-48, -5, 1000, {}, false);
+    chassis.moveDistance(25, 1000, {}, false);
+    matchloader.extend();
+    chassis.moveDistance(5, 250, {}, false);
+    pros::delay(250);
+
     matchloader.retract();
 
+    chassis.moveDistance(-34, 1600, {.forwards = false}, false);
+    
     chassis.moveToPose(-48, -72, -180, 2000, {.lead = 0.5, .maxSpeed = 127});
     chassis.waitUntil(16);
     matchloader.extend();
     chassis.waitUntilDone();
     moveWithVoltage(80, 80);
-    pros::delay(500);
+    pros::delay(450);
     chassis.turnToPoint(-47.5, -24, 500, {.forwards = false}, false);
     // go to long goal and score
-    chassis.moveToPoint(-48, -32, 750, {.forwards = false, .maxAngularSpeed = 10}, false);
+    chassis.moveToPoint(-48, -32, 1000, {.forwards = false, .maxAngularSpeed = 10}, false);
     moveWithVoltage(-100, -100);
     IntakeBoth();
-    pros::delay(1500);
+    
+    // uncomment the following /**/ */ if u want better positioning but
+    // a couple unscored blocks
+    /*pros::delay(1500);
     stopIntaking();
     chassis.moveDistance(15, 300, {}, false);
     chassis.turnToHeading(-115, 450, {}, false);
     chassis.moveDistance(-11.5, 400, {.forwards = false}, false);
     chassis.turnToHeading(180, 400, {}, false);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-    chassis.moveDistance(-29, 800, {.forwards = false, .maxSpeed = 110}, false);
+    chassis.moveDistance(-29, 800, {.forwards = false, .maxSpeed = 110}, false);*/
+
+
+
     // chassis.turnToPoint(-48, -24, 700, {.forwards = false}, false);
     // chassis.moveDistance(-25, 800, {.forwards = false}, false);
     
