@@ -270,7 +270,7 @@ void autonomous() {
 void opcontrol() {
     // controller
     // loop to continuously update motors
-
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
     if(odomLiftRaise) {
         odomLift.retract();
     }
@@ -284,7 +284,7 @@ void opcontrol() {
         int rightY = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
         // move the chassis with curvature drive
         //rajeev drive
-        chassis.arcade(rightY, 0.9 * leftX);
+        chassis.arcade(rightY, 0.95 * leftX);
 
         //shuhul drive
         //chassis.arcade(leftY, rightX);
@@ -308,7 +308,7 @@ void opcontrol() {
                 lowGoalSafety = true;
             }
             else {
-                intake.move(-100);
+                intake.move(-90);
             }
         }
         
