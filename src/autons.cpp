@@ -190,7 +190,7 @@ void Left4Plus5() {
     moveWithVoltage(30, 30);
     pros::delay(150);
     moveWithVoltage(100, 100);
-    pros::delay(250);
+    pros::delay(150);
     pros::lcd::print(0, "x: %f, y: %f, theta: %f", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
     chassis.turnToPoint(-48.5, -24, 500, {.forwards = false}, false);
     // go to long goal and score
@@ -582,12 +582,13 @@ void soloSig() {
     // move to matchloader
     chassis.moveDistance(28.5, 700, {}, false);
     matchloader.extend();
+    descorer.extend();
     chassis.turnToHeading(182, 580, {}, false);
     Intake();
     moveWithVoltage(70, 70);
     pros::delay(250);
     moveWithVoltage(35, 35);
-    pros::delay(550);
+    pros::delay(530);
     // matchload
     chassis.turnToPoint(48, -24, 500, {.forwards = false}, false);
     // turn and move to goal
@@ -603,7 +604,7 @@ void soloSig() {
     pros::delay(1500);
     matchloader.retract(); 
     // go to first 3 stack
-    chassis.moveDistance(11, 500, {}, false);
+    chassis.moveDistance(11, 550, {}, false);
     // Intake();
     fly.move(-32);
     matchloader.retract();
