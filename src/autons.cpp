@@ -11,7 +11,7 @@
 
 
 // auton num
-int autonIndex = 6;
+int autonIndex = 0;
 
 extern bool screenTaskRunning;
 
@@ -165,16 +165,24 @@ void Left4Plus5() {
     matchloader.retract();
     chassis.moveDistance(18, 700, {}, false);
     pros::lcd::print(0, "x: %f, y: %f, theta: %f", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
-    //go to turn to 2 stack
-    chassis.turnToPoint(-48, -4, 1000, {}, false);
+
+    // ! go to turn to 2 stack
+    chassis.turnToPoint(-48, -5.5, 1000, {}, false);
     chassis.moveDistance(23.2, 1000, {}, false);
     // matchloader.extend();
     // chassis.moveDistance(5, 250, {}, false);
-    pros::delay(450);
+    matchloader.extend();
+    pros::delay(25);
+    float tempTheta = chassis.getPose().theta;
+    chassis.turnToHeading(-90, 300, {}, false);
+    chassis.turnToHeading(tempTheta, 300, {}, false);
+
+    pros::delay(350);
 
     chassis.moveDistance(-27, 1600, {.forwards = false}, false);
-    // matchloader.retract();
+    matchloader.retract();
     
+    // move to matchloader
     chassis.moveToPose(-48, -72, -180, 2000, {.lead = 0.5, .maxSpeed = 127});
     chassis.waitUntil(16);
     matchloader.extend();
