@@ -15,7 +15,7 @@
 extern int autonIndex;
 
 // odom lift flag
-bool odomLiftRaise = false;
+//bool odomLiftRaise = false;
 
 // screen task flag
 bool screenTaskRunning = true;
@@ -183,46 +183,6 @@ void initialize() {
         }
     });
     
-    if (gameColor != -1) {
-        opticalSensor.set_led_pwm(100); // set the LED power to 100%
-        pros::Task colorSort([]() {
-            while(true) {
-                // read the color sensor
-                double hue = opticalSensor.get_hue();
-
-                int colorState = -1;
-
-                // determine the color
-                if (200 <= hue && hue <= 240) {
-                    colorState = 1; // blue
-                }
-                else if (350 <= hue || hue <= 20) {
-                    colorState = 0; // red
-                }
-                
-                std::string colorStr = (colorState == 0) ? "R" : (colorState == 1) ? "B" : "N/A";
-                if (gameColor == 0) {
-                    controller.set_text(0, 0, "GC: Red");
-                }
-                else if (gameColor == 1) {
-                    controller.set_text(0, 0, "GC: Blue");
-                }
-                if (gameColor == -1) {
-                    controller.set_text(0, 0, "GC: N/A");
-                }
-                else if (colorState == -1) {
-                    controller.set_text(1, 0, "C: None     ");
-                }
-                else if (colorState == gameColor) {
-                    controller.set_text(1, 0, "C: Ally " + colorStr + "    ");
-                }
-                else {
-                    controller.set_text(1, 0, "C: Opp " + colorStr + "    ");
-                }
-                
-            }
-        });
-    }
     
 }
 
@@ -242,7 +202,7 @@ void disabled() {
 
 
 void competition_initialize() {
-    odomLiftRaise = true;
+    //odomLiftRaise = true;
 }
 
 // get a path used for pure pursuit
@@ -271,9 +231,7 @@ void opcontrol() {
     // controller
     // loop to continuously update motors
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
-    if(odomLiftRaise) {
-        odomLift.retract();
-    }
+    
 
     while (true) {
         // get joystick positions
