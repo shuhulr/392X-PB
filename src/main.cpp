@@ -35,7 +35,11 @@ pros::Motor intake(8);
 pros::Motor fly(-7);
 
 // optical disconnect on port 12
-pros::Optical opticalSensor(12);
+// pros::Optical opticalSensor(12);
+
+// distance sensors
+pros::Distance distanceX(12);
+pros::Distance distanceY(13);
 
 // game color (0 for red, 1 for blue, -1 for none)
 int gameColor = -1;
