@@ -1,5 +1,6 @@
 #include "globals.hpp"
 #include "lemlib/chassis/chassis.hpp"
+#include "lemlib/pose.hpp"
 #include "pros/rtos.hpp"
 #include <cstdio>
 
@@ -79,4 +80,15 @@ void antijamFly() {
         }
         pros::delay(30);
     }
+}
+
+lemlib::Pose distanceReset() {
+    double angleDistanceX = distanceX.get() / 25.4;
+    double angleDistanceY = distanceY.get() / 25.4;
+
+    double finalDistanceX = angleDistanceX * cos(lemlib::degToRad(imu.get_heading()));
+    double finalDistanceY = angleDistanceY * sin(lemlib::degToRad(imu.get_heading()));
+
+    lemlib::Pose finalPose(72 - finalDistanceX, 72 - finalDistanceY, imu.get_heading());
+    return finalPose;
 }
