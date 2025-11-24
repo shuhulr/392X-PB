@@ -11,7 +11,7 @@
 
 
 // auton num
-int autonIndex = 0;
+int autonIndex = 1;
 
 extern bool screenTaskRunning;
 
@@ -46,10 +46,10 @@ void RightBonus() {
     stopIntaking();
     chassis.moveDistance(15, 300, {}, false);
     chassis.turnToHeading(-115, 450, {}, false);
-    chassis.moveDistance(-11.5, 400, {.forwards = false}, false);
-    chassis.turnToHeading(179, 500, {}, false);
+    chassis.moveDistance(-9.5, 400, {.forwards = false}, false);
+    chassis.turnToHeading(178, 500, {}, false);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-    chassis.moveDistance(-27, 800, {.forwards = false, .maxSpeed = 110}, false);
+    chassis.moveDistance(-27, 800, {.forwards = false, .maxSpeed = 100}, false);
 
 }
 
@@ -187,14 +187,12 @@ void Left4Plus5() {
     chassis.waitUntil(16);
     matchloader.extend();
     chassis.waitUntilDone();
-    moveWithVoltage(30, 30);
-    pros::delay(150);
-    moveWithVoltage(100, 100);
+    moveWithVoltage(35, 35);
     pros::delay(150);
     pros::lcd::print(0, "x: %f, y: %f, theta: %f", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
     chassis.turnToPoint(-48.5, -24, 500, {.forwards = false}, false);
     // go to long goal and score
-    chassis.moveToPoint(-48.5, -32, 1000, {.forwards = false, .maxAngularSpeed = 8}, false);
+    chassis.moveToPoint(-48.5, -32, 900, {.forwards = false, .maxAngularSpeed = 8}, false);
     moveWithVoltage(-100, -100);
     IntakeBoth();
     pros::delay(2200);
@@ -810,7 +808,7 @@ void PIDTest() {
 // vector of tuple of function description and pointers
 std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"4+5 auto", Left4Plus5}, // 0
-    {"Right Bonus", RightBonus}, // 1
+    {"Right Bonus", RightBonus}, // 1 
     {"Left Bonus", LeftBonus}, // 2
     {"Left AWP", LeftAWP}, // 3
     {"Left AWP Push", LeftAWPPush}, // 4
