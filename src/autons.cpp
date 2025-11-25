@@ -11,7 +11,7 @@
 
 
 // auton num
-int autonIndex = 1;
+int autonIndex = 9;
 
 extern bool screenTaskRunning;
 
@@ -663,12 +663,12 @@ void soloSig() {
 
 }
 
-void autonSkills() {
+void skills() {
     screenTaskRunning = false;
     chassis.setPose(SoloSigStart);
     pros::Task antijamTask = pros::Task([]() { antijam(); });
     pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
-    // move to matchloader
+    // move to matchloader and matchload
     chassis.moveDistance(28.5, 700, {}, false);
     matchloader.extend();
     chassis.turnToHeading(182, 580, {}, false);
@@ -677,16 +677,21 @@ void autonSkills() {
     pros::delay(250);
     moveWithVoltage(35, 35);
     pros::delay(1000);
-    // matchload
-    chassis.turnToPoint(48, -24, 500, {.forwards = false}, false);
-    // turn and move to goal
-    // chassis.moveToPose(48.5, -33, -180, 1700, {.forwards = false, .lead = 0.5, .maxAngularSpeed = 10}, false);
-    chassis.moveToPoint(48, -24, 740, {.forwards = false, .maxAngularSpeed = 10}, false);
+
+    // go to other side of long goal
+    chassis.moveDistance(5, 200, {.forwards = false});
+    chassis.moveToPoint(36, -48, 2000, {.forwards = false}, false);
+
+    chassis.turnToHeading(180, 1000, {}, false);
+    chassis.moveDistance(72, 2000, {.forwards=false}, false);
+
     // score
     // chassis.turnToPoint(49, -24, 500, {.forwards = false}, false);
     
     // chassis.moveDistance(-30, 700, {.forwards = false}, false);
     // score
+
+    /*
     IntakeBoth();
     moveWithVoltage(-80, -80);
     pros::delay(5000);
@@ -757,7 +762,7 @@ void autonSkills() {
     chassis.moveDistance(-11.5, 400, {.forwards = false}, false);
     chassis.turnToHeading(179, 500, {}, false);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-    chassis.moveDistance(-27, 800, {.forwards = false, .maxSpeed = 110}, false);   
+    chassis.moveDistance(-27, 800, {.forwards = false, .maxSpeed = 110}, false);   */
 }
 
 void PIDTest() {
@@ -816,13 +821,7 @@ std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"Solo Sig AWP", soloSig}, // 6
     {"Solo AWP 7 Ball", soloAWP7ball}, // 7
     {"Half AWP", soloAWP}, // 8
-    {"skills auto", autonSkills}, // 9
+    {"skills auto", skills}, // 9
     {"testing auto", PIDTest} // 10
 };
-
-
-/*
-2d arra
-autions[][] = {{"auton left", autonLeft}, {"autonright short summary", autonright}}
-*/
 
