@@ -32,7 +32,8 @@ extern void stopDrive();
 extern void IntakeBoth();
 extern void antijam();
 extern void antijamFly();
-extern lemlib::Pose distanceReset();
+extern double distanceResetX();
+extern double distanceResetY();
 
 extern bool intaking;
 extern bool flying;

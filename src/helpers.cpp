@@ -81,14 +81,14 @@ void antijamFly() {
         pros::delay(30);
     }
 }
+double distanceResetX() {
+    double angleDistanceX = (distanceX.get() / 25.4) + 4.4;
+    double finalDistanceX = angleDistanceX * cos(lemlib::degToRad(imu.get_heading() + 90));
+    return fabs(finalDistanceX);
+}
 
-lemlib::Pose distanceReset() {
-    double angleDistanceX = distanceX.get() / 25.4;
-    double angleDistanceY = distanceY.get() / 25.4;
-
-    double finalDistanceX = angleDistanceX * cos(lemlib::degToRad(imu.get_heading()));
-    double finalDistanceY = angleDistanceY * sin(lemlib::degToRad(imu.get_heading()));
-
-    lemlib::Pose finalPose(72 - finalDistanceX, 72 - finalDistanceY, imu.get_heading());
-    return finalPose;
+double distanceResetY() {
+    double angleDistanceY = (distanceY.get()/ 25.4) - 1.6;
+    double finalDistanceY = angleDistanceY * sin(lemlib::degToRad(imu.get_heading() + 90));
+    return fabs(finalDistanceY);
 }

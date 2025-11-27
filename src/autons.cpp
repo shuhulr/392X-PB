@@ -676,15 +676,83 @@ void skills() {
     moveWithVoltage(70, 70);
     pros::delay(250);
     moveWithVoltage(35, 35);
-    pros::delay(1000);
+    pros::delay(1500);
+    moveWithVoltage(-10,-10);
+    pros::delay(50);
+    moveWithVoltage(40, 40);
+    pros::delay(200);
 
-    // go to other side of long goal
-    chassis.moveDistance(5, 200, {.forwards = false});
-    chassis.moveToPoint(36, -48, 2000, {.forwards = false}, false);
+    // score on long goal
+    chassis.moveToPoint(48, -32, 1000, {.forwards = false, .maxAngularSpeed = 10}, false);
+    moveWithVoltage(-100, -100);
+    pros::delay(100);
+    IntakeBoth();
+    pros::delay(3000);
+    stopIntaking();
 
-    chassis.turnToHeading(180, 1000, {}, false);
-    chassis.moveDistance(72, 2000, {.forwards=false}, false);
+    // go to left matchloader
+    matchloader.retract();
+    chassis.moveDistance(12, 500, {}, false);
+    //change these to proper once we get dist sensors
+    chassis.turnToPoint(-46, -44, 700, {}, false);
+    chassis.moveDistance(96, 2250, {}, false);
+    chassis.setPose(-(72-distanceResetY()), chassis.getPose().y, imu.get_heading() + 90);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nX: %f", chassis.getPose().x);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nY: %f", chassis.getPose().y);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nTheta: %f", chassis.getPose().theta);
 
+    matchloader.extend();
+
+    // chassis.turnToPoint(0, 0, 600, {}, false);
+    chassis.turnToHeading(-182, 580, {}, false);
+    Intake();
+    moveWithVoltage(70, 70);
+    pros::delay(250);
+    moveWithVoltage(35, 35);
+    pros::delay(1500);
+    moveWithVoltage(-10,-10);
+    pros::delay(50);
+    moveWithVoltage(40, 40);
+    pros::delay(200);
+
+    // score on left long goal close
+    //change this to proper once we get dist sensors
+    chassis.moveToPoint(-48, -32, 1000, {.forwards = false, .maxAngularSpeed = 10}, false);
+
+    moveWithVoltage(-100, -100);
+    pros::delay(100);
+    IntakeBoth();
+    pros::delay(3000);
+    stopIntaking();
+
+    chassis.moveDistance(15, 300, {}, false);
+    chassis.turnToHeading(115, 450, {}, false);
+    chassis.moveDistance(-13, 700, {.forwards = false}, false);
+    chassis.turnToHeading(180, 700, {}, false);
+    chassis.moveDistance(-84, 2250, {.forwards=false, .maxSpeed = 90}, false);
+    // chassis.moveToPoint(-60, 48, 2250, {.forwards = false, .maxSpeed = 90, .maxAngularSpeed=10}, false);
+    chassis.turnToPoint(-48, 48, 600, {}, false);
+    chassis.moveDistance(13, 700, {}, false);
+    chassis.turnToPoint(-48, 72, 600, {}, false);
+    moveWithVoltage(80, 80);
+    pros::delay(700);
+    moveWithVoltage(40, 40);
+    pros::delay(500);
+    chassis.moveDistance(-20, 700, {.forwards=false}, false);
+    chassis.turnToPoint(24, 40, 500, {}, false);
+    matchloader.retract();
+    chassis.moveDistance(72, 2000, {}, false);
+    chassis.turnToPoint(24, 24, 500, {}, false);
+    chassis.moveDistance(14, 700, {}, false);
+    pros::delay(500);
+    chassis.moveDistance(-14, 700, {.forwards=false}, false);
+    chassis.turnToPoint(48, 48, 500, {}, false);
+    chassis.moveDistance(24, 800, {}, false);
+    chassis.turnToPoint(48, 32, 600, {.forwards=false}, false);
+    chassis.moveDistance(-20, 900, {.forwards=false}, false);
+    IntakeBoth();
+    moveWithVoltage(-8, -8);
+    pros::delay(3000);
     // score
     // chassis.turnToPoint(49, -24, 500, {.forwards = false}, false);
     
