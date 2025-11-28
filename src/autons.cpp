@@ -678,9 +678,9 @@ void skills() {
     moveWithVoltage(35, 35);
     pros::delay(1500);
     moveWithVoltage(-10,-10);
-    pros::delay(50);
-    moveWithVoltage(40, 40);
     pros::delay(200);
+    moveWithVoltage(40, 40);
+    pros::delay(300);
 
     // score on long goal
     chassis.moveToPoint(48, -32, 1000, {.forwards = false, .maxAngularSpeed = 10}, false);
@@ -704,7 +704,7 @@ void skills() {
     matchloader.extend();
 
     // chassis.turnToPoint(0, 0, 600, {}, false);
-    chassis.turnToHeading(-182, 580, {}, false);
+    chassis.turnToPoint(-48, -72, 700, {}, false);
     Intake();
     moveWithVoltage(70, 70);
     pros::delay(250);
@@ -729,30 +729,70 @@ void skills() {
     chassis.turnToHeading(115, 450, {}, false);
     chassis.moveDistance(-13, 700, {.forwards = false}, false);
     chassis.turnToHeading(180, 700, {}, false);
+    chassis.setPose(-(72 - distanceResetX()), -(72 - distanceResetY()), imu.get_heading() + 90);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nX: %f", chassis.getPose().x);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nY: %f", chassis.getPose().y);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nTheta: %f", chassis.getPose().theta);
     chassis.moveDistance(-84, 2250, {.forwards=false, .maxSpeed = 90}, false);
+    Intake();
+    fly.move(-32);
     // chassis.moveToPoint(-60, 48, 2250, {.forwards = false, .maxSpeed = 90, .maxAngularSpeed=10}, false);
-    chassis.turnToPoint(-48, 48, 600, {}, false);
+    chassis.turnToPoint(-48, 36, 600, {}, false);
     chassis.moveDistance(13, 700, {}, false);
     chassis.turnToPoint(-48, 72, 600, {}, false);
     moveWithVoltage(80, 80);
-    pros::delay(700);
+    pros::delay(1000);
     moveWithVoltage(40, 40);
-    pros::delay(500);
+    pros::delay(2500);
     chassis.moveDistance(-20, 700, {.forwards=false}, false);
     chassis.turnToPoint(24, 40, 500, {}, false);
     matchloader.retract();
     chassis.moveDistance(72, 2000, {}, false);
+    double secondXReset = 72 - distanceResetY();
+    chassis.setPose(secondXReset, chassis.getPose().y, imu.get_heading() + 90);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nX: %f, distanceX: %f", chassis.getPose().x, distanceX.get_distance() / 25.4);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nY: %f, distanceY, %f", chassis.getPose().y, distanceY.get_distance() / 25.4);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nTheta: %f", chassis.getPose().theta);
     chassis.turnToPoint(24, 24, 500, {}, false);
     chassis.moveDistance(14, 700, {}, false);
     pros::delay(500);
     chassis.moveDistance(-14, 700, {.forwards=false}, false);
-    chassis.turnToPoint(48, 48, 500, {}, false);
-    chassis.moveDistance(24, 800, {}, false);
-    chassis.turnToPoint(48, 32, 600, {.forwards=false}, false);
+    chassis.turnToPoint(48, 48, 700, {}, false);
+    chassis.moveToPoint(48, 48, 900, {}, false);
+    chassis.turnToPoint(48, 25, 600, {.forwards=false}, false);
     chassis.moveDistance(-20, 900, {.forwards=false}, false);
     IntakeBoth();
     moveWithVoltage(-8, -8);
     pros::delay(3000);
+    stopIntaking();
+    chassis.turnToPoint(48, 72, 600, {}, false);
+    matchloader.extend();
+    Intake();
+    fly.move(-32);
+    chassis.moveToPose(48, 72, 0, 1500, {.maxAngularSpeed=10}, false);
+    moveWithVoltage(70, 70);
+    pros::delay(250);
+    moveWithVoltage(35, 35);
+    pros::delay(1000);
+    moveWithVoltage(-10,-10);
+    pros::delay(50);
+    moveWithVoltage(40, 40);
+    pros::delay(200);
+    chassis.moveDistance(-15, 800, {.forwards=false}, false);
+    matchloader.retract();
+    chassis.turnToPoint(24, 36, 700, {}, false);
+    chassis.moveDistance(25, 1000, {}, false);
+    chassis.turnToPoint(-48, 36, 650, {}, false);
+    chassis.moveDistance(75, 1900, {}, false);
+    chassis.turnToPoint(-48, 25, 650, {.forwards=false}, false);
+    chassis.moveDistance(-13, 900, {.forwards=false}, false);
+    IntakeBoth();
+    moveWithVoltage(-8, -8);
+    pros::delay(3000);
+    chassis.moveDistance(15, 800, {}, false);
+    stopIntaking();
+
+
     // score
     // chassis.turnToPoint(49, -24, 500, {.forwards = false}, false);
     
