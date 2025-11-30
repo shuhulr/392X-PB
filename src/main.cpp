@@ -38,8 +38,8 @@ pros::Motor fly(-7);
 // pros::Optical opticalSensor(12);
 
 // distance sensors
-pros::Distance distanceX(12);
-pros::Distance distanceY(13);
+pros::Distance distanceX(13);
+pros::Distance distanceY(12);
 
 // game color (0 for red, 1 for blue, -1 for none)
 int gameColor = -1;
