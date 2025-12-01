@@ -11,7 +11,7 @@
 
 
 // auton num
-int autonIndex = 10;
+int autonIndex = 9;
 
 extern bool screenTaskRunning;
 
@@ -663,9 +663,38 @@ void soloSig() {
 
 }
 
+/*double distanceResetX() {
+    double angleDistanceX = (distanceX.get() / 25.4) + 4.4;
+    double finalDistanceX = angleDistanceX * cos(lemlib::degToRad(imu.get_heading()));
+    return fabs(finalDistanceX);
+}
+
+double distanceResetX(int x) {
+    double angleDistanceX = (x / 25.4) + 4.4;
+    double finalDistanceX = angleDistanceX * cos(lemlib::degToRad(imu.get_heading()));
+    return fabs(finalDistanceX);
+}
+
+double distanceResetY() {
+    double angleDistanceY = (distanceY.get() / 25.4) + 4.8;
+    double finalDistanceY = angleDistanceY * cos(lemlib::degToRad(imu.get_heading()));
+    return fabs(finalDistanceY);
+}
+
+
+double distanceResetY(int y) {
+    double angleDistanceY = (y / 25.4) + 4.8;
+    double finalDistanceY = angleDistanceY * cos(lemlib::degToRad(imu.get_heading()));
+    return fabs(finalDistanceY);
+}
+*/
 void skills() {
     screenTaskRunning = false;
     chassis.setPose(SoloSigStart);
+    int xVal;
+    double x;
+    int yVal;
+    double y;
     pros::Task antijamTask = pros::Task([]() { antijam(); });
     pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
     // move to matchloader and matchload
@@ -694,9 +723,11 @@ void skills() {
     matchloader.retract();
     chassis.moveDistance(12, 500, {}, false);
     //change these to proper once we get dist sensors
-    chassis.turnToPoint(-48, -44, 700, {}, false);
-    chassis.moveToPoint(-46, -44, 2750, {.maxSpeed=90}, false);
-    //chassis.setPose(-(72-distanceResetY()), chassis.getPose().y, imu.get_heading() + 90);
+    chassis.turnToPoint(-48, -44, 700, {.forwards=false}, false);
+    chassis.moveToPoint(-46, -44, 2250, {.forwards=false, .maxSpeed=110}, false);
+    yVal = distanceY.get();
+    y = distanceResetY(yVal, chassis.getPose().theta+90);
+    chassis.setPose(-(72-y), chassis.getPose().y, chassis.getPose().theta);
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nX: %f", chassis.getPose().x);
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nY: %f", chassis.getPose().y);
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nTheta: %f", chassis.getPose().theta);
@@ -704,7 +735,7 @@ void skills() {
     matchloader.extend();
 
     // chassis.turnToPoint(0, 0, 600, {}, false);
-    chassis.turnToPoint(-48, -72, 700, {}, false);
+    chassis.turnToPoint(-47, -72, 500, {}, false);
     Intake();
     moveWithVoltage(70, 70);
     pros::delay(250);
@@ -723,43 +754,56 @@ void skills() {
     IntakeBoth();
     pros::delay(3000);
     stopIntaking();
+    Intake();
 
     chassis.moveDistance(15, 300, {}, false);
     chassis.turnToHeading(115, 450, {}, false);
+    matchloader.retract();
     chassis.moveDistance(-13, 700, {.forwards = false}, false);
     chassis.turnToHeading(180, 700, {}, false);
-    chassis.setPose(-(72 - distanceResetX()), chassis.getPose().y, imu.get_heading() + 90);
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nX: %f", chassis.getPose().x);
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nY: %f", chassis.getPose().y);
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nTheta: %f", chassis.getPose().theta);
-    chassis.moveDistance(-84, 2250, {.forwards=false, .maxSpeed = 90}, false);
+
+     xVal = distanceX.get();
+     x = distanceResetX(xVal, chassis.getPose().theta);
+
+
+    chassis.setPose(-(72 - x), chassis.getPose().y, chassis.getPose().theta);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nX: %f", x);
+    //printf("\n\n\n\n\n\n\n\n\n\n\n\n\nY: %f", y);
+    //printf("\n\n\n\n\n\n\n\n\n\n\n\n\nTheta: %f", chassis.getPose().theta);
+    chassis.moveDistance(-84, 2000, {.forwards=false, .maxSpeed = 110}, false);
     Intake();
     fly.move(-32);
 
-    chassis.setPose(-(72 - distanceResetX()), 72 - distanceResetY(), imu.get_heading() + 90);
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nX: %f", chassis.getPose().x);
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nY: %f", chassis.getPose().y);
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nTheta: %f", chassis.getPose().theta);
+     xVal = distanceX.get();
+     x = distanceResetX(xVal, chassis.getPose().theta);
+      yVal = distanceY.get();
+      y = distanceResetY(yVal, chassis.getPose().theta);
+
+    chassis.setPose(-(72 - x), 72 - y, chassis.getPose().theta);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nX: %f", x);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nY: %f", y);
+    //printf("\n\n\n\n\n\n\n\n\n\n\n\n\nTheta: %f", chassis.getPose().theta);
     // chassis.moveToPoint(-60, 48, 2250, {.forwards = false, .maxSpeed = 90, .maxAngularSpeed=10}, false);
-    chassis.turnToPoint(-48, 36, 600, {}, false);
-    chassis.moveDistance(13, 700, {}, false);
-    chassis.turnToPoint(-48, 72, 600, {}, false);
+    chassis.turnToPoint(-48, 40, 500, {}, false);
+    chassis.moveToPoint(-48, 40, 700, {}, false);
+    chassis.turnToPoint(-48, 72, 500, {}, false);
+    matchloader.extend();
     moveWithVoltage(80, 80);
-    pros::delay(1000);
+    pros::delay(750);
     moveWithVoltage(40, 40);
-    pros::delay(2500);
+    pros::delay(1700);
     chassis.moveDistance(-20, 700, {.forwards=false}, false);
     chassis.turnToPoint(24, 40, 500, {}, false);
     matchloader.retract();
-    chassis.moveDistance(72, 2000, {}, false);
+    chassis.moveDistance(72, 1750, {}, false);
     //double secondXReset = 72 - distanceResetY();
-    chassis.setPose(chassis.getPose().x, chassis.getPose().y, imu.get_heading() + 90);
+    //chassis.setPose(chassis.getPose().x, chassis.getPose().y, imu.get_heading() + 90);
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nX: %f, distanceX: %f", chassis.getPose().x, distanceX.get_distance() / 25.4);
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nY: %f, distanceY, %f", chassis.getPose().y, distanceY.get_distance() / 25.4);
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nTheta: %f", chassis.getPose().theta);
     chassis.turnToPoint(24, 24, 500, {}, false);
     chassis.moveDistance(14, 700, {}, false);
-    pros::delay(500);
+    // pros::delay(500);
     chassis.moveDistance(-14, 700, {.forwards=false}, false);
     chassis.turnToPoint(48, 48, 700, {}, false);
     chassis.moveToPoint(48, 48, 900, {}, false);
@@ -767,9 +811,9 @@ void skills() {
     chassis.moveDistance(-20, 900, {.forwards=false}, false);
     IntakeBoth();
     moveWithVoltage(-8, -8);
-    pros::delay(3000);
-    stopIntaking();
+    pros::delay(1400);
     chassis.turnToPoint(48, 72, 600, {}, false);
+    stopIntaking();
     matchloader.extend();
     Intake();
     fly.move(-32);
@@ -787,22 +831,40 @@ void skills() {
     matchloader.retract();
     chassis.turnToPoint(24, 36, 700, {}, false);
     chassis.moveDistance(25, 1000, {}, false);
-    chassis.turnToPoint(-48, 36, 650, {}, false);
+    chassis.turnToPoint(-24, 40, 650, {}, false);
 
+     xVal = distanceX.get();
+     x = distanceResetX(xVal, chassis.getPose().theta + 90);
+     yVal = distanceY.get();
+     y = distanceResetY(yVal, chassis.getPose().theta + 90);
 
-    chassis.setPose(72 - distanceResetY(), 72 - distanceResetX(), imu.get_heading() + 90);
+    chassis.setPose(72 - y, 72 - x, chassis.getPose().theta);
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nX: %f, distanceX: %f", chassis.getPose().x, distanceX.get_distance() / 25.4);
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nY: %f, distanceY, %f", chassis.getPose().y, distanceY.get_distance() / 25.4);
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nTheta: %f", chassis.getPose().theta);
 
-    chassis.moveDistance(75, 1900, {}, false);
+    chassis.moveToPoint(-24, 36, 1500, {.maxAngularSpeed=10}, false);
+    chassis.turnToPoint(-24, 24, 600, {}, false);
+    chassis.moveDistance(13, 800, {}, false);
+    chassis.moveDistance(-13, 800, {}, false);
+    chassis.turnToPoint(-48, 36, 600, {}, false);
+    chassis.moveToPoint(-48, 36, 800, {.maxAngularSpeed=20}, false);
     chassis.turnToPoint(-48, 25, 650, {.forwards=false}, false);
     chassis.moveDistance(-13, 900, {.forwards=false}, false);
     IntakeBoth();
     moveWithVoltage(-8, -8);
     pros::delay(3000);
-    chassis.moveDistance(15, 800, {}, false);
+    chassis.moveDistance(15, 850, {}, false);
     stopIntaking();
+    chassis.turnToPoint(-24, 24, 600, {}, false);
+    Intake();
+    chassis.moveToPoint(-24, 24, 900, {.maxAngularSpeed=10}, false);
+    chassis.turnToPoint(-24, -24, 600, {}, false);
+    chassis.moveToPoint(-24, -24, 1000, {.maxSpeed=100, .maxAngularSpeed=20});
+    chassis.waitUntil(27);
+    matchloader.extend();
+    chassis.waitUntilDone();
+
 
 
     // score
@@ -892,19 +954,17 @@ void test() {
 
     // Test 1: Ping Y sensor
     printf("Test 1: Reading Y...\n");
-    pros::delay(200);
     int yVal = distanceY.get();
     printf("Y VALUE = %d\n", yVal);
 
-    pros::delay(500);
+    //pros::delay(10);
 
     // Test 2: Ping X sensor
     printf("Test 2: Reading X...\n");
-    pros::delay(200);
     int xVal = distanceX.get();
     printf("X VALUE = %d\n", xVal);
 
-    pros::delay(500);
+    //pros::delay(10);
 
     printf("=== END TEST ===\n");
 
@@ -933,10 +993,10 @@ void test() {
     double angleDistanceY = (yVal / 25.4) + 4.8;
     double finalDistanceY = angleDistanceY * cos(lemlib::degToRad(imu.get_heading() ));
     printf("finaldisty: %lf\n", finalDistanceY);
-    double y = abs(finalDistanceY);
+    double y = fabs(finalDistanceY);
     pros::delay(500);
 
-    chassis.setPose(72 - x, -(72 - y), imu.get_heading() + 90);
+    chassis.setPose(72 - x, -(72 - y), imu.get_heading());
 
     printf("\n sensor pos\n");
     printf("X: %f\n", chassis.getPose().x);

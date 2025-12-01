@@ -81,14 +81,27 @@ void antijamFly() {
         pros::delay(30);
     }
 }
+
 double distanceResetX() {
     double angleDistanceX = (distanceX.get() / 25.4) + 4.4;
-    double finalDistanceX = angleDistanceX * cos(lemlib::degToRad(imu.get_heading()));
+    double finalDistanceX = angleDistanceX * cos(lemlib::degToRad(chassis.getPose().theta));
+    return fabs(finalDistanceX);
+}
+
+double distanceResetX(int x, double heading) {
+    double angleDistanceX = (x / 25.4) + 4.4;
+    double finalDistanceX = angleDistanceX * cos(lemlib::degToRad(heading));
     return fabs(finalDistanceX);
 }
 
 double distanceResetY() {
     double angleDistanceY = (distanceY.get() / 25.4) + 4.8;
-    double finalDistanceY = angleDistanceY * cos(lemlib::degToRad(imu.get_heading()));
+    double finalDistanceY = angleDistanceY * cos(lemlib::degToRad(chassis.getPose().theta));
+    return fabs(finalDistanceY);
+}
+
+double distanceResetY(int y, double heading) {
+    double angleDistanceY = (y / 25.4) + 4.8;
+    double finalDistanceY = angleDistanceY * cos(lemlib::degToRad(heading));
     return fabs(finalDistanceY);
 }

@@ -33,7 +33,9 @@ extern void IntakeBoth();
 extern void antijam();
 extern void antijamFly();
 extern double distanceResetX();
+extern double distanceResetX(int x, double heading);
 extern double distanceResetY();
+extern double distanceResetY(int y, double heading);
 
 extern bool intaking;
 extern bool flying;
