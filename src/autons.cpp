@@ -702,6 +702,7 @@ void skills() {
     matchloader.extend();
     chassis.turnToHeading(182, 580, {}, false);
     Intake();
+    fly.move(-32);
     moveWithVoltage(70, 70);
     pros::delay(250);
     moveWithVoltage(35, 35);
@@ -784,40 +785,31 @@ void skills() {
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nY: %f", y);
     //printf("\n\n\n\n\n\n\n\n\n\n\n\n\nTheta: %f", chassis.getPose().theta);
     // chassis.moveToPoint(-60, 48, 2250, {.forwards = false, .maxSpeed = 90, .maxAngularSpeed=10}, false);
-    chassis.turnToPoint(-48, 40, 500, {}, false);
-    chassis.moveToPoint(-48, 40, 700, {}, false);
-    chassis.turnToPoint(-48, 72, 500, {}, false);
+    chassis.turnToPoint(-47, 40, 600, {}, false);
+    chassis.moveToPoint(-47, 40, 750, {}, false);
+    chassis.turnToPoint(-47, 72, 600, {}, false);
     matchloader.extend();
     moveWithVoltage(80, 80);
     pros::delay(750);
     moveWithVoltage(40, 40);
-    pros::delay(1700);
+    pros::delay(1200);
+    moveWithVoltage(60, 60);
+    pros::delay(500);
     chassis.moveDistance(-20, 700, {.forwards=false}, false);
-    chassis.turnToPoint(24, 40, 500, {}, false);
+    chassis.turnToPoint(48, 36, 500, {}, false);
     matchloader.retract();
-    chassis.moveDistance(72, 1750, {}, false);
-    //double secondXReset = 72 - distanceResetY();
-    //chassis.setPose(chassis.getPose().x, chassis.getPose().y, imu.get_heading() + 90);
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nX: %f, distanceX: %f", chassis.getPose().x, distanceX.get_distance() / 25.4);
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nY: %f, distanceY, %f", chassis.getPose().y, distanceY.get_distance() / 25.4);
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nTheta: %f", chassis.getPose().theta);
-    chassis.turnToPoint(24, 24, 500, {}, false);
-    chassis.moveDistance(14, 700, {}, false);
-    // pros::delay(500);
-    chassis.moveDistance(-14, 700, {.forwards=false}, false);
-    chassis.turnToPoint(48, 48, 700, {}, false);
-    chassis.moveToPoint(48, 48, 900, {}, false);
+    chassis.moveToPoint(48, 36, 2100, {}, false);
     chassis.turnToPoint(48, 25, 600, {.forwards=false}, false);
-    chassis.moveDistance(-20, 900, {.forwards=false}, false);
+    chassis.moveDistance(-20, 800, {.forwards=false}, false);
     IntakeBoth();
     moveWithVoltage(-8, -8);
-    pros::delay(1400);
+    pros::delay(2100);
     chassis.turnToPoint(48, 72, 600, {}, false);
     stopIntaking();
     matchloader.extend();
     Intake();
     fly.move(-32);
-    chassis.moveToPose(48, 72, 0, 1500, {.maxAngularSpeed=10}, false);
+    chassis.moveToPose(47, 72, 0, 1500, {.maxAngularSpeed=10}, false);
     moveWithVoltage(70, 70);
     pros::delay(250);
     moveWithVoltage(35, 35);
@@ -831,7 +823,7 @@ void skills() {
     matchloader.retract();
     chassis.turnToPoint(24, 36, 700, {}, false);
     chassis.moveDistance(25, 1000, {}, false);
-    chassis.turnToPoint(-24, 40, 650, {}, false);
+    chassis.turnToPoint(-48, 38, 650, {}, false);
 
      xVal = distanceX.get();
      x = distanceResetX(xVal, chassis.getPose().theta + 90);
@@ -843,12 +835,7 @@ void skills() {
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nY: %f, distanceY, %f", chassis.getPose().y, distanceY.get_distance() / 25.4);
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nTheta: %f", chassis.getPose().theta);
 
-    chassis.moveToPoint(-24, 36, 1500, {.maxAngularSpeed=10}, false);
-    chassis.turnToPoint(-24, 24, 600, {}, false);
-    chassis.moveDistance(13, 800, {}, false);
-    chassis.moveDistance(-13, 800, {}, false);
-    chassis.turnToPoint(-48, 36, 600, {}, false);
-    chassis.moveToPoint(-48, 36, 800, {.maxAngularSpeed=20}, false);
+    chassis.moveToPoint(-48, 38, 2000, {.maxAngularSpeed=10}, false);
     chassis.turnToPoint(-48, 25, 650, {.forwards=false}, false);
     chassis.moveDistance(-13, 900, {.forwards=false}, false);
     IntakeBoth();
@@ -864,6 +851,27 @@ void skills() {
     chassis.waitUntil(27);
     matchloader.extend();
     chassis.waitUntilDone();
+    chassis.turnToPoint(-8, -8, 500, {.forwards = false}, false);
+    chassis.moveDistance(-19 , 650, {.forwards = false});
+    chassis.waitUntil(11);
+    drop.retract();
+    IntakeBoth();
+    intaking = false;
+    moveWithVoltage(-50, -50);
+    pros::delay(50);
+    stopDrive();
+    pros::delay(700);
+    chassis.turnToPoint(-48, -48, 500, {}, false);
+    // come out of middle goal and move to match loader
+    // chassis.turnToPoint(-48, -48, 500, {});
+    // pros::delay(150);
+    stopIntaking();
+    Intake();
+    pros::delay(300);
+    drop.extend();
+    fly.move(-32);
+    chassis.waitUntilDone();
+
 
 
 
