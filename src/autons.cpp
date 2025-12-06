@@ -11,7 +11,7 @@
 
 
 // auton num
-int autonIndex = 6;
+int autonIndex = 1;
 
 extern bool screenTaskRunning;
 
@@ -36,17 +36,17 @@ void RightBonus() {
     chassis.waitUntilDone();
     pros::delay(100);
     chassis.moveDistance(-10, 400, {.forwards = false}, false);
-    chassis.moveToPose(47.5, -72, -180, 2150, {.maxSpeed = 100, .minSpeed = 40}, false);
+    chassis.moveToPose(47.5, -72, -180, 2080, {.maxSpeed = 100, .minSpeed = 40}, false);
     chassis.turnToPoint(48, -24, 600, {.forwards = false}, false);
     // go to long goal and score
     chassis.moveToPoint(48, -32, 900, {.forwards = false, .maxAngularSpeed = 5}, false);
     moveWithVoltage(-50, -50);
     IntakeBoth();
-    pros::delay(2250);
+    pros::delay(2350);
     stopIntaking();
     chassis.moveDistance(15, 300, {}, false);
     chassis.turnToHeading(-130, 450, {}, false);
-    chassis.moveDistance(-12, 750, {.forwards = false}, false);
+    chassis.moveDistance(-10, 800, {.forwards = false}, false);
     chassis.turnToHeading(178, 500, {}, false);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     chassis.moveDistance(-26, 800, {.forwards = false, .maxSpeed = 60}, false);
@@ -141,7 +141,7 @@ void Left4Plus5() {
     matchloader.extend();
     chassis.moveDistance(11, 600, {}, false);
     pros::delay(100);
-    chassis.moveDistance(-6, 500, {.forwards = false}, false);
+    chassis.moveDistance(-7, 500, {.forwards = false}, false);
     pros::delay(100);
     //matchloader.retract();
     // drop.retract();
@@ -167,7 +167,7 @@ void Left4Plus5() {
     pros::lcd::print(0, "x: %f, y: %f, theta: %f", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
 
     // ! go to turn to 2 stack
-    chassis.turnToPoint(-48, -5.5, 1000, {}, false);
+    chassis.turnToPoint(-48, -6.5, 1000, {}, false);
     chassis.moveDistance(23.2, 1000, {}, false);
     // matchloader.extend();
     // chassis.moveDistance(5, 250, {}, false);
@@ -578,10 +578,10 @@ void soloSig() {
     pros::Task antijamTask = pros::Task([]() { antijam(); });
     pros::Task antijamFlyTask = pros::Task([]() { antijamFly(); });
     // move to matchloader
-    chassis.moveDistance(29.5, 700, {}, false);
+    chassis.moveDistance(27.5, 700, {}, false);
     matchloader.extend();
     descorer.extend();
-    chassis.turnToHeading(182, 580, {}, false);
+    chassis.turnToHeading(180, 580, {}, false);
     Intake();
     moveWithVoltage(70, 70);
     pros::delay(250);
@@ -611,12 +611,12 @@ void soloSig() {
     // matchloader.extend();
     // chassis.waitUntilDone();
     stopIntaking();
-    chassis.turnToPoint(23, -23, 550, {.forwards = true}, false);
+    chassis.turnToPoint(23, -24, 550, {.forwards = true}, false);
     Intake();
     chassis.moveDistance(26.5, 800, {.minSpeed = 50, .earlyExitRange = 8.5}, false);
     matchloader.extend();
     // go to second 3 stack
-    chassis.moveToPose(-24, -25, -90, 1600, {.lead = 0.4, .U30 = false});
+    chassis.moveToPose(-24, -24, -90, 1600, {.lead = 0.4, .U30 = false});
     chassis.waitUntil(12);
     matchloader.retract();
 
@@ -626,7 +626,7 @@ void soloSig() {
     matchloader.extend();
     
     chassis.waitUntilDone();
-    chassis.turnToPoint(-5, -5, 500, {.forwards = false}, false);
+    chassis.turnToPoint(-7.5, -5, 500, {.forwards = false}, false);
     // chassis.turnToHeading(-135, 500, {}, false);
     // go to middle goal and score
     chassis.moveDistance(-19 , 650, {.forwards = false});
@@ -657,7 +657,7 @@ void soloSig() {
     pros::delay(200);
     chassis.turnToPoint(-47.5, -24, 500, {.forwards = false}, false);
     // go to long goal and score
-    chassis.moveToPoint(-48, -32, 740, {.forwards = false, .maxAngularSpeed = 10}, false);
+    chassis.moveToPoint(-48, -28, 740, {.forwards = false, .maxAngularSpeed = 10}, false);
     moveWithVoltage(-80, -80);
     IntakeBoth();
 
@@ -711,9 +711,11 @@ void skills() {
     pros::delay(200);
     moveWithVoltage(40, 40);
     pros::delay(300);
+    chassis.turnToPoint(48, -30, 500, {.forwards = false}, false);
 
     // score on long goal
-    chassis.moveToPoint(48, -32, 1000, {.forwards = false, .maxAngularSpeed = 10}, false);
+    chassis.moveDistance(-28, 800, {.forwards = false}, false);
+    // chassis.moveToPoint(48, -30, 900, {.forwards = false, .maxAngularSpeed = 10}, false);
     moveWithVoltage(-100, -100);
     pros::delay(100);
     IntakeBoth();
@@ -723,7 +725,6 @@ void skills() {
     // go to left matchloader
     matchloader.retract();
     chassis.moveDistance(12, 500, {}, false);
-    //change these to proper once we get dist sensors
     chassis.turnToPoint(-48, -44, 700, {.forwards=false}, false);
     chassis.moveToPoint(-46, -44, 2250, {.forwards=false, .maxSpeed=110}, false);
     yVal = distanceY.get();
@@ -735,20 +736,22 @@ void skills() {
 
     matchloader.extend();
 
-    // chassis.turnToPoint(0, 0, 600, {}, false);
+    // matchload left
     chassis.turnToPoint(-47, -72, 500, {}, false);
     Intake();
     moveWithVoltage(70, 70);
     pros::delay(250);
-    moveWithVoltage(35, 35);
+    moveWithVoltage(37, 37);
     pros::delay(1500);
     moveWithVoltage(-10,-10);
     pros::delay(200);
     moveWithVoltage(40, 40);
     pros::delay(300);
+    chassis.turnToPoint(-48, -24, 500, {.forwards = false}, false);
 
     // score on left long goal close
-    chassis.moveToPoint(-48, -32, 1000, {.forwards = false, .maxAngularSpeed = 20}, false);
+    // chassis.moveToPoint(-48, -30, 900, {.forwards = false, .maxAngularSpeed = 10}, false);
+    chassis.moveDistance(-28, 800, {.forwards = false}, false);
 
     moveWithVoltage(-100, -100);
     pros::delay(100);
@@ -757,34 +760,31 @@ void skills() {
     stopIntaking();
     Intake();
 
+    //pass through the hall
     chassis.moveDistance(15, 300, {}, false);
     chassis.turnToHeading(115, 450, {}, false);
     matchloader.retract();
     chassis.moveDistance(-13, 700, {.forwards = false}, false);
     chassis.turnToHeading(180, 700, {}, false);
-
+    pros::delay(400);
      xVal = distanceX.get();
      x = distanceResetX(xVal, chassis.getPose().theta);
-
-
     chassis.setPose(-(72 - x), chassis.getPose().y, chassis.getPose().theta);
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nX: %f", x);
-    //printf("\n\n\n\n\n\n\n\n\n\n\n\n\nY: %f", y);
-    //printf("\n\n\n\n\n\n\n\n\n\n\n\n\nTheta: %f", chassis.getPose().theta);
     chassis.moveDistance(-84, 2000, {.forwards=false, .maxSpeed = 110}, false);
     Intake();
     fly.move(-32);
-
-     xVal = distanceX.get();
-     x = distanceResetX(xVal, chassis.getPose().theta);
-      yVal = distanceY.get();
-      y = distanceResetY(yVal, chassis.getPose().theta);
-
+    pros::delay(400);
+    xVal = distanceX.get();
+    x = distanceResetX(xVal, chassis.getPose().theta);
+    yVal = distanceY.get();
+    y = distanceResetY(yVal, chassis.getPose().theta);
     chassis.setPose(-(72 - x), 72 - y, chassis.getPose().theta);
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nX: %f", x);
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nY: %f", y);
-    //printf("\n\n\n\n\n\n\n\n\n\n\n\n\nTheta: %f", chassis.getPose().theta);
-    // chassis.moveToPoint(-60, 48, 2250, {.forwards = false, .maxSpeed = 90, .maxAngularSpeed=10}, false);
+    pros::delay(400);
+
+    // left top matchload
     chassis.turnToPoint(-47, 40, 600, {}, false);
     chassis.moveToPoint(-47, 40, 750, {}, false);
     chassis.turnToPoint(-47, 72, 600, {}, false);
@@ -795,20 +795,29 @@ void skills() {
     pros::delay(1200);
     moveWithVoltage(60, 60);
     pros::delay(500);
-    chassis.moveDistance(-20, 700, {.forwards=false}, false);
-    chassis.turnToPoint(48, 36, 500, {}, false);
+
+
+    // move to top right side
+    chassis.moveDistance(-18, 700, {.forwards=false}, false);
+    chassis.turnToPoint(48, 40, 500, {}, false);
+    intaking = false;
+    intake.move(96);
     matchloader.retract();
-    chassis.moveToPoint(48, 36, 2100, {}, false);
+    chassis.moveToPoint(47.5, 40, 2100, {}, false);
+
+    // top right long goal
     chassis.turnToPoint(48, 25, 600, {.forwards=false}, false);
-    chassis.moveDistance(-20, 800, {.forwards=false}, false);
+    chassis.moveDistance(-24, 800, {.forwards=false}, false);
     IntakeBoth();
-    moveWithVoltage(-8, -8);
+    moveWithVoltage(-60, -60);
     pros::delay(2100);
     chassis.turnToPoint(48, 72, 600, {}, false);
     stopIntaking();
     matchloader.extend();
     Intake();
     fly.move(-32);
+
+    // top right matchloader
     chassis.moveToPose(47, 72, 0, 1500, {.maxAngularSpeed=10}, false);
     moveWithVoltage(70, 70);
     pros::delay(250);
@@ -818,42 +827,66 @@ void skills() {
     pros::delay(50);
     moveWithVoltage(40, 40);
     pros::delay(200);
-    
+
+    //move to top left side
     chassis.moveDistance(-15, 800, {.forwards=false}, false);
     matchloader.retract();
+    intaking = false;
+    intake.move(96);
     chassis.turnToPoint(24, 36, 700, {}, false);
-    chassis.moveDistance(25, 1000, {}, false);
+    chassis.moveDistance(22, 1000, {}, false);
     chassis.turnToPoint(-48, 38, 650, {}, false);
-
+    pros::delay(500);
      xVal = distanceX.get();
      x = distanceResetX(xVal, chassis.getPose().theta + 90);
      yVal = distanceY.get();
      y = distanceResetY(yVal, chassis.getPose().theta + 90);
-
     chassis.setPose(72 - y, 72 - x, chassis.getPose().theta);
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nX: %f, distanceX: %f", chassis.getPose().x, distanceX.get_distance() / 25.4);
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nY: %f, distanceY, %f", chassis.getPose().y, distanceY.get_distance() / 25.4);
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\nTheta: %f", chassis.getPose().theta);
+    pros::delay(500);
 
-    chassis.moveToPoint(-48, 38, 2000, {.maxAngularSpeed=10}, false);
+    // top left long goal
+    chassis.moveToPoint(-47.5, 38, 2000, {.maxSpeed = 110, .maxAngularSpeed=10}, false);
     chassis.turnToPoint(-48, 25, 650, {.forwards=false}, false);
     chassis.moveDistance(-13, 900, {.forwards=false}, false);
     IntakeBoth();
-    moveWithVoltage(-8, -8);
+    moveWithVoltage(-60, -60);
     pros::delay(3000);
+
+    
+    //first stack
     chassis.moveDistance(15, 850, {}, false);
     stopIntaking();
-    chassis.turnToPoint(-24, 24, 600, {}, false);
+    chassis.turnToHeading(90, 300, {}, false);
+    pros::delay(500);
+     xVal = distanceX.get();
+     x = distanceResetX(xVal, chassis.getPose().theta + 90);
+     yVal = distanceY.get();
+     y = distanceResetY(yVal, chassis.getPose().theta + 90);
+    chassis.setPose(-(72 - y), chassis.getPose().y, chassis.getPose().theta);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nX: %f, distanceX: %f", chassis.getPose().x, distanceX.get_distance() / 25.4);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nY: %f, distanceY, %f", chassis.getPose().y, distanceY.get_distance() / 25.4);
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\nTheta: %f", chassis.getPose().theta);
+    pros::delay(500);
+    chassis.turnToPoint(-24, 24, 300, {}, false);
+    
     Intake();
-    chassis.moveToPoint(-24, 24, 900, {.maxAngularSpeed=10}, false);
+    chassis.moveToPoint(-24, 24, 900, {.maxAngularSpeed = 10}, false);
+
+    //second stack
     chassis.turnToPoint(-24, -24, 600, {}, false);
-    chassis.moveToPoint(-24, -24, 1000, {.maxSpeed=100, .maxAngularSpeed=20});
-    chassis.waitUntil(27);
+    chassis.moveToPoint(-24, -24, 1200, {.maxSpeed=100, .maxAngularSpeed=20});
+    chassis.waitUntil(30);
     matchloader.extend();
     chassis.waitUntilDone();
-    chassis.turnToPoint(-8, -8, 500, {.forwards = false}, false);
+
+
+    // middle goal
+    chassis.turnToPoint(0, 0, 500, {.forwards = false}, false);
     chassis.moveDistance(-19 , 650, {.forwards = false});
-    chassis.waitUntil(11);
+    chassis.waitUntil(16);
     drop.retract();
     IntakeBoth();
     intaking = false;
@@ -862,9 +895,6 @@ void skills() {
     stopDrive();
     pros::delay(700);
     chassis.turnToPoint(-48, -48, 500, {}, false);
-    // come out of middle goal and move to match loader
-    // chassis.turnToPoint(-48, -48, 500, {});
-    // pros::delay(150);
     stopIntaking();
     Intake();
     pros::delay(300);
@@ -872,87 +902,14 @@ void skills() {
     fly.move(-32);
     chassis.waitUntilDone();
 
-
-
-
-    // score
-    // chassis.turnToPoint(49, -24, 500, {.forwards = false}, false);
-    
-    // chassis.moveDistance(-30, 700, {.forwards = false}, false);
-    // score
-
-    /*
-    IntakeBoth();
-    moveWithVoltage(-80, -80);
-    pros::delay(5000);
-    matchloader.retract(); 
-    // go to first 3 stack
-    chassis.moveDistance(8, 400, {}, false);
-    // Intake();
-    fly.move(-32);
+    //park
+    chassis.moveDistance(17, 750, {}, false);
+    chassis.turnToPoint(0, -36, 500, {}, false);
+    chassis.moveToPoint(0, -36, 1100, {}, false);
+    odomLift.toggle();
     matchloader.retract();
-    // chassis.moveToPose(12, -25, -90, 1400, {.lead = 0.5, .minSpeed = 50, .earlyExitRange = 8});
-    // chassis.waitUntil(24);
-    // matchloader.extend();
-    // chassis.waitUntilDone();
-    stopIntaking();
-    chassis.turnToPoint(23, -23, 550, {.forwards = true}, false);
-    Intake();
-    chassis.moveDistance(25, 800, {.minSpeed = 50, .earlyExitRange = 8.5}, false);
-    matchloader.extend();
-    // go to second 3 stack
-    chassis.moveToPose(-24, -25, -90, 1600, {.lead = 0.4});
-    chassis.waitUntil(10);
-    matchloader.retract();
-
-    // chassis.moveDistance(35, 800, {.maxSpeed = 80});
-    chassis.waitUntil(45);
-    
-    matchloader.extend();
-    
-    chassis.waitUntilDone();
-    chassis.turnToPoint(-5, -5, 500, {.forwards = false}, false);
-    // chassis.turnToHeading(-135, 500, {}, false);
-    // go to middle goal and score
-    chassis.moveDistance(-19 , 650, {.forwards = false});
-    chassis.waitUntil(11);
-    drop.retract();
-    IntakeBoth();
-    intaking = false;
-    moveWithVoltage(-50, -50);
-    pros::delay(50);
-    stopDrive();
-    pros::delay(5000);
-    chassis.turnToPoint(-48, -48, 500, {}, false);
-    // come out of middle goal and move to match loader
-    // chassis.turnToPoint(-48, -48, 500, {});
-    // pros::delay(150);
-    stopIntaking();
-    Intake();
-    drop.extend();
-    fly.move(-32);
-    chassis.waitUntilDone();
-    chassis.moveDistance(45, 1000, {}, false);
-    chassis.turnToPoint(-46, -70, 500, {}, false);
-    chassis.moveDistance(22, 600, {}, false);
-
-    moveWithVoltage(80, 80);
-    pros::delay(300);
-    moveWithVoltage(50, 50);
-    pros::delay(1000);
-    chassis.turnToPoint(-47.5, -24, 500, {.forwards = false}, false);
-    // go to long goal and score
-    chassis.moveToPoint(-48, -32, 740, {.forwards = false, .maxAngularSpeed = 10}, false);
-    moveWithVoltage(-80, -80);
-    IntakeBoth();
-    pros::delay(2150);
-    stopIntaking();
-    chassis.moveDistance(15, 300, {}, false);
-    chassis.turnToHeading(-115, 450, {}, false);
-    chassis.moveDistance(-11.5, 400, {.forwards = false}, false);
-    chassis.turnToHeading(179, 500, {}, false);
-    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-    chassis.moveDistance(-27, 800, {.forwards = false, .maxSpeed = 110}, false);   */
+    chassis.turnToHeading(0, 500, {}, false);
+    moveWithVoltage(-100, -100);
 }
 
 void test() {
