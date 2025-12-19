@@ -31,8 +31,10 @@ pros::MotorGroup rightMotors({-4, 5, 6}, pros::MotorGearset::blue); // right mot
 bool lowGoalSafety = false;
 
 // motors
-pros::Motor intake(8);
-pros::Motor fly(-7);
+pros::Motor intakeRight(1);
+pros::Motor intakeLeft(-2);
+pros::MotorGroup intake({1, -2});
+pros::Motor fly(3, pros::MotorGearset::red);
 
 // optical disconnect on port 12
 // pros::Optical opticalSensor(12);
@@ -282,10 +284,10 @@ void opcontrol() {
 
         //
         if (controller.get_digital(DIGITAL_R2)) {
-            fly.move(128);
+            fly.move_velocity(66);
         }
         else if (controller.get_digital(DIGITAL_L2)) {
-            fly.move(-128);
+            fly.move_velocity(-66);
         }
         else {
             fly.move(0);
