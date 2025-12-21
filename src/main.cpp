@@ -55,7 +55,7 @@ pros::adi::Pneumatics matchloader('C', false);
 
 
 // Inertial Sensor on port 10
-pros::Imu imu(15);
+pros::Imu imu(20);
 
 
 // tracking wheels
@@ -90,9 +90,9 @@ lemlib::ControllerSettings linearController(5.15, // proportional gain (kP)
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(1.67, // proportional gain (kP)
-                                             0.18, // integral gain (kI)
-                                             11.5, // derivative gain (kD)
+lemlib::ControllerSettings angularController(1.8, // proportional gain (kP)
+                                             0.25, // integral gain (kI)
+                                             11, // derivative gain (kD)
                                              5, // anti windup
                                              1, // small error range, in degrees
                                              75, // small error range timeout, in milliseconds

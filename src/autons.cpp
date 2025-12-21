@@ -11,7 +11,7 @@
 
 
 // auton num
-int autonIndex = 1;
+int autonIndex = 11;
 
 extern bool screenTaskRunning;
 
@@ -969,6 +969,29 @@ void test() {
     printf("Theta: %f\n", chassis.getPose().theta);
 }
 
+void pidTest() {
+    chassis.setPose(0, 0, 0);
+    chassis.turnToHeading(90, 700, {}, false);
+    pros::delay(1000);
+    chassis.setPose(0, 0, 0);
+    chassis.turnToHeading(60, 700, {}, false);
+    pros::delay(1000);
+    chassis.setPose(0, 0, 0);
+    chassis.turnToHeading(45, 700, {}, false);
+    pros::delay(1000);
+    chassis.setPose(0, 0, 0);
+    chassis.turnToHeading(120, 800, {}, false);
+    pros::delay(1000);
+    chassis.setPose(0, 0, 0);
+    chassis.turnToHeading(150, 800, {}, false);
+    pros::delay(1000);
+    chassis.setPose(0, 0, 0);
+    chassis.turnToHeading(180, 1000, {}, false);
+    pros::delay(1000);
+    chassis.setPose(0, 0, 0);
+    pros::lcd::print(1, "Final Heading: %f", imu.get_heading());
+    printf("heading: %f\n", imu.get_heading());
+}
 // vector of tuple of function description and pointers
 std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"4+5 auto", Left4Plus5}, // 0
@@ -981,6 +1004,7 @@ std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"Solo AWP 7 Ball", soloAWP7ball}, // 7
     {"Half AWP", soloAWP}, // 8
     {"skills auto", skills}, // 9
-    {"testing auto", test} // 10
+    {"testing auto", test}, // 10
+    {"pid test", pidTest} // 11
 };
 
