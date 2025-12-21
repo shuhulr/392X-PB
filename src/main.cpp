@@ -25,16 +25,16 @@ bool screenTaskRunning = true;
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // motor groups
-pros::MotorGroup leftMotors({1, -2, -3}, pros::MotorGearset::blue); // left motor group - ports 1, 2 (reversed), 3
-pros::MotorGroup rightMotors({-4, 5, 6}, pros::MotorGearset::blue); // right motor group - ports 4 (reversed), 5, 6 (reversed)
+pros::MotorGroup leftMotors({-13, 14, -15}, pros::MotorGearset::blue); // left motor group - ports 1, 2 (reversed), 3
+pros::MotorGroup rightMotors({10, 6, -8}, pros::MotorGearset::blue); // right motor group - ports 4 (reversed), 5, 6 (reversed)
 
 bool lowGoalSafety = false;
 
 // motors
-pros::Motor intakeRight(1);
-pros::Motor intakeLeft(-2);
-pros::MotorGroup intake({1, -2});
-pros::Motor fly(3, pros::MotorGearset::red);
+pros::Motor intakeRight(19);
+pros::Motor intakeLeft(-16);
+pros::MotorGroup intake({19, -16});
+pros::Motor fly(7, pros::MotorGearset::red);
 
 // optical disconnect on port 12
 // pros::Optical opticalSensor(12);
