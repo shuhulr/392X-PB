@@ -83,9 +83,9 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(5.15, // proportional gain (kP)
-                                            0.3, // integral gain (kI)
-                                            15.5, // derivative gain (kD)
+lemlib::ControllerSettings linearController(5.5, // proportional gain (kP)
+                                            0.24, // integral gain (kI)
+                                            12, // derivative gain (kD)
                                             2, // anti windup
                                             0.5, // small error range, in inches
                                             100, // small error range timeout, in milliseconds
@@ -223,7 +223,7 @@ void competition_initialize() {
 
 
 void autonomous() {
-    screenTaskRunning = false; // stop the screen task during auton
+    // screenTaskRunning = false; // stop the screen task during auton
 
     horizontalEnc.set_position(0);
     verticalEnc.set_position(0);

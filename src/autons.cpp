@@ -4,7 +4,7 @@
 #include "globals.hpp"
 #include <vector>
 #include <tuple>
-#include "pros/llemu.hpp"
+#include "pros/llemu.hpp" // IWYU pragma: keep
 #include "pros/motors.h" // IWYU pragma: keep
 #include "pros/rtos.hpp" // IWYU pragma: keep
 #include <cstddef> // IWYU pragma: keep
@@ -85,27 +85,40 @@ void test() {
 }
 
 void pidTest() {
+    // chassis.setPose(0, 0, 0);
+    // chassis.turnToHeading(90, 700, {}, false);
+    // pros::delay(1000);
+    // chassis.setPose(0, 0, 0);
+    // chassis.turnToHeading(60, 700, {}, false);
+    // pros::delay(1000);
+    // chassis.setPose(0, 0, 0);
+    // chassis.turnToHeading(45, 700, {}, false);
+    // pros::delay(1000);
+    // chassis.setPose(0, 0, 0);
+    // chassis.turnToHeading(120, 800, {}, false);
+    // pros::delay(1000);
+    // chassis.setPose(0, 0, 0);
+    // chassis.turnToHeading(150, 800, {}, false);
+    // pros::delay(1000);
+    // chassis.setPose(0, 0, 0);
+    // chassis.turnToHeading(180, 1000, {}, false);
+    // pros::delay(1000);
+    // chassis.setPose(0, 0, 0);
+    // pros::lcd::print(1, "Final Heading: %f", imu.get_heading());
+    // printf("heading: %f\n", imu.get_heading());
+
     chassis.setPose(0, 0, 0);
-    chassis.turnToHeading(90, 700, {}, false);
-    pros::delay(1000);
+    chassis.moveDistance(5, 1000, {}, false);
+    pros::delay(2000);
     chassis.setPose(0, 0, 0);
-    chassis.turnToHeading(60, 700, {}, false);
-    pros::delay(1000);
+    chassis.moveDistance(12, 1000, {}, false);
+    pros::delay(2000);
     chassis.setPose(0, 0, 0);
-    chassis.turnToHeading(45, 700, {}, false);
-    pros::delay(1000);
+    chassis.moveDistance(24, 1000, {}, false);
+    pros::delay(2000);
     chassis.setPose(0, 0, 0);
-    chassis.turnToHeading(120, 800, {}, false);
-    pros::delay(1000);
-    chassis.setPose(0, 0, 0);
-    chassis.turnToHeading(150, 800, {}, false);
-    pros::delay(1000);
-    chassis.setPose(0, 0, 0);
-    chassis.turnToHeading(180, 1000, {}, false);
-    pros::delay(1000);
-    chassis.setPose(0, 0, 0);
-    pros::lcd::print(1, "Final Heading: %f", imu.get_heading());
-    printf("heading: %f\n", imu.get_heading());
+    chassis.moveDistance(36, 1000, {}, false);
+    pros::delay(2000);
 }
 // vector of tuple of function description and pointers
 std::vector<std::tuple<std::string, void(*)()>> autons = {
