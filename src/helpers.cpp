@@ -30,8 +30,7 @@ void turnToHeadingU30(float heading, int timeout, lemlib::TurnToHeadingParams pa
 void Intake() {
     intake.move(127);
     intaking = true;
-    fly.move(0);
-    flying = false;
+    shotgun.move(0);
 }
 
 void moveWithVoltage(int left, int right) {
@@ -46,16 +45,14 @@ void stopDrive() {
 
 void stopIntaking() {
     intake.move(0);
-    fly.move(0);
+    shotgun.move(0);
     intaking = false;
-    flying = false;
 }
 
 void IntakeBoth() {
     intake.move(127);
     intaking = true;
-    flying = true;
-    fly.move(127);
+    shotgun.move(127);
 }
 
 void antijam() {
@@ -69,18 +66,6 @@ void antijam() {
     }
 }
 
-void antijamFly() {
-    while (true) {
-        if ((flying) && (fly.get_efficiency() < 2) && (fly.get_voltage() > 3000)) {
-            flying = false;
-            fly.move(-127);
-            pros::delay(200);
-            fly.move(127);
-            flying = true;
-        }
-        pros::delay(30);
-    }
-}
 
 double distanceResetX() {
     double angleDistanceX = (distanceX.get() / 25.4) + 4.4;

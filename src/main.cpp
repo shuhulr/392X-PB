@@ -6,11 +6,14 @@
 
 #include "pros/adi.hpp"
 #include "pros/misc.h"
-#include "pros/optical.hpp"
+#include "pros/optical.hpp" // IWYU pragma: keep
+#include "pros/rotation.hpp"
 #include "pros/rtos.hpp"
 #include "autons.h"    // IWYU pragma: keep
 #include "globals.hpp"
 #include "pros/screen.h" // IWYU pragma: keep
+#include <algorithm>
+#include <cstdio>
 
 extern int autonIndex;
 
@@ -28,13 +31,15 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 pros::MotorGroup leftMotors({-13, 14, -15}, pros::MotorGearset::blue); // left motor group - ports 1, 2 (reversed), 3
 pros::MotorGroup rightMotors({10, 6, -8}, pros::MotorGearset::blue); // right motor group - ports 4 (reversed), 5, 6 (reversed)
 
-bool lowGoalSafety = false;
+bool leverDown = true;
+float leverTarget = 0;
 
 // motors
 pros::Motor intakeRight(19);
 pros::Motor intakeLeft(-16);
 pros::MotorGroup intake({19, -16});
-pros::Motor fly(7, pros::MotorGearset::red);
+pros::Motor shotgun(3, pros::MotorGearset::red);
+pros::Rotation shotgunRS(-1);
 
 // optical disconnect on port 12
 // pros::Optical opticalSensor(12);
@@ -55,18 +60,18 @@ pros::adi::Pneumatics matchloader('C', false);
 
 
 // Inertial Sensor on port 10
-pros::Imu imu(20);
+pros::Imu imu(17);
 
 
 // tracking wheels
 // horizontal tracking wheel encoder. Rotation sensor, port 8, not reversed
-pros::Rotation horizontalEnc(-10);
+pros::Rotation horizontalEnc(12);
 // vertical tracking wheel encoder. Rotation sensor, port 7, not reversed
-pros::Rotation verticalEnc(-11);
+pros::Rotation verticalEnc(-2);
 // horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
-lemlib::TrackingWheel horizontal(&horizontalEnc, 2, -3.6);
+lemlib::TrackingWheel horizontal(&horizontalEnc, 2, -4.7);
 // vertical tracking wheel. 2.75" diameter, 2.5" offset, left of the robot (negative)
-lemlib::TrackingWheel vertical(&verticalEnc, 2, 0.35);
+lemlib::TrackingWheel vertical(&verticalEnc, 2, -0.4);
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
@@ -147,6 +152,7 @@ void rightScreenButton() {
 
 void displayImage();
 void initialize() {
+    shotgunRS.set_position(0);
     displayImage();
     
     
@@ -179,7 +185,7 @@ void initialize() {
 
             pros::lcd::print(5, "Left: %f    Right: %f", leftMotors.get_temperature(), rightMotors.get_temperature());
             pros::lcd::print(6, "Intake: %f", intake.get_temperature());
-            pros::lcd::print(7, "Fly: %f", fly.get_temperature());
+            pros::lcd::print(7, "Shotgun: %f", shotgun.get_temperature());
 
             // log position telemetry
             lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
@@ -215,16 +221,13 @@ void competition_initialize() {
 // this needs to be put outside a function
 //ASSET(example_txt); // '.' replaced with "_" to make c++ happy
 
-/**
- * Runs during auto
- *
- * This is an example autonomous routine which demonstrates a lot of the features LemLib has to offer
- */
+
 void autonomous() {
     screenTaskRunning = false; // stop the screen task during auton
 
     horizontalEnc.set_position(0);
     verticalEnc.set_position(0);
+    shotgunRS.set_position(0);
     //autonIndex = 0; // Change this to whichever auton you want to run
     std::get<1>(autons[autonIndex])();
     
@@ -253,27 +256,23 @@ void opcontrol() {
         //shuhul drive
         //chassis.arcade(leftY, rightX);
 
-
+        if (shotgunRS.get_position()/100 < 5 || shotgunRS.get_position()/100 > 355) {
+            leverDown = true;
+            shotgun.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+        } else {
+            leverDown = false;
+            shotgun.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+        }
+        printf("\n%d\n", shotgunRS.get_position());
 
         // intake
-        if (controller.get_digital(DIGITAL_R1)) {
-            if (lowGoalSafety) {
-                lowFunnel.extend();
-                controller.rumble(".");
-                lowGoalSafety = false;
-            }
+        if (controller.get_digital(DIGITAL_R1) && leverDown) {
             intake.move(128);
         }
 
         // outtake
-        else if (controller.get_digital(DIGITAL_L1)) {
-            if(!lowFunnel.is_extended()) {
-                intake.move(-128);
-                lowGoalSafety = true;
-            }
-            else {
-                intake.move(-90);
-            }
+        else if (controller.get_digital(DIGITAL_L1) && leverDown) {
+            intake.move(-128);
         }
         
         // stop take
@@ -283,25 +282,16 @@ void opcontrol() {
 
 
         //
-        if (controller.get_digital(DIGITAL_R2)) {
-            fly.move_velocity(66);
+        if (controller.get_digital(DIGITAL_R2) && leverTarget == -1) {
+            shotgun.move_velocity(66);
         }
-        else if (controller.get_digital(DIGITAL_L2)) {
-            fly.move_velocity(-66);
+        else if (controller.get_digital(DIGITAL_L2) && leverTarget == -1) {
+            shotgun.move_velocity(-66);
         }
         else {
-            fly.move(0);
+            shotgun.move(0);
         }
 
-
-
-        // drop DOWN
-        if (controller.get_digital_new_press(DIGITAL_DOWN)) {
-            drop.toggle();
-            if(!drop.is_extended()) {
-                controller.rumble(".");
-            }
-        }
 
         // matchloader B
         if (controller.get_digital_new_press(DIGITAL_B)) {
@@ -313,16 +303,23 @@ void opcontrol() {
             descorer.toggle();
         }
 
-        // odomlift UP
-        if (controller.get_digital_new_press(DIGITAL_UP)) {
-            odomLift.toggle();
+        if (controller.get_digital_new_press(DIGITAL_DOWN)) {
+            if (leverDown) {
+                leverTarget = 60;
+            } else {
+                leverTarget = 0;
+            }
+            printf("\n%f\n", leverTarget);
         }
 
-        // bottom funnel A
-        if (controller.get_digital_new_press(DIGITAL_A)) {
-            lowFunnel.toggle();
-            if (lowFunnel.is_extended())
-                controller.rumble(".");
+        if (leverTarget != -1) {
+            float error = leverTarget - shotgunRS.get_position()/100.0f;
+            if (fabs(error) < 5) {
+                shotgun.brake();
+                leverTarget = -1;
+            } else {
+                shotgun.move(std::clamp((float)(1.5*error), -128.0f, 128.0f));
+            }
         }
 
         pros::delay(10);

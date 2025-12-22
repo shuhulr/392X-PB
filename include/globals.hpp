@@ -14,7 +14,7 @@ extern pros::Controller controller;
 extern pros::Motor intakeLeft;
 extern pros::Motor intakeRight;
 extern pros::MotorGroup intake;
-extern pros::Motor fly;
+extern pros::Motor shotgun;
 extern pros::MotorGroup leftMotors;
 extern pros::MotorGroup rightMotors;
 extern pros::adi::Pneumatics drop;
