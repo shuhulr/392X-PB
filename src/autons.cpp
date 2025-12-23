@@ -11,19 +11,27 @@
 
 
 // auton num
-int autonIndex = 1;
+int autonIndex = 2;
 
 extern bool screenTaskRunning;
 
 
 lemlib::Pose origin(0, 0, 0);
 
-lemlib::Pose RightStandardStart(16, -49, 15);
-lemlib::Pose LeftStandardStart(-16, -49, -15);
+lemlib::Pose RightStandardStart(17.5, -50.3, 12);
+lemlib::Pose LeftStandardStart(-17.5, -50.3, -12);
 lemlib::Pose SoloStart(-10, -45, 20);
 lemlib::Pose SoloSigStart(15.5, -48, 90);
 
-
+void rightBonus() {
+    chassis.setPose(RightStandardStart);
+    Intake();
+    chassis.moveDistance(26, 800, {});
+    chassis.waitUntil(13);
+    matchloader.extend();
+    chassis.moveToPose(48, -72, 180, 2200, {.minSpeed = 40}, false);
+    
+}
 
 
 
@@ -123,6 +131,7 @@ void pidTest() {
 // vector of tuple of function description and pointers
 std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"testing auto", test}, // 0
-    {"pid test", pidTest} // 1
+    {"pid test", pidTest}, // 1
+    {"right bonus", rightBonus} // 2
 };
 

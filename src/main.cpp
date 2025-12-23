@@ -33,6 +33,8 @@ pros::MotorGroup rightMotors({10, 6, -8}, pros::MotorGearset::blue); // right mo
 
 bool leverDown = true;
 float leverTarget = 0;
+int leverTime = 0;
+float leverSpeed = 128;
 
 // motors
 pros::Motor intakeRight(19);
@@ -53,10 +55,10 @@ int gameColor = -1;
 
 // pneumatics
 pros::adi::Pneumatics lowFunnel('A', true, true);
-pros::adi::Pneumatics drop('B', true, true);
-pros::adi::Pneumatics odomLift('H', true, true);
+pros::adi::Pneumatics drop('F', true, false);
+pros::adi::Pneumatics odomLift('B', true, true);
 pros::adi::Pneumatics descorer('G', false); 
-pros::adi::Pneumatics matchloader('C', false);
+pros::adi::Pneumatics matchloader('H', false);
 
 
 // Inertial Sensor on port 10
@@ -280,16 +282,27 @@ void opcontrol() {
             intake.move(0);
         }
 
+        if (controller.get_digital_new_press(DIGITAL_L2)) {
+            drop.toggle();
+        }
 
         //
-        if (controller.get_digital(DIGITAL_R2) && leverTarget == -1) {
-            shotgun.move_velocity(66);
-        }
-        else if (controller.get_digital(DIGITAL_L2) && leverTarget == -1) {
-            shotgun.move_velocity(-66);
+        if (controller.get_digital(DIGITAL_R2)) {
+            leverTarget = -1;
+            if (controller.get_digital(DIGITAL_Y)) {
+                shotgun.move_velocity(30);
+            } else {
+                shotgun.move_velocity(66);
+            }
+
         }
         else {
             shotgun.move(0);
+        }
+
+        if (controller.get_digital_new_release(DIGITAL_R2) && shotgunRS.get_position()/100 > 90) {
+            leverTarget = 0;
+            leverSpeed = 40;
         }
 
 
@@ -306,19 +319,27 @@ void opcontrol() {
         if (controller.get_digital_new_press(DIGITAL_DOWN)) {
             if (leverDown) {
                 leverTarget = 60;
+                leverSpeed = 128;
             } else {
                 leverTarget = 0;
+                leverSpeed = 40;
             }
             printf("\n%f\n", leverTarget);
         }
 
         if (leverTarget != -1) {
             float error = leverTarget - shotgunRS.get_position()/100.0f;
-            if (fabs(error) < 5) {
+            if ((fabs(error) < 3) || (leverTime > 700)) {
                 shotgun.brake();
                 leverTarget = -1;
+                leverTime = 0;
             } else {
-                shotgun.move(std::clamp((float)(1.5*error), -128.0f, 128.0f));
+                if (leverTarget == 0) {
+                    shotgun.move(-leverSpeed);
+                } else {
+                    shotgun.move(std::clamp((float)(1.5*error), -leverSpeed, leverSpeed));
+                }
+                leverTime+=10;
             }
         }
 

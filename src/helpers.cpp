@@ -49,12 +49,6 @@ void stopIntaking() {
     intaking = false;
 }
 
-void IntakeBoth() {
-    intake.move(127);
-    intaking = true;
-    shotgun.move(127);
-}
-
 void antijam() {
     while (true) {
         if ((intaking) && (intake.get_efficiency() < 3) && (intake.get_voltage() > 5000)) {
