@@ -11,7 +11,7 @@
 
 
 // auton num
-int autonIndex = 2;
+int autonIndex = 0;
 
 extern bool screenTaskRunning;
 
@@ -36,60 +36,62 @@ void rightBonus() {
 
 
 void test() {
- chassis.setPose(SoloSigStart);
-    //pros::delay(5000);
-    printf("=== BEGIN DISTANCE SENSOR TEST ===\n");
+ chassis.setPose(0, 0, 0);
+    // //pros::delay(5000);
+    // printf("=== BEGIN DISTANCE SENSOR TEST ===\n");
 
-    // Test 1: Ping Y sensor
-    printf("Test 1: Reading Y...\n");
-    int yVal = distanceY.get();
-    printf("Y VALUE = %d\n", yVal);
+    // // Test 1: Ping Y sensor
+    // printf("Test 1: Reading Y...\n");
+    // int yVal = distanceY.get();
+    // printf("Y VALUE = %d\n", yVal);
 
-    //pros::delay(10);
+    // //pros::delay(10);
 
-    // Test 2: Ping X sensor
-    printf("Test 2: Reading X...\n");
-    int xVal = distanceX.get();
-    printf("X VALUE = %d\n", xVal);
+    // // Test 2: Ping X sensor
+    // printf("Test 2: Reading X...\n");
+    // int xVal = distanceX.get();
+    // printf("X VALUE = %d\n", xVal);
 
-    //pros::delay(10);
+    // //pros::delay(10);
 
-    printf("=== END TEST ===\n");
-
-
-    printf("=== IMU TEST ===\n");
-    printf("Calling imu.get_heading()...\n");
-    pros::delay(200); 
-    double h = imu.get_heading();
-    printf("IMU HEADING = %f\n", h);
-    printf("=== END IMU TEST ===\n");
+    // printf("=== END TEST ===\n");
 
 
-    /*printf("\nodom pos\n");
-    printf("X: %f\n", chassis.getPose().x);
-    printf("Y: %f\n", chassis.getPose().y);
-    printf("Theta: %f\n", chassis.getPose().theta);*/
+    // printf("=== IMU TEST ===\n");
+    // printf("Calling imu.get_heading()...\n");
+    // pros::delay(200); 
+    // double h = imu.get_heading();
+    // printf("IMU HEADING = %f\n", h);
+    // printf("=== END IMU TEST ===\n");
 
 
-    double angleDistanceX = (xVal / 25.4) + 4.4;
+    // /*printf("\nodom pos\n");
+    // printf("X: %f\n", chassis.getPose().x);
+    // printf("Y: %f\n", chassis.getPose().y);
+    // printf("Theta: %f\n", chassis.getPose().theta);*/
 
-    double finalDistanceX = angleDistanceX * cos(lemlib::degToRad(imu.get_heading()));
-    printf("finaldistx: %lf\n", finalDistanceX);
-    double x = fabs(finalDistanceX);
+
+    // double angleDistanceX = (xVal / 25.4) + 4.4;
+
+    // double finalDistanceX = angleDistanceX * cos(lemlib::degToRad(imu.get_heading()));
+    // printf("finaldistx: %lf\n", finalDistanceX);
+    // double x = fabs(finalDistanceX);
 
 
-    double angleDistanceY = (yVal / 25.4) + 4.8;
-    double finalDistanceY = angleDistanceY * cos(lemlib::degToRad(imu.get_heading() ));
-    printf("finaldisty: %lf\n", finalDistanceY);
-    double y = fabs(finalDistanceY);
-    pros::delay(500);
+    // double angleDistanceY = (yVal / 25.4) + 4.8;
+    // double finalDistanceY = angleDistanceY * cos(lemlib::degToRad(imu.get_heading() ));
+    // printf("finaldisty: %lf\n", finalDistanceY);
+    // double y = fabs(finalDistanceY);
+    // pros::delay(500);
 
-    chassis.setPose(72 - x, -(72 - y), imu.get_heading());
+    // chassis.setPose(72 - x, -(72 - y), imu.get_heading());
 
-    printf("\n sensor pos\n");
-    printf("X: %f\n", chassis.getPose().x);
-    printf("Y: %f\n", chassis.getPose().y);
-    printf("Theta: %f\n", chassis.getPose().theta);
+    // printf("\n sensor pos\n");
+    // printf("X: %f\n", chassis.getPose().x);
+    // printf("Y: %f\n", chassis.getPose().y);
+    // printf("Theta: %f\n", chassis.getPose().theta);
+
+    chassis.moveToPose(-24, 24, 0, 5000, {.minSpeed = 40}, false);
 }
 
 void pidTest() {
@@ -115,18 +117,34 @@ void pidTest() {
     // pros::lcd::print(1, "Final Heading: %f", imu.get_heading());
     // printf("heading: %f\n", imu.get_heading());
 
+    // chassis.setPose(0, 0, 0);
+    // chassis.moveDistance(5, 1000, {}, false);
+    // pros::delay(2000);
+    // chassis.setPose(0, 0, 0);
+    // chassis.moveDistance(12, 1000, {}, false);
+    // pros::delay(2000);
+    // chassis.setPose(0, 0, 0);
+    // chassis.moveDistance(24, 1000, {}, false);
+    // pros::delay(2000);
+    // chassis.setPose(0, 0, 0);
+    // chassis.moveDistance(36, 1000, {}, false);
+    // pros::delay(2000);
+
     chassis.setPose(0, 0, 0);
-    chassis.moveDistance(5, 1000, {}, false);
-    pros::delay(2000);
+    chassis.turnToHeading(10, 1500, {}, false);
+    pros::delay(1000);
     chassis.setPose(0, 0, 0);
-    chassis.moveDistance(12, 1000, {}, false);
-    pros::delay(2000);
+    chassis.turnToHeading(15, 1500, {}, false);
+    pros::delay(1000);
     chassis.setPose(0, 0, 0);
-    chassis.moveDistance(24, 1000, {}, false);
-    pros::delay(2000);
+    chassis.turnToHeading(20, 1500, {}, false);
+    pros::delay(1000);
     chassis.setPose(0, 0, 0);
-    chassis.moveDistance(36, 1000, {}, false);
-    pros::delay(2000);
+    chassis.turnToHeading(25, 1500, {}, false);
+    pros::delay(1000);
+    chassis.setPose(0, 0, 0);
+    chassis.turnToHeading(30, 1500, {}, false);
+    pros::delay(1000);
 }
 // vector of tuple of function description and pointers
 std::vector<std::tuple<std::string, void(*)()>> autons = {
