@@ -45,7 +45,6 @@ void stopDrive() {
 
 void stopIntaking() {
     intake.move(0);
-    shotgun.move(0);
     intaking = false;
 }
 

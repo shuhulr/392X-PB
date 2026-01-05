@@ -4,8 +4,10 @@
 #include "lemlib/logger/logger.hpp"
 #include "lemlib/logger/telemetrySink.hpp" // IWYU pragma: keep
 
+#include "liblvgl/llemu.hpp"
 #include "pros/adi.hpp"
 #include "pros/misc.h"
+#include "pros/motors.h"
 #include "pros/optical.hpp" // IWYU pragma: keep
 #include "pros/rotation.hpp"
 #include "pros/rtos.hpp"
@@ -35,6 +37,7 @@ bool leverDown = true;
 float leverTarget = 0;
 int leverTime = 0;
 float leverSpeed = 128;
+bool leverReset = true;
 
 // motors
 pros::Motor intakeRight(19);
@@ -55,9 +58,9 @@ int gameColor = -1;
 
 // pneumatics
 pros::adi::Pneumatics lowFunnel('A', true, true);
-pros::adi::Pneumatics drop('F', true, false);
+pros::adi::Pneumatics drop('G', true, true);
 pros::adi::Pneumatics odomLift('B', true, true);
-pros::adi::Pneumatics descorer('G', false); 
+pros::adi::Pneumatics descorer('E', false); 
 pros::adi::Pneumatics matchloader('H', false);
 
 
@@ -78,7 +81,7 @@ lemlib::TrackingWheel vertical(&verticalEnc, 2, -0.4);
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group
-                              11.75, // 10 inch track width
+                              11.5, // 10 inch track width
                               lemlib::Omniwheel::NEW_325, // using new 3.25" omnis
                               450, // drivetrain rpm is 360
                               2 // horizontal drift is 2. If we had traction wheels, it would have been 8
@@ -108,10 +111,10 @@ lemlib::ControllerSettings angularController(1.8, // proportional gain (kP)
                                              0 // maximum acceleration (slew)
 );
 
-lemlib::ControllerSettings angularControllerU30(3.5, // proportional gain (kP)
-                                             0.035, // integral gain (kI)
-                                             16.5, // derivative gain (kD)
-                                             5, // anti windup
+lemlib::ControllerSettings angularControllerU30(4.3, // proportional gain (kP)
+                                             0.28, // integral gain (kI)
+                                             20, // derivative gain (kD)
+                                             4, // anti windup
                                              1, // small error range, in degrees
                                              75, // small error range timeout, in milliseconds
                                              3, // large error range, in degrees
@@ -242,6 +245,7 @@ void opcontrol() {
     // controller
     // loop to continuously update motors
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+    printf("\nDriver Control Started\n");
     
 
     while (true) {
@@ -258,22 +262,22 @@ void opcontrol() {
         //shuhul drive
         //chassis.arcade(leftY, rightX);
 
-        if (shotgunRS.get_position()/100 < 5 || shotgunRS.get_position()/100 > 355) {
+        if (shotgunRS.get_position()/100 < 3 || shotgunRS.get_position()/100 > 355) {
             leverDown = true;
             shotgun.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
         } else {
             leverDown = false;
             shotgun.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
         }
-        printf("\n%d\n", shotgunRS.get_position());
+        // printf("\n%d\n", shotgunRS.get_position());
 
         // intake
-        if (controller.get_digital(DIGITAL_R1) && leverDown) {
+        if (controller.get_digital(DIGITAL_R1) && (shotgunRS.get_position()/100 > 355 || shotgunRS.get_position()/100 < 5)) {
             intake.move(128);
         }
 
         // outtake
-        else if (controller.get_digital(DIGITAL_L1) && leverDown) {
+        else if (controller.get_digital(DIGITAL_L1)) {
             intake.move(-128);
         }
         
@@ -289,22 +293,17 @@ void opcontrol() {
         //
         if (controller.get_digital(DIGITAL_R2)) {
             leverTarget = -1;
-            if (controller.get_digital(DIGITAL_Y)) {
-                shotgun.move_velocity(30);
+            leverReset = true;
+            if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && (controller.get_digital(DIGITAL_Y) || !drop.is_extended()))) {
+                shotgun.move_velocity(20);
             } else {
-                shotgun.move_velocity(66);
+                shotgun.move_velocity(70);
             }
 
-        }
-        else {
-            shotgun.move(0);
-        }
-
-        if (controller.get_digital_new_release(DIGITAL_R2) && shotgunRS.get_position()/100 > 90) {
+        } else if(!leverDown && leverReset) {
             leverTarget = 0;
-            leverSpeed = 40;
+            leverSpeed = 60;
         }
-
 
         // matchloader B
         if (controller.get_digital_new_press(DIGITAL_B)) {
@@ -321,15 +320,16 @@ void opcontrol() {
                 leverTarget = 60;
                 leverSpeed = 128;
             } else {
+                leverReset = true;
                 leverTarget = 0;
-                leverSpeed = 40;
+                leverSpeed = 60;
             }
-            printf("\n%f\n", leverTarget);
+            // printf("\n%f\n", leverTarget);
         }
 
         if (leverTarget != -1) {
             float error = leverTarget - shotgunRS.get_position()/100.0f;
-            if ((fabs(error) < 3) || (leverTime > 700)) {
+            if ((fabs(error) < 3) || (leverTime > 1000)) {
                 shotgun.brake();
                 leverTarget = -1;
                 leverTime = 0;
@@ -338,6 +338,7 @@ void opcontrol() {
                     shotgun.move(-leverSpeed);
                 } else {
                     shotgun.move(std::clamp((float)(1.5*error), -leverSpeed, leverSpeed));
+                    leverReset = false;
                 }
                 leverTime+=10;
             }
