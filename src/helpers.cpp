@@ -5,7 +5,8 @@
 #include <cstdio>
 
 bool intaking = false;
-bool flying = false;
+bool armMoving = false;
+
 
 pros::Task instigateTask([]() {});
 
@@ -48,12 +49,30 @@ void stopIntaking() {
     intaking = false;
 }
 
-void antijam() {
+void Score(int speed) {
+    pros::Task instigateTask([speed]() {
+        antijamShotgun(speed);
+    });
+    shotgun.move_velocity(speed);
+    armMoving = true;
+}
+
+void stopArm() {
+    armMoving = false;
+    shotgun.move(0);
+}
+
+void resetArm() {
+    armMoving = false;
+    shotgun.move(-70);
+}
+
+void antijamShotgun(int speed) {
     while (true) {
-        if ((intaking) && (intake.get_efficiency() < 3) && (intake.get_voltage() > 5000)) {
-            intake.move(-127);
-            pros::delay(150);
-            intake.move(127);
+        if ((armMoving) && (shotgun.get_efficiency() < 3) && (shotgun.get_voltage() > 5000)) {
+            shotgun.move(-127);
+            pros::delay(60);
+            shotgun.move_velocity(speed);
         }
         pros::delay(20);
     }

@@ -4,7 +4,7 @@
 #include "lemlib/logger/logger.hpp"
 #include "lemlib/logger/telemetrySink.hpp" // IWYU pragma: keep
 
-#include "liblvgl/llemu.hpp"
+#include "liblvgl/llemu.hpp" // IWYU pragma: keep
 #include "pros/adi.hpp"
 #include "pros/misc.h"
 #include "pros/motors.h"
@@ -278,7 +278,7 @@ void opcontrol() {
 
         // outtake
         else if (controller.get_digital(DIGITAL_L1)) {
-            intake.move(-128);
+            intake.move(-50);
         }
         
         // stop take
@@ -294,7 +294,7 @@ void opcontrol() {
         if (controller.get_digital(DIGITAL_R2)) {
             leverTarget = -1;
             leverReset = true;
-            if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && (controller.get_digital(DIGITAL_Y) || !drop.is_extended()))) {
+            if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) && (controller.get_digital(DIGITAL_Y) || !drop.is_extended())) {
                 shotgun.move_velocity(20);
             } else {
                 shotgun.move_velocity(70);
