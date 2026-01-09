@@ -50,8 +50,9 @@ pros::Rotation shotgunRS(-1);
 // pros::Optical opticalSensor(12);
 
 // distance sensors
-pros::Distance distanceX(13);
-pros::Distance distanceY(12);
+pros::Distance distanceXLeft(18);
+pros::Distance distanceXRight(5);
+pros::Distance distanceY(4);
 
 // game color (0 for red, 1 for blue, -1 for none)
 int gameColor = -1;
@@ -180,8 +181,8 @@ void initialize() {
     pros::Task screenTask([&]() {
         while (screenTaskRunning) {
             // print robot location to the brain screen
-            pros::lcd::print(0, "X: %.4f", chassis.getPose().x); // x
-            pros::lcd::print(1, "Y: %.4f", chassis.getPose().y); // y
+            pros::lcd::print(0, "X: %.4f", distanceResetX(true, 0)); // x
+            pros::lcd::print(1, "Y: %.4f", chassis.getPose().x); // y
             pros::lcd::print(2, "Theta: %.3f", chassis.getPose().theta); // heading
             // printf("\n Theta: %f", chassis.getPose().theta);
             // printf("\n X: %f, Y: %f", chassis.getPose().x, chassis.getPose().y);

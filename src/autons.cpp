@@ -4,6 +4,7 @@
 #include "globals.hpp"
 #include <vector>
 #include <tuple>
+#include "liblvgl/llemu.hpp"
 #include "pros/llemu.hpp" // IWYU pragma: keep
 #include "pros/motors.h" // IWYU pragma: keep
 #include "pros/rtos.hpp" // IWYU pragma: keep
@@ -11,7 +12,7 @@
 
 
 // auton num
-int autonIndex = 3;
+int autonIndex = 4;
 
 extern bool screenTaskRunning;
 
@@ -99,21 +100,21 @@ void skills() {
     drop.toggle();
     stopIntaking();
     matchloader.extend();
-    drop.toggle();
     chassis.moveToPoint(-47.5, -48, 1000, {.maxSpeed = 100}, false);
     stopArm();
     chassis.turnToPoint(-47.5, -72, 600, {}, false);
     Intake();
-    chassis.moveDistance(20, 580, {.maxSpeed = 100}, false);
+    chassis.moveDistance(20, 640, {.maxSpeed = 80}, false);
     moveWithVoltage(40, 40);
-    pros::delay(1400);
+    pros::delay(1800);
     // chassis.turnToPoint(-48, -24, 500, {.forwards = false}, false);
     chassis.moveToPoint(-48, -48, 500, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
     chassis.turnToHeading(135, 600, {}, false);
     matchloader.retract();
-    chassis.moveDistance(-16, 700, {.forwards = false}, false);
+    chassis.moveDistance(-15, 700, {.forwards = false}, false);
     chassis.turnToHeading(180, 600, {}, false);
-    chassis.moveDistance(-67, 1500, {.forwards = false}, false);
+    // RESET TIME!!!!!!!!!!
+    chassis.moveDistance(-78, 1700, {.forwards = false}, false);
     chassis.moveToPose(-48, 24, 0, 1700, {.forwards = false, .lead = .6}, false);
     Score(55);
     moveWithVoltage(-50, -50);
@@ -121,17 +122,17 @@ void skills() {
     stopIntaking();
     matchloader.extend();
     resetArm();
-    chassis.moveDistance(30, 800, {}, false);
+    chassis.moveDistance(30, 900, {.maxSpeed = 90}, false);
     stopArm();
     moveWithVoltage(40, 40);
-    pros::delay(1200);
+    pros::delay(1400);
     chassis.moveToPoint(-48, 27, 700, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
-    Score(55);
+    Score(40);
     matchloader.retract();
     moveWithVoltage(-50, -50);
     pros::delay(550);
     resetArm();
-    chassis.moveToPoint(-24, 50, 900, {}, false);
+    chassis.moveToPoint(-24, 53, 900, {}, false);
     chassis.turnToHeading(75, 550, {}, false);
 
     /*Intake();
@@ -375,6 +376,14 @@ void test() {
     // chassis.moveToPoint(0, 24, 5000, {}, false);
     // pros::delay(200);
     // chassis.turnToHeading(90, 500, {}, false);
+    screenTaskRunning = false;
+    pros::lcd::clear();
+    pros::lcd::set_text(0, "Distance X Left Test");
+    // pros::delay(4000);
+    while(true) {
+        pros::delay(10);
+        pros::lcd::print(0, "X: %.4f", distanceResetX(false, 0)); // x
+    }
 }
 
 void pidTest() {
@@ -436,7 +445,7 @@ std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"skills", skills},
 
 
-    {"pid test", pidTest} // 0
+    {"pid test", test} // 0
 
 
 };

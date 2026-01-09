@@ -23,7 +23,8 @@ extern pros::adi::Pneumatics matchloader;
 extern pros::adi::Pneumatics descorer;
 extern pros::adi::Pneumatics odomLift;
 extern pros::adi::Pneumatics lowFunnel;
-extern pros::Distance distanceX;
+extern pros::Distance distanceXLeft;
+extern pros::Distance distanceXRight;
 extern pros::Distance distanceY;
 extern pros::Imu imu;
 
@@ -36,8 +37,8 @@ extern void antijamShotgun(int speed);
 extern void resetArm();
 extern void Score(int speed);
 extern void stopArm();
-extern double distanceResetX();
-extern double distanceResetX(int x, double heading);
+extern double distanceResetX(bool right, int wallOffset);
+extern double distanceResetX(bool right, int x, double heading);
 extern double distanceResetY();
 extern double distanceResetY(int y, double heading);
 
