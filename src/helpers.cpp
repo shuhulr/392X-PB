@@ -69,6 +69,7 @@ void resetArm() {
 
 void antijamShotgun(int speed) {
     while (true) {
+        int a = 128;
         if ((armMoving) && (shotgun.get_efficiency() < 3) && (shotgun.get_voltage() > 5000)) {
             shotgun.move(-127);
             pros::delay(60);
@@ -80,13 +81,13 @@ void antijamShotgun(int speed) {
 
 
 double distanceResetX(bool right, int wallOffset) {
-    double angleDistanceX = (((right ? distanceXRight.get() : distanceXLeft.get()) + (right ? 3.1 : -3.1)*sin(lemlib::degToRad(chassis.getPose().theta))) / 25.4) + 4.1;
+    double angleDistanceX = (((right ? distanceXRight.get() : distanceXLeft.get()) + (right ? 3.1 : -3.1)*sin(lemlib::degToRad(chassis.getPose().theta))) / 25.4) + 5.1;
     double finalDistanceX = angleDistanceX * cos(lemlib::degToRad(chassis.getPose().theta + (right ? -wallOffset : wallOffset)));
     return fabs(finalDistanceX);
 }
 
-double distanceResetX(bool right, int x, double heading) {
-    double angleDistanceX = ((right ? x - 3.1*sin(lemlib::degToRad(heading)) : x) / 25.4) + 4.;
+double distanceResetX(bool right, double x, double heading) {
+    double angleDistanceX = ((right ? x - 3.1*sin(lemlib::degToRad(heading)) : x) / 25.4) + 4.1;
     double finalDistanceX = angleDistanceX * cos(lemlib::degToRad(heading));
     return fabs(finalDistanceX);
 }

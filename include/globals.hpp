@@ -38,7 +38,7 @@ extern void resetArm();
 extern void Score(int speed);
 extern void stopArm();
 extern double distanceResetX(bool right, int wallOffset);
-extern double distanceResetX(bool right, int x, double heading);
+extern double distanceResetX(bool right, double x, double heading);
 extern double distanceResetY();
 extern double distanceResetY(int y, double heading);
 
