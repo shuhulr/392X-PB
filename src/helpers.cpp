@@ -69,7 +69,7 @@ void resetArm() {
 
 void antijamShotgun(int speed) {
     while (true) {
-        if ((armMoving) && (shotgun.get_efficiency() < 3) && (shotgun.get_voltage() > 5000)) {
+        if ((armMoving) && (shotgun.get_efficiency() < 3) && (shotgun.get_voltage() > 6000)) {
             shotgun.move(-127);
             pros::delay(60);
             shotgun.move_velocity(speed);

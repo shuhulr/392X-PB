@@ -59,7 +59,7 @@ int gameColor = -1;
 
 // pneumatics
 pros::adi::Pneumatics lowFunnel('A', true, true);
-pros::adi::Pneumatics drop('G', true, true);
+pros::adi::Pneumatics drop('G', false, false);
 pros::adi::Pneumatics odomLift('B', true, true);
 pros::adi::Pneumatics descorer('E', false); 
 pros::adi::Pneumatics matchloader('H', false);
@@ -181,8 +181,8 @@ void initialize() {
     pros::Task screenTask([&]() {
         while (screenTaskRunning) {
             // print robot location to the brain screen
-            pros::lcd::print(0, "X: %.4f", distanceResetX(true, 0)); // x
-            pros::lcd::print(1, "Y: %.4f", chassis.getPose().x); // y
+            pros::lcd::print(0, "X: %.4f", chassis.getPose().x); // x
+            pros::lcd::print(1, "Y: %.4f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %.3f", chassis.getPose().theta); // heading
             // printf("\n Theta: %f", chassis.getPose().theta);
             // printf("\n X: %f, Y: %f", chassis.getPose().x, chassis.getPose().y);
@@ -263,7 +263,7 @@ void opcontrol() {
         //shuhul drive
         //chassis.arcade(leftY, rightX);
 
-        if (shotgunRS.get_position()/100 < 3 || shotgunRS.get_position()/100 > 355) {
+        if (shotgunRS.get_position()/100 < 1 || shotgunRS.get_position()/100 > 355) {
             leverDown = true;
             shotgun.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
         } else {
@@ -303,7 +303,7 @@ void opcontrol() {
 
         } else if(!leverDown && leverReset) {
             leverTarget = 0;
-            leverSpeed = 60;
+            leverSpeed = 70;
         }
 
         // matchloader B
@@ -323,7 +323,7 @@ void opcontrol() {
             } else {
                 leverReset = true;
                 leverTarget = 0;
-                leverSpeed = 60;
+                leverSpeed = 70;
             }
             // printf("\n%f\n", leverTarget);
         }
