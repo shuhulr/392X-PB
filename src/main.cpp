@@ -59,7 +59,7 @@ int gameColor = -1;
 
 // pneumatics
 pros::adi::Pneumatics lowFunnel('A', true, true);
-pros::adi::Pneumatics drop('G', true, true);
+pros::adi::Pneumatics drop('G', false, false);
 pros::adi::Pneumatics odomLift('D', true, true);
 pros::adi::Pneumatics descorer('E', false); 
 pros::adi::Pneumatics matchloader('H', false);
