@@ -123,7 +123,6 @@ void skills() {
     chassis.setPose(LeftStandardStart);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
     screenTaskRunning = false;
-    
 
     // first 2 stacks
     Intake();
@@ -131,7 +130,7 @@ void skills() {
     pros::delay(200);
     chassis.turnToHeading(30, 300, {}, false);
     chassis.turnToPoint(-47.5, 0, 650, {}, false);
-    chassis.moveDistance(25.4, 800, {}, false);
+    chassis.moveDistance(26, 800, {}, false);
     pros::delay(100);
     chassis.moveDistance(-24, 800, {.forwards = false}, false);
     stopIntaking();
@@ -255,8 +254,8 @@ void skills() {
     pros::delay(150);
     
     drop.toggle();
-    chassis.moveToPoint(-24, 52, 1300, {}, false);
-    chassis.turnToHeading(67, 600, {}, false);
+    chassis.moveToPoint(-23, 50, 1500, {}, false);
+    chassis.turnToPoint(0, 69, 600, {}, false);
 
     // reset again
     pros::delay(150);
@@ -267,9 +266,9 @@ void skills() {
     matchloader.extend();
     chassis.moveDistance(20, 500, {});
     
-    chassis.moveDistance(-9, 700, {.forwards=false}, false);
+    chassis.moveDistance(-11, 750, {.forwards=false}, false);
     matchloader.retract();
-    chassis.turnToHeading(75, 550, {}, false);
+    chassis.turnToPoint(0, 69, 600, {}, false);
     odomLift.retract();
     
     moveWithVoltage(60, 60);
