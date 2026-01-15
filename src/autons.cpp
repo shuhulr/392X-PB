@@ -12,7 +12,7 @@
 
 
 // auton num
-int autonIndex = 5;
+int autonIndex = 4;
 
 extern bool screenTaskRunning;
 
@@ -152,9 +152,9 @@ void skills() {
 
     // go to matchload
     matchloader.extend();
-    chassis.moveToPoint(-47.5, -48, 1200, {.maxSpeed = 80, .maxAngularSpeed=10}, false);
+    chassis.moveToPoint(-48, -48, 1200, {.maxSpeed = 80, .maxAngularSpeed=10}, false);
     stopArm();
-    chassis.turnToPoint(-47.5, -72, 650, {}, false);
+    chassis.turnToPoint(-48, -72, 650, {}, false);
     Intake();
 
     // matchload 1
@@ -172,7 +172,7 @@ void skills() {
     chassis.turnToHeading(135, 600, {}, false);
     stopIntaking();
     chassis.moveDistance(-16.5, 700, {.forwards = false}, false);
-    chassis.turnToHeading(180, 600, {}, false);
+    chassis.turnToPoint(-57, 48, 600, {.forwards=false}, false);
     matchloader.retract();
     chassis.moveToPoint(-57, 48, 2000, {.forwards=false, .maxSpeed=85}, false);
 

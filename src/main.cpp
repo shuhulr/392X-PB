@@ -345,6 +345,10 @@ void opcontrol() {
             }
         }
 
+        if(controller.get_digital_new_press(DIGITAL_UP)) {
+            chassis.setPose(0, 0, 0);
+        }
+
         pros::delay(10);
     }
 }
