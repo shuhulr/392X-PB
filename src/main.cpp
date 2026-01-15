@@ -275,6 +275,7 @@ void opcontrol() {
         // intake
         if (controller.get_digital(DIGITAL_R1) && (shotgunRS.get_position()/100 > 355 || shotgunRS.get_position()/100 < 5)) {
             intake.move(128);
+            odomLift.retract();
         }
 
         // outtake
@@ -346,7 +347,10 @@ void opcontrol() {
         }
 
         if(controller.get_digital_new_press(DIGITAL_UP)) {
-            chassis.setPose(0, 0, 0);
+            odomLift.toggle();
+            if(odomLift.is_extended()) {
+                controller.rumble(".");
+            }
         }
 
         pros::delay(10);

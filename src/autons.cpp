@@ -564,7 +564,7 @@ void soloSigAWP() {
     //matchload
     chassis.moveToPoint(47.2, -48, 900, {.forwards = false, .maxSpeed = 85, .maxAngularSpeed = 10}, false);
     pros::delay(50);
-    chassis.turnToPoint(47.5, -72, 550, {}, false);
+    chassis.turnToPoint(47.5, -72, 525, {}, false);
     matchloader.extend();
     pros::delay(150);
     moveWithVoltage(60, 60);
@@ -586,18 +586,18 @@ void soloSigAWP() {
     // both 3 stacks
     chassis.moveDistance(10, 500, {}, false);
     resetArm();
-    chassis.turnToPoint(24, -24, 580, {}, false);
+    chassis.turnToPoint(24, -25, 580, {}, false);
     Intake();
-    chassis.moveDistance(18, 800, {.minSpeed = 35, .earlyExitRange = 5.5}, false);
+    chassis.moveDistance(18, 800, {.minSpeed = 50, .earlyExitRange = 5}, false);
     stopArm();
     moveWithVoltage(35, 35);
-    pros::delay(300);
+    pros::delay(200);
     moveWithVoltage(30, 60);
     pros::delay(300);
     matchloader.extend();
     drop.toggle();
-    pros::delay(200);
-    chassis.turnToPoint(-24, -24, 500, {}, false);
+    pros::delay(25);
+    chassis.turnToPoint(-24, -24, 550, {}, false);
     matchloader.retract();
     shotgun.move(-55);
     chassis.moveToPoint(-17, -24, 1050, {.maxSpeed = 75, .maxAngularSpeed = 5, .minSpeed = 40, .earlyExitRange = 6});
@@ -607,33 +607,34 @@ void soloSigAWP() {
     moveWithVoltage(32, 32);
     pros::delay(200);
     matchloader.extend();
-    pros::delay(300);
+    moveWithVoltage(27, 27);
+    pros::delay(200);
 
     // score on mid goal
-    chassis.turnToPoint(-5, -5, 500, {.forwards = false}, false);
-    chassis.moveDistance(-20, 640, {.forwards = false}, false);
+    chassis.turnToPoint(-4, -6, 550, {.forwards = false}, false);
+    chassis.moveDistance(-20, 580, {.forwards = false}, false);
     Score(25);
     int timeout = 0;
-    while (shotgunRS.get_position() < 7700 && timeout < 600) {
+    while (shotgunRS.get_position() < 8500 && timeout < 700) {
         pros::delay(10);
         timeout +=10;
         printf("lever pos: %f\n", shotgunRS.get_position()/100.0f);
     }
     resetArm();
     intake.move(-128);
-    pros::delay(450);
+    pros::delay(500);
     drop.toggle();
     stopIntaking();
     chassis.moveToPoint(-48, -48, 950, {}, false);
     stopArm();
-    chassis.turnToPoint(-47.5, -72, 550, {}, false);
+    chassis.turnToPoint(-47.5, -72, 530, {}, false);
     Intake();
     chassis.moveDistance(20, 620, {.maxSpeed = 62}, false);
     moveWithVoltage(40, 40);
     pros::delay(500);
     chassis.turnToPoint(-48.5, -24, 500, {.forwards = false}, false);
     chassis.moveToPoint(-48.3, -27, 700, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
-    Score(55);
+    Score(60);
     moveWithVoltage(-50, -50);
     pros::delay(550);
     stopIntaking();
