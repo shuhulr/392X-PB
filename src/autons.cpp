@@ -12,7 +12,7 @@
 
 
 // auton num
-int autonIndex = 4;
+int autonIndex = 0;
 
 extern bool screenTaskRunning;
 
@@ -32,15 +32,15 @@ void rightBonus() {
     chassis.setPose(RightStandardStart);
     Intake();
     drop.extend();
-    chassis.moveDistance(18, 800, {.minSpeed = 35, .earlyExitRange = 7}, false);
+    chassis.moveDistance(18, 800, {.minSpeed = 35, .earlyExitRange = 5}, false);
     moveWithVoltage(50, 25);
-    pros::delay(650);
+    pros::delay(500);
     matchloader.extend();
     pros::delay(200);
     // chassis.moveDistance(-5, 500, {.forwards = false}, false);
     // chassis.moveToPose(48, -72, 180, 2500, {.lead = 0.5, .maxSpeed = 80, .minSpeed = 45}, false);
-    chassis.turnToPoint(48, -47, 600, {}, false);
-    chassis.moveToPoint(48, -47, 900, {.maxSpeed = 90, .maxAngularSpeed = 10}, false);
+    chassis.turnToPoint(46.5, -47, 600, {}, false);
+    chassis.moveToPoint(46.5, -47, 900, {.maxSpeed = 90, .maxAngularSpeed = 10}, false);
     // pros::lcd::print(2, "x: %f, y: %f, t: %f", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
 
     // pros::delay(250);
@@ -50,7 +50,7 @@ void rightBonus() {
     moveWithVoltage(60, 60);
     pros::delay(450);
     moveWithVoltage(40, 40);
-    pros::delay(100);
+    pros::delay(700);
     chassis.turnToPoint(48, -24, 500, {.forwards = false}, false);
     shotgun.move(-64);
     pros::lcd::print(1, "x: %f, y: %f, t: %f", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
@@ -447,7 +447,7 @@ void leftAWP() {
     printf("x: %f, y: %f, t: %f\n", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
     shotgun.move_velocity(55);
     moveWithVoltage(-50, -50);
-    pros::delay(570);
+    pros::delay(620);
     stopIntaking();
     matchloader.retract();
     chassis.moveDistance(10, 500, {}, false);
@@ -465,20 +465,28 @@ void leftAWP() {
     pros::delay(200);
     moveWithVoltage(0, 0);
     pros::delay(400);
-    chassis.moveDistance(-10, 500, {.forwards = false}, false);
-    chassis.moveToPose(-45, -7, -15, 2200, {.lead = 0.4, .maxSpeed = 65});
-    chassis.waitUntil(8);
+    chassis.moveDistance(-17, 800, {.forwards = false}, false);
     matchloader.retract();
-    // chassis.waitUntil(32);
+    chassis.turnToPoint(-48, -1, 600, {}, false);
+    chassis.moveDistance(16, 1000, {.maxSpeed=70}, false);
+
+    
+    
+    
+    
+    // chassis.moveToPose(-45, -7, -15, 2200, {.lead = 0.4, .maxSpeed = 65});
+    // chassis.waitUntil(8);
+    // matchloader.retract();
+    // // chassis.waitUntil(32);
+    // // matchloader.extend();
+    // chassis.waitUntilDone();
     // matchloader.extend();
-    chassis.waitUntilDone();
-    matchloader.extend();
-    pros::delay(200);
-    // chassis.moveToPoint(-28, -22, 1000, {.forwards = false, .maxSpeed = 70}, false);
-    chassis.moveDistance(-5, 450, {.forwards = false}, false);
+    // pros::delay(200);
+    // // chassis.moveToPoint(-28, -22, 1000, {.forwards = false, .maxSpeed = 70}, false);
+    // chassis.moveDistance(-5, 450, {.forwards = false}, false);
     chassis.turnToPoint(-24, -24, 500, {.forwards = false}, false);
     chassis.moveToPoint(-26.5, -23.5, 800, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
-    chassis.turnToPoint(-6, -5, 600, {.forwards = false}, false);
+    chassis.turnToPoint(-5, -5, 600, {.forwards = false}, false);
     chassis.moveDistance(-20, 700, {.forwards = false}, false);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
     shotgun.move_velocity(25);
@@ -597,7 +605,7 @@ void soloSigAWP() {
     matchloader.extend();
     drop.toggle();
     pros::delay(25);
-    chassis.turnToPoint(-24, -24, 550, {}, false);
+    chassis.turnToPoint(-24, -24, 600, {}, false);
     matchloader.retract();
     shotgun.move(-55);
     chassis.moveToPoint(-17, -24, 1050, {.maxSpeed = 75, .maxAngularSpeed = 5, .minSpeed = 40, .earlyExitRange = 6});
@@ -765,14 +773,14 @@ void pidTest() {
 // vector of tuple of function description and pointers
 std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"right bonus", rightBonus}, // 0
-    {"left bonus", leftBonus},
-    {"left AWP", leftAWP}, // 1
-    {"right AWP", rightAWP}, // 2
-    {"solo sig AWP", soloSigAWP}, // 3
-    {"skills", skills}, // 4
+    {"left bonus", leftBonus}, // 1
+    {"left AWP", leftAWP}, // 2
+    {"right AWP", rightAWP}, // 3
+    {"solo sig AWP", soloSigAWP}, // 4
+    {"skills", skills}, // 5
 
 
-    {"pid test", test}
+    {"pid test", test} // 6
 
 
 };
