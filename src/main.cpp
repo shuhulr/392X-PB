@@ -296,7 +296,9 @@ void opcontrol() {
         if (controller.get_digital(DIGITAL_R2)) {
             leverTarget = -1;
             leverReset = true;
-            if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) && (controller.get_digital(DIGITAL_Y) || !drop.is_extended())) {
+            if(autonIndex == 5 && !drop.is_extended()) {
+                shotgun.move_velocity(17);
+            } else if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) && (controller.get_digital(DIGITAL_Y) || !drop.is_extended())) {
                 shotgun.move_velocity(30);
             } else {
                 shotgun.move_velocity(70);

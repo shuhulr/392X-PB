@@ -50,9 +50,6 @@ void stopIntaking() {
 }
 
 void Score(int speed) {
-    pros::Task instigateTask([speed]() {
-        antijamShotgun(speed);
-    });
     shotgun.move_velocity(speed);
     armMoving = true;
 }
@@ -65,6 +62,10 @@ void stopArm() {
 void resetArm() {
     armMoving = false;
     shotgun.move(-70);
+}
+void resetArm(int voltage) {
+    armMoving = false;
+    shotgun.move(-voltage);
 }
 
 void antijamShotgun(int speed) {
