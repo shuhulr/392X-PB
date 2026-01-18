@@ -12,7 +12,7 @@
 
 
 // auton num
-int autonIndex = 2;
+int autonIndex = 0;
 
 extern bool screenTaskRunning;
 
@@ -555,7 +555,7 @@ void rightAWP() {
     moveWithVoltage(55, 55);
     pros::delay(450);
     moveWithVoltage(35, 35);
-    pros::delay(650);
+    pros::delay(700);
     chassis.moveToPoint(48, -27, 800, {.forwards = false, .maxSpeed = 80, .maxAngularSpeed = 10}, false);
     pros::lcd::print(1, "x: %f, y: %f, t: %f", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
     printf("x: %f, y: %f, t: %f\n", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
@@ -568,15 +568,15 @@ void rightAWP() {
     resetArm();
     chassis.turnToPoint(24, -24, 580, {}, false);
     Intake();
-    chassis.moveDistance(18, 800, {.minSpeed = 35, .earlyExitRange = 5.5}, false);
+    chassis.moveDistance(18, 800, {.minSpeed = 35, .earlyExitRange = 5}, false);
     stopArm();
     moveWithVoltage(35, 35);
-    pros::delay(300);
+    pros::delay(350);
     moveWithVoltage(30, 60);
     pros::delay(300);
     matchloader.extend();
     // drop.toggle();
-    pros::delay(200);
+    pros::delay(300);
     moveWithVoltage(0, 0);
     pros::delay(400);
     // chassis.moveDistance(-17, 800, {.forwards = false}, false);
@@ -600,7 +600,7 @@ void rightAWP() {
     // chassis.moveDistance(-5, 450, {.forwards = false}, false);
     // chassis.turnToPoint(24, -24, 500, {.forwards = false}, false);
     // chassis.moveToPoint(22, -23.5, 800, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
-    chassis.moveDistance(-8, 500, {.forwards = false}, false);
+    chassis.moveDistance(-7, 500, {.forwards = false}, false);
     chassis.turnToPoint(5, -5, 600, {}, false);
     chassis.moveDistance(16, 700, {}, false);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
@@ -678,17 +678,30 @@ void soloSigAWP() {
     pros::delay(230);
 
     // score on mid goal
-    chassis.turnToPoint(-3.5, -5, 550, {.forwards = false}, false);
+    chassis.turnToPoint(-3, -5, 550, {.forwards = false}, false);
     chassis.moveDistance(-20, 580, {.forwards = false}, false);
     Score(30);
+    stopIntaking();
     matchloader.retract();
+    pros::Task instigateTask([]() {
+        int timer = 0;
+        while(timer < 600) {
+            moveWithVoltage(25, -25);
+            timer += 100;
+            pros::delay(100);
+            moveWithVoltage(-25, 25);
+            timer += 100;
+            pros::delay(100);
+        }
+        moveWithVoltage(0, 0);
+    });
     int timeout = 0;
     while (shotgunRS.get_position() < 8300 && timeout < 700) {
         pros::delay(10);
         timeout +=10;
         printf("lever pos: %f\n", shotgunRS.get_position()/100.0f);
     }
-    resetArm();
+    shotgun.move(-100);
     intake.move(-128);
     pros::delay(400);
     drop.toggle();
@@ -699,7 +712,7 @@ void soloSigAWP() {
     stopArm();
     matchloader.extend();
     pros::delay(50);
-    chassis.turnToPoint(-47.7, -72, 530, {}, false);
+    chassis.turnToPoint(-48, -72, 530, {}, false);
     Intake();
     chassis.moveDistance(20, 620, {.maxSpeed = 62}, false);
     moveWithVoltage(40, 40);
