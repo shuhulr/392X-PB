@@ -12,7 +12,7 @@
 
 
 // auton num
-int autonIndex = 6;
+int autonIndex = 4;
 
 extern bool screenTaskRunning;
 
@@ -636,33 +636,36 @@ void soloSigAWP() {
     pros::delay(100);
     moveWithVoltage(60, 60);
     pros::delay(400);
-    moveWithVoltage(40, 40);
-    pros::delay(750);
+    moveWithVoltage(35, 35);
+    pros::delay(800);
 
     // right long goal
     chassis.moveToPoint(48.2, -27, 700, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
     Score(50);
     moveWithVoltage(-50, -50);
-    pros::delay(600);
+    pros::delay(300);
 
 
     armMoving = false;
     stopIntaking();
+    pros::delay(300);
     matchloader.retract();
 
     // both 3 stacks
-    chassis.moveDistance(10, 500, {}, false);
+    // chassis.moveDistance(10, 500, {}, false);
     resetArm();
     intake.move(-128);
-    chassis.turnToPoint(24, -25, 580, {}, false);
+    chassis.turnToPoint(24, -24.6, 750, {}, false);
     Intake();
-    chassis.moveDistance(18, 800, {.minSpeed = 50, .earlyExitRange = 5}, false);
+    pros::delay(50);
+    chassis.moveToPoint(21, -23.5, 800, {.maxSpeed = 80, .maxAngularSpeed = 12, .minSpeed = 35, .earlyExitRange = 10}, false);
     stopArm();
-    moveWithVoltage(35, 35);
+    moveWithVoltage(30, 50);
     pros::delay(200);
-    moveWithVoltage(30, 60);
-    pros::delay(300);
     matchloader.extend();
+    pros::delay(200);
+    // moveWithVoltage(30, 60);
+    // pros::delay(300);
     drop.toggle();
     pros::delay(25);
     chassis.turnToPoint(-24.4, -24, 550, {}, false);
@@ -681,7 +684,6 @@ void soloSigAWP() {
     // score on mid goal
     chassis.turnToPoint(-3, -5, 550, {.forwards = false}, false);
     chassis.moveDistance(-20, 580, {.forwards = false}, false);
-    Score(30);
     stopIntaking();
     matchloader.retract();
     pros::Task instigateTask([]() {
@@ -698,6 +700,7 @@ void soloSigAWP() {
     });
     int timeout = 0;
     while (shotgunRS.get_position() < 8300 && timeout < 700) {
+        shotgun.move(60);
         pros::delay(10);
         timeout +=10;
         printf("lever pos: %f\n", shotgunRS.get_position()/100.0f);
@@ -706,14 +709,14 @@ void soloSigAWP() {
     intake.move(-128);
     pros::delay(400);
     drop.toggle();
-    chassis.moveToPoint(-47.5, -48, 950, {});
+    chassis.moveToPoint(-46, -48, 950, {});
     pros::delay(250);
     Intake();
     chassis.waitUntilDone();
     stopArm();
     matchloader.extend();
     pros::delay(50);
-    chassis.turnToPoint(-48, -72, 530, {}, false);
+    chassis.turnToPoint(-48, -72, 700, {}, false);
     Intake();
     chassis.moveDistance(20, 620, {.maxSpeed = 62}, false);
     moveWithVoltage(40, 40);
