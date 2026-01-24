@@ -5,6 +5,7 @@
 #include "liblvgl/misc/lv_area.h"
 #include "liblvgl/misc/lv_types.h"
 #include "liblvgl/widgets/image/lv_image.h"
+#include "pros/misc.hpp"
 
 lv_obj_t *img = nullptr;
 
@@ -23,20 +24,23 @@ void hideImage(lv_event_t *e) {
 
     // Re-enable the PROS LCD
     pros::lcd::initialize(); 
+
+
     pros::lcd::register_btn0_cb(leftScreenButton);
     pros::lcd::register_btn1_cb(displayImage);
     pros::lcd::register_btn2_cb(rightScreenButton);
+    
 }
 
 void displayImage() {
     pros::lcd::shutdown();  // disable LCD
     black_background();
 
-    LV_IMAGE_DECLARE(speedzappers_logo_rotated);
+    LV_IMAGE_DECLARE(speedzappers_logo);
 
     // Create image object
     img = lv_image_create(lv_screen_active());
-    lv_image_set_src(img, &speedzappers_logo_rotated);
+    lv_image_set_src(img, &speedzappers_logo);
     lv_obj_align(img, LV_ALIGN_CENTER, 0, 0);
 
     // Make image clickable

@@ -38,6 +38,8 @@ float leverTarget = 0;
 int leverTime = 0;
 float leverSpeed = 128;
 bool leverReset = true;
+bool competitionInitialize = false;
+bool opControl = false;
 
 // motors
 pros::Motor intakeRight(19);
@@ -220,7 +222,7 @@ void disabled() {
 
 
 void competition_initialize() {
-    //odomLiftRaise = true;
+    competitionInitialize = true;
 }
 
 // get a path used for pure pursuit
@@ -247,7 +249,7 @@ void opcontrol() {
     // loop to continuously update motors
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
     printf("\nDriver Control Started\n");
-    
+    opControl = true;
 
     while (true) {
         // get joystick positions
@@ -316,7 +318,12 @@ void opcontrol() {
 
         // descorer RIGHT
         if (controller.get_digital_new_press(DIGITAL_RIGHT)) {
+            /*if(!competitionInitialize) {
+                rightScreenButton();
+            }
+            else */
             descorer.toggle();
+            
         }
 
         if (controller.get_digital_new_press(DIGITAL_DOWN)) {
@@ -354,6 +361,11 @@ void opcontrol() {
                 controller.rumble(".");
             }
         }
+        
+        
+        /*if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT) && !competitionInitialize) {
+            leftScreenButton();
+        }*/
 
         pros::delay(10);
     }

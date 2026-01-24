@@ -22,7 +22,7 @@ lemlib::Pose origin(0, 0, 0);
 lemlib::Pose RightStandardStart(17.3, -48.6, 14);
 lemlib::Pose LeftStandardStart(-17.3, -48.6, -14);
 lemlib::Pose leftAWPStart(-17.7, -48.7, -90);
-lemlib::Pose rightAWPStart(17, -49, 90);
+lemlib::Pose rightAWPStart(17, -48.7, 90);
 lemlib::Pose SoloStart(-10, -45, 20);
 lemlib::Pose SoloSigStart(7.4, -47.5, -90);
 
@@ -510,8 +510,11 @@ void leftAWP() {
     pros::delay(400);
     chassis.moveDistance(-17, 800, {.forwards = false}, false);
     matchloader.retract();
-    chassis.turnToPoint(-48, -3, 600, {}, false);
-    chassis.moveDistance(16, 1000, {.maxSpeed=75}, false);
+    chassis.turnToPoint(-47.5, -3, 600, {}, false);
+    chassis.moveDistance(16.2, 800, {.maxSpeed=70});
+    chassis.waitUntil(13);
+    matchloader.extend();
+    chassis.waitUntilDone();
 
     
     
@@ -527,6 +530,7 @@ void leftAWP() {
     // pros::delay(200);
     // // chassis.moveToPoint(-28, -22, 1000, {.forwards = false, .maxSpeed = 70}, false);
     // chassis.moveDistance(-5, 450, {.forwards = false}, false);
+    pros::delay(200);
     chassis.turnToPoint(-24, -24, 500, {.forwards = false}, false);
     chassis.moveToPoint(-26.5, -23.5, 800, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
     chassis.turnToPoint(-4.5, -5, 600, {.forwards = false}, false);
@@ -631,7 +635,7 @@ void soloSigAWP() {
     //matchload
     chassis.moveToPoint(47.2, -48, 900, {.forwards = false, .maxSpeed = 85, .maxAngularSpeed = 10}, false);
     pros::delay(50);
-    chassis.turnToPoint(47.2, -72, 525, {}, false);
+    chassis.turnToPoint(47, -72, 525, {}, false);
     matchloader.extend();
     pros::delay(100);
     moveWithVoltage(60, 60);
@@ -679,11 +683,11 @@ void soloSigAWP() {
     pros::delay(200);
     matchloader.extend();
     moveWithVoltage(27, 27);
-    pros::delay(230);
+    pros::delay(200);
 
     // score on mid goal
-    chassis.turnToPoint(-3, -5, 550, {.forwards = false}, false);
-    chassis.moveDistance(-20, 580, {.forwards = false}, false);
+    chassis.turnToPoint(-4, -5, 550, {.forwards = false}, false);
+    chassis.moveDistance(-20, 580, {.forwards = false, .maxSpeed = 90}, false);
     stopIntaking();
     matchloader.retract();
     pros::Task instigateTask([]() {
@@ -700,11 +704,11 @@ void soloSigAWP() {
     });
     int timeout = 0;
     while (shotgunRS.get_position() < 8000 && timeout < 700) {
-        if(shotgunRS.get_position() < 900) {
-            shotgun.move_velocity(60);
-        } else {
+        //if(shotgunRS.get_position() < 1300) {
+            shotgun.move_velocity(55);
+        /*} else {
             shotgun.move_velocity(25);
-        }
+        }*/
         pros::delay(10);
         timeout +=10;
         printf("lever pos: %f\n", shotgunRS.get_position()/100.0f);
