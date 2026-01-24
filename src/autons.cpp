@@ -98,7 +98,7 @@ void leftBonus() {
     moveWithVoltage(60, 60);
     pros::delay(450);
     moveWithVoltage(40, 40);
-    pros::delay(500);
+    pros::delay(360);
 
     chassis.turnToPoint(-48.5, -24, 500, {.forwards = false}, false);
 
@@ -106,7 +106,7 @@ void leftBonus() {
     pros::lcd::print(1, "x: %f, y: %f, t: %f", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
     chassis.moveToPoint(-48, -27, 700, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
     moveWithVoltage(-40, -40);
-    shotgun.move_velocity(60);
+    shotgun.move_velocity(70);
     pros::delay(600);
     stopIntaking();
 
@@ -743,12 +743,12 @@ void Push4Left() {
     moveWithVoltage(40, 40);
     pros::delay(730);
 
-    chassis.moveToPoint(-48.6, -27, 700, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
+    chassis.moveToPoint(-48, -27, 700, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
     pros::lcd::print(1, "x: %f, y: %f, t: %f", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
     printf("x: %f, y: %f, t: %f\n", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
     shotgun.move_velocity(70);
     moveWithVoltage(-50, -50);
-    pros::delay(620);
+    pros::delay(660);
     stopIntaking();
     // matchloader.retract();
     chassis.turnToHeading(135, 400, {.earlyExitRange = 30}, false);
