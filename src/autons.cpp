@@ -475,7 +475,7 @@ void leftAWP() {
     screenTaskRunning = false;
     chassis.setPose(leftAWPStart);
     drop.toggle();
-    chassis.moveDistance(29, 800, {}, false);
+    chassis.moveDistance(28, 800, {}, false);
     chassis.turnToPoint(-48, -72, 600, {}, false);
     Intake();
     matchloader.extend();
@@ -699,8 +699,12 @@ void soloSigAWP() {
         moveWithVoltage(0, 0);
     });
     int timeout = 0;
-    while (shotgunRS.get_position() < 8300 && timeout < 700) {
-        shotgun.move(60);
+    while (shotgunRS.get_position() < 8000 && timeout < 700) {
+        if(shotgunRS.get_position() < 900) {
+            shotgun.move_velocity(60);
+        } else {
+            shotgun.move_velocity(25);
+        }
         pros::delay(10);
         timeout +=10;
         printf("lever pos: %f\n", shotgunRS.get_position()/100.0f);
@@ -720,7 +724,7 @@ void soloSigAWP() {
     Intake();
     chassis.moveDistance(20, 620, {.maxSpeed = 62}, false);
     moveWithVoltage(40, 40);
-    pros::delay(450);
+    pros::delay(500);
     chassis.turnToPoint(-48.5, -24, 500, {.forwards = false}, false);
     chassis.moveToPoint(-48.3, -27, 700, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
     Score(60);
