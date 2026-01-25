@@ -622,7 +622,7 @@ void rightAWP() {
 
 void soloSigAWP() {
     shotgunRS.reset_position();
-    chassis.setPose(SoloSigStart);
+    chassis.setPose(rightAWPStart);
     screenTaskRunning = false;
     drop.toggle();
     Intake();
@@ -633,15 +633,15 @@ void soloSigAWP() {
     // pros::delay(100);
 
     //matchload
-    chassis.moveToPoint(47.2, -48, 900, {.forwards = false, .maxSpeed = 85, .maxAngularSpeed = 10}, false);
+    chassis.moveToPoint(47.2, -48, 900, { .maxSpeed = 85, .maxAngularSpeed = 10}, false);
     pros::delay(50);
     chassis.turnToPoint(47, -72, 525, {}, false);
     matchloader.extend();
     pros::delay(100);
     moveWithVoltage(60, 60);
-    pros::delay(400);
+    pros::delay(500);
     moveWithVoltage(35, 35);
-    pros::delay(800);
+    pros::delay(900);
 
     // right long goal
     chassis.moveToPoint(48.2, -27, 700, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
@@ -686,6 +686,7 @@ void soloSigAWP() {
     pros::delay(200);
 
     // score on mid goal
+    chassis.moveToPoint(-24, -24, 200, {.forwards=false}, false);
     chassis.turnToPoint(-4, -5, 550, {.forwards = false}, false);
     chassis.moveDistance(-20, 580, {.forwards = false, .maxSpeed = 90}, false);
     stopIntaking();
@@ -703,9 +704,9 @@ void soloSigAWP() {
         moveWithVoltage(0, 0);
     });
     int timeout = 0;
-    while (shotgunRS.get_position() < 8000 && timeout < 700) {
+    while (shotgunRS.get_position() < 8000 && timeout < 800) {
         //if(shotgunRS.get_position() < 1300) {
-            shotgun.move_velocity(55);
+            shotgun.move_velocity(40);
         /*} else {
             shotgun.move_velocity(25);
         }*/
@@ -722,13 +723,16 @@ void soloSigAWP() {
     Intake();
     chassis.waitUntilDone();
     stopArm();
+
     matchloader.extend();
     pros::delay(50);
     chassis.turnToPoint(-48, -72, 700, {}, false);
     Intake();
     chassis.moveDistance(20, 620, {.maxSpeed = 62}, false);
     moveWithVoltage(40, 40);
-    pros::delay(500);
+    pros::delay(700);
+
+
     chassis.turnToPoint(-48.5, -24, 500, {.forwards = false}, false);
     chassis.moveToPoint(-48.3, -27, 700, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
     Score(60);

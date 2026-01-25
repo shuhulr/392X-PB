@@ -43,8 +43,8 @@ bool opControl = false;
 
 // motors
 pros::Motor intakeRight(19);
-pros::Motor intakeLeft(-16);
-pros::MotorGroup intake({19, -16});
+pros::Motor intakeLeft(-21);
+pros::MotorGroup intake({19, -21});
 pros::Motor shotgun(3, pros::MotorGearset::red);
 pros::Rotation shotgunRS(-1);
 
