@@ -817,9 +817,9 @@ void lowGoalSoloSigAWP() {
     chassis.waitUntilDone();
     stopArm();
 
-    //reset
-    double x = distanceResetX(true, 180);
-    chassis.setPose((72-x), chassis.getPose().y, chassis.getPose().theta);
+    // reset
+    // double x = distanceResetX(true, 0);
+    // chassis.setPose((72-x), chassis.getPose().y, chassis.getPose().theta);
     
 
     matchloader.extend();
