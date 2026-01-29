@@ -64,7 +64,7 @@ pros::adi::Pneumatics drop('G', false, false);
 pros::adi::Pneumatics odomLift('D', true, true);
 pros::adi::Pneumatics descorer('E', false); 
 pros::adi::Pneumatics matchloader('H', false);
-pros::adi::Pneumatics passTheJuice('B', false, false);
+pros::adi::Pneumatics passTheJuice('F', false, false);
 
 
 // Inertial Sensor on port 10
