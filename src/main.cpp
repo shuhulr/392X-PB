@@ -14,7 +14,7 @@
 #include "autons.h"    // IWYU pragma: keep
 #include "globals.hpp"
 #include "pros/screen.h" // IWYU pragma: keep
-#include <algorithm>
+#include <algorithm> // IWYU pragma: keep
 #include <cstdio>
 
 extern int autonIndex;
@@ -37,7 +37,7 @@ bool leverDown = true;
 float leverTarget = 0;
 int leverTime = 0;
 float leverSpeed = 128;
-bool leverReset = true;
+// bool leverReset = true;
 bool competitionInitialize = false;
 bool opControl = false;
 
@@ -60,11 +60,11 @@ pros::Distance distanceY(4);
 int gameColor = -1;
 
 // pneumatics
-pros::adi::Pneumatics lowFunnel('A', true, true);
 pros::adi::Pneumatics drop('G', false, false);
 pros::adi::Pneumatics odomLift('D', true, true);
 pros::adi::Pneumatics descorer('E', false); 
 pros::adi::Pneumatics matchloader('H', false);
+pros::adi::Pneumatics passTheJuice('B', false, false);
 
 
 // Inertial Sensor on port 10
@@ -297,7 +297,6 @@ void opcontrol() {
         //
         if (controller.get_digital(DIGITAL_R2)) {
             leverTarget = -1;
-            leverReset = true;
             if(autonIndex == 5 && !drop.is_extended()) {
                 shotgun.move_velocity(17);
             } else if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) && (controller.get_digital(DIGITAL_Y) || !drop.is_extended())) {
@@ -306,7 +305,7 @@ void opcontrol() {
                 shotgun.move_velocity(70);
             }
 
-        } else if(!leverDown && leverReset) {
+        } else if(!leverDown) {
             leverTarget = 0;
             leverSpeed = 70;
         }
@@ -317,6 +316,21 @@ void opcontrol() {
         }
 
         // descorer RIGHT
+     
+        if (leverTarget != -1) {
+            float error = leverTarget - shotgunRS.get_position()/100.0f;
+            if ((fabs(error) < 3) || (leverTime > 1000)) {
+                shotgun.brake();
+                leverTarget = -1;
+                leverTime = 0;
+            } else {
+                if (leverTarget == 0) {
+                    shotgun.move(-leverSpeed);
+                }
+                leverTime+=10;
+            }
+        }
+
         if (controller.get_digital_new_press(DIGITAL_RIGHT)) {
             /*if(!competitionInitialize) {
                 rightScreenButton();
@@ -327,32 +341,7 @@ void opcontrol() {
         }
 
         if (controller.get_digital_new_press(DIGITAL_DOWN)) {
-            if (leverDown) {
-                leverTarget = 60;
-                leverSpeed = 128;
-            } else {
-                leverReset = true;
-                leverTarget = 0;
-                leverSpeed = 70;
-            }
-            // printf("\n%f\n", leverTarget);
-        }
-
-        if (leverTarget != -1) {
-            float error = leverTarget - shotgunRS.get_position()/100.0f;
-            if ((fabs(error) < 3) || (leverTime > 1000)) {
-                shotgun.brake();
-                leverTarget = -1;
-                leverTime = 0;
-            } else {
-                if (leverTarget == 0) {
-                    shotgun.move(-leverSpeed);
-                } else {
-                    shotgun.move(std::clamp((float)(1.5*error), -leverSpeed, leverSpeed));
-                    leverReset = false;
-                }
-                leverTime+=10;
-            }
+            passTheJuice.toggle();
         }
 
         if(controller.get_digital_new_press(DIGITAL_UP)) {
