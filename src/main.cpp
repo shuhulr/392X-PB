@@ -17,13 +17,17 @@
 #include <algorithm> // IWYU pragma: keep
 #include <cstdio>
 
-extern int autonIndex;
+extern int auton;
+extern bool ovrde;
 
 // odom lift flag
 //bool odomLiftRaise = false;
 
 // screen task flag
 bool screenTaskRunning = true;
+
+
+//FILE* file = fopen("/usd/auto.txt", "w");
 
 
 // controller
@@ -150,17 +154,36 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, angular
 
 //using modulo (math)
 void leftScreenButton() {
-    autonIndex = (autonIndex - 1 + autons.size()) % (autons.size());
+    
+    auton = (auton - 1 + autons.size()) % (autons.size());
+    //fputs("" + get<0>(auton), file);
 }
 
 void rightScreenButton() {
-    autonIndex = (autonIndex + 1) % (autons.size());
+    auton = (auton + 1) % (autons.size());
+    //fputs("" + get<0>(auton), file);
 }
 
 
 void displayImage();
 void initialize() {
     shotgunRS.set_position(0);
+    /*if(ovrde) {
+        //sdcard index = get<0>(auton)
+        FILE* file = fopen("/usd/auto.txt", "w");
+        fputs(""+auton, file);
+        fclose(file);
+    }
+    else {
+        //get<0>(auton) = sdcard index
+        FILE* file = fopen("/usd/auto.txt", "r");
+        char buf[1];
+        fread(buf, 1, 1, file);
+        auton = std::stoi(buf);
+        printf("%c", buf[0]);
+        fclose(file);
+    }*/
+
     displayImage();
     
     
@@ -188,8 +211,8 @@ void initialize() {
             pros::lcd::print(2, "Theta: %.3f", chassis.getPose().theta); // heading
             // printf("\n Theta: %f", chassis.getPose().theta);
             // printf("\n X: %f, Y: %f", chassis.getPose().x, chassis.getPose().y);
-            pros::lcd::print(3, "auton index: %d", autonIndex);
-            pros::lcd::print(4, "%s", std::get<0>(autons[autonIndex]));
+            pros::lcd::print(3, "auton index: %d", auton);
+            pros::lcd::print(4, "%s", std::get<0>(autons[auton]));
 
             pros::lcd::print(5, "Left: %f    Right: %f", leftMotors.get_temperature(), rightMotors.get_temperature());
             pros::lcd::print(6, "Intake: %f", intake.get_temperature());
@@ -237,7 +260,7 @@ void autonomous() {
     verticalEnc.set_position(0);
     shotgunRS.set_position(0);
     //autonIndex = 0; // Change this to whichever auton you want to run
-    std::get<1>(autons[autonIndex])();
+    std::get<1>(autons[auton])();
     
 }
 
@@ -297,7 +320,7 @@ void opcontrol() {
         //
         if (controller.get_digital(DIGITAL_R2)) {
             leverTarget = -1;
-            if(autonIndex == 5 && !drop.is_extended()) {
+            if(auton == 5 && !drop.is_extended()) {
                 shotgun.move_velocity(17);
             } else if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) && (controller.get_digital(DIGITAL_Y) || !drop.is_extended())) {
                 shotgun.move_velocity(30);

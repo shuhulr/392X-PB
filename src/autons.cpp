@@ -11,8 +11,8 @@
 #include <cstddef> // IWYU pragma: keep
 
 
-// auton num
-int autonIndex = 2;
+// auton 
+int auton = 5;
 
 extern bool screenTaskRunning;
 
