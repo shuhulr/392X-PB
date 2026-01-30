@@ -68,7 +68,7 @@ pros::adi::Pneumatics drop('G', false, false);
 pros::adi::Pneumatics odomLift('D', true, true);
 pros::adi::Pneumatics descorer('E', false); 
 pros::adi::Pneumatics matchloader('H', false);
-pros::adi::Pneumatics passTheJuice('B', false, false);
+pros::adi::Pneumatics passTheJuice('F', false, false);
 
 
 // Inertial Sensor on port 10
@@ -152,16 +152,31 @@ lemlib::ExpoDriveCurve steerCurve(13, // joystick deadband out of 127
 // create the chassis
 lemlib::Chassis chassis(drivetrain, linearController, angularController, angularControllerU30, sensors, &throttleCurve, &steerCurve);
 
+void updateAutoFile() {
+    FILE* file = fopen("/usd/auto.txt", "r+");
+    if (file != NULL) {
+        fseek(file, 0, SEEK_SET); 
+        fprintf(file, "%d", auton);
+        fclose(file); 
+    } else {
+        // If file doesn't exist, create one
+        file = fopen("/usd/auto.txt", "w");
+        if (file != NULL) {
+            fprintf(file, "%d", auton);
+            fclose(file);
+        }
+    }
+}
+
 //using modulo (math)
 void leftScreenButton() {
-    
     auton = (auton - 1 + autons.size()) % (autons.size());
-    //fputs("" + get<0>(auton), file);
+    updateAutoFile();
 }
 
 void rightScreenButton() {
     auton = (auton + 1) % (autons.size());
-    //fputs("" + get<0>(auton), file);
+    updateAutoFile();
 }
 
 
@@ -173,16 +188,22 @@ void initialize() {
         FILE* file = fopen("/usd/auto.txt", "w");
         fputs(""+auton, file);
         fclose(file);
-    }
-    else {
-        //get<0>(auton) = sdcard index
-        FILE* file = fopen("/usd/auto.txt", "r");
-        char buf[1];
-        fread(buf, 1, 1, file);
-        auton = std::stoi(buf);
-        printf("%c", buf[0]);
-        fclose(file);
     }*/
+
+    //get<0>(auton) = sdcard index
+    FILE* file = fopen("/usd/auto.txt", "r");
+    if (file != NULL) {
+        char buf[2];        //one for digit, one for null terminator
+        fread(buf, 1, 1, file);
+        buf[1] = '\0';      // tells stoi where string ends
+        
+        auton = std::stoi(buf); 
+        printf("Loaded Auton: %s\n", buf);
+        fclose(file);
+    } else {
+        auton = 0; // default if no file is found
+    }
+
 
     displayImage();
     
