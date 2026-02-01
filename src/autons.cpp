@@ -132,6 +132,7 @@ void leftBonus() {
 }
 
 void skills() {
+    
     chassis.setPose(LeftStandardStart);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
     shotgun.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -184,7 +185,7 @@ void skills() {
 
     // matchload 1
     chassis.moveDistance(20, 640, {.maxSpeed = 60}, false);
-    moveWithVoltage(40, 40);
+    moveWithVoltage(35, 35);
     pros::delay(1800);
     moveWithVoltage(-30, -30);
     pros::delay(150);
