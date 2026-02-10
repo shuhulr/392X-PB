@@ -343,7 +343,7 @@ void opcontrol() {
             leverTarget = -1;
             if(auton == 8 && !drop.is_extended()) {
                 shotgun.move_velocity(17);
-            } else if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1))|| !drop.is_extended()) {
+            } else if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) && !drop.is_extended()) {
                 shotgun.move_velocity(30);
             } 
             else if (controller.get_digital(DIGITAL_Y)) {
