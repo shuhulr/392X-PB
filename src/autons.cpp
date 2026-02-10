@@ -139,7 +139,8 @@ void lowGoalSkills() {
 
     // first 2 stacks
     Intake();
-    chassis.moveDistance(26, 800, {.maxSpeed = 75});
+    // chassis.moveDistance(26, 800, {.maxSpeed = 75});
+    chassis.moveToPoint(-22, -26, 800, {.maxSpeed = 100}, false);
     chassis.waitUntil(20);
     // matchloader.extend();
     chassis.waitUntilDone();
@@ -150,18 +151,18 @@ void lowGoalSkills() {
     // chassis.moveDistance(-10, 800, {.forwards = false}, false);
     chassis.turnToPoint(24, -21, 650, {}, false);
     chassis.moveToPoint(19, -21, 1200, {.maxSpeed = 80, .maxAngularSpeed = 10}, false);
-    chassis.turnToPoint(6, -5, 700, {}, false);
+    chassis.turnToPoint(-5, 5, 700, {}, false);
     drop.toggle();
     chassis.moveDistance(15, 700, {}, false);
     intake.move(-48);
     chassis.turnToPoint(48, -48, 600, {.forwards=false}, false);
-    pros::delay(400);
+    pros::delay(800);
     chassis.moveToPoint(49, -51, 1200, {.forwards=false, .maxSpeed=90, .maxAngularSpeed=10}, false);
     matchloader.extend();
     shotgun.move(-35);
     Intake();
     pros::delay(300);
-    chassis.turnToHeading(180, 500, {}, false);
+    chassis.turnToHeading(180, 600, {}, false);
 
     // reset
     pros::delay(150);
@@ -193,7 +194,7 @@ void lowGoalSkills() {
     chassis.setPose(72-x, chassis.getPose().y, chassis.getPose().theta);
 
     chassis.turnToPoint(61, 42, 600, {}, false);
-    chassis.moveToPoint(61, 42, 2000, {.maxSpeed=85, .maxAngularSpeed=10}, false);
+    chassis.moveToPoint(61, 42, 1800, {.maxSpeed=85, .maxAngularSpeed=10}, false);
     pros::delay(100);
 
     //reset
@@ -236,7 +237,7 @@ void lowGoalSkills() {
     chassis.moveDistance(20, 640, {.maxSpeed = 45}, false);
     stopArm();
 
-    moveWithVoltage(30, 30);
+    moveWithVoltage(40, 40);
     pros::delay(1900);
     moveWithVoltage(-30, -30);
     pros::delay(150);
@@ -1382,21 +1383,21 @@ void pidTest() {
     // pros::lcd::print(1, "Final Heading: %f", imu.get_heading());
     // printf("heading: %f\n", imu.get_heading());
 
-    chassis.setPose(0, 0, 0);
-    chassis.moveDistance(5, 700, {}, false);
-    pros::delay(2000);
-    chassis.setPose(0, 0, 0);
-    chassis.moveDistance(12, 700, {}, false);
-    pros::delay(2000);
-    chassis.setPose(0, 0, 0);
-    chassis.moveDistance(24, 800, {}, false);
-    pros::delay(2000);
-    chassis.setPose(0, 0, 0);
-    chassis.moveDistance(36, 900, {}, false);
-    pros::delay(2000);
-
     // chassis.setPose(0, 0, 0);
-    // chassis.turnToHeading(5, 500, {}, false);
+    // chassis.moveDistance(5, 700, {}, false);
+    // pros::delay(2000);
+    // chassis.setPose(0, 0, 0);
+    // chassis.moveDistance(12, 700, {}, false);
+    // pros::delay(2000);
+    // chassis.setPose(0, 0, 0);
+    // chassis.moveDistance(24, 800, {}, false);
+    // pros::delay(2000);
+    // chassis.setPose(0, 0, 0);
+    // chassis.moveDistance(36, 900, {}, false);
+    // pros::delay(2000);
+
+    chassis.setPose(0, 0, 0);
+    chassis.turnToHeading(135, 600, {}, false);
     // pros::delay(1000);
     // chassis.setPose(0, 0, 0);
     // chassis.turnToHeading(10, 500, {}, false);
@@ -1424,7 +1425,7 @@ std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"low goal skills", lowGoalSkills}, 
 
 
-    {"pid test", test}
+    {"pid test", pidTest}
 
 
 };
