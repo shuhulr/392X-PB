@@ -326,7 +326,10 @@ void opcontrol() {
 
         // outtake
         else if (controller.get_digital(DIGITAL_L1) || (shotgunRS.get_position()/100 > 30 && shotgunRS.get_position()/100 < 270)) {
-            intake.move(-40);
+            if (auton == 8 || auton == 9)
+                intake.move(-35);
+            else
+                intake.move(-80);
         }
         
         // stop take
@@ -341,16 +344,22 @@ void opcontrol() {
         //
         if (controller.get_digital(DIGITAL_R2)) {
             leverTarget = -1;
-            if(auton == 8 && !drop.is_extended()) {
-                shotgun.move_velocity(17);
+            if((auton == 8 || auton == 9) && !drop.is_extended()) {
+                if(controller.get_digital(DIGITAL_Y))
+                    shotgun.move_velocity(32.5);
+                else 
+                    shotgun.move_velocity(17);
+            
             } else if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) && !drop.is_extended()) {
                 shotgun.move_velocity(30);
             } 
-            else if (controller.get_digital(DIGITAL_Y)) {
+            else if (controller.get_digital(DIGITAL_Y) && !(auton == 8 || auton == 9)) {
                 shotgun.move_velocity(100);
             }
             else {
-                shotgun.move_velocity(70);
+                if ((auton == 8 || auton == 9))
+                    shotgun.move_velocity(20);
+                else shotgun.move_velocity(70);
             }
 
         } else if(!leverDown) {
