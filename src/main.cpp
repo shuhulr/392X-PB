@@ -327,7 +327,7 @@ void opcontrol() {
         // outtake
         else if (controller.get_digital(DIGITAL_L1) || (shotgunRS.get_position()/100 > 30 && shotgunRS.get_position()/100 < 270)) {
             if (auton == 8 || auton == 9)
-                intake.move(-35);
+                intake.move(-50);
             else
                 intake.move(-80);
         }
@@ -358,7 +358,7 @@ void opcontrol() {
             }
             else {
                 if ((auton == 8 || auton == 9))
-                    shotgun.move_velocity(20);
+                    shotgun.move_velocity(45);
                 else shotgun.move_velocity(70);
             }
 
