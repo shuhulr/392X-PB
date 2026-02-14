@@ -157,7 +157,7 @@ void lowGoalSkills() {
     intake.move(-35);
     chassis.turnToPoint(48, -48, 500, {.forwards=false}, false);
     pros::delay(1000);
-    chassis.moveToPoint(47, -51, 1200, {.forwards=false, .maxSpeed=90, .maxAngularSpeed=10}, false);
+    chassis.moveToPoint(47, -50, 1200, {.forwards=false, .maxSpeed=90, .maxAngularSpeed=10}, false);
     matchloader.extend();
     shotgun.move(-35);
     Intake();
@@ -210,12 +210,13 @@ void lowGoalSkills() {
     chassis.setPose(chassis.getPose().x, 72-x, chassis.getPose().theta);
     pros::delay(100);
 
-    chassis.moveToPoint(48.7, 42, 550, {.forwards = false, .maxSpeed = 60, .maxAngularSpeed=10}, false);
+    //
+    chassis.moveToPoint(49, 42, 550, {.forwards = false, .maxSpeed = 60, .maxAngularSpeed=10}, false);
     chassis.turnToPoint(48.5, 24, 550, {.forwards=false}, false);
     chassis.moveDistance(-20, 600, {.forwards = false}, false);
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    Score(50);
+    Score(35);
     pros::delay(750);
     stopIntaking();
     resetArm();
@@ -251,7 +252,7 @@ void lowGoalSkills() {
     matchloader.retract();
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    Score(50);
+    Score(33);
     pros::delay(750);
     resetArm();
     intake.move(-128);
@@ -324,12 +325,12 @@ void lowGoalSkills() {
     chassis.moveDistance(18, 800, {.maxSpeed=60}, false);
     intake.move(-30);
     pros::delay(1500);
-    intake.move(-18);
+    intake.move(-14);
     pros::delay(200);
     moveWithVoltage(-10, -10);
     pros::delay(300);
     moveWithVoltage(0, 0);
-    pros::delay(1000);
+    pros::delay(1100);
     moveWithVoltage(-22, -22);
     intake.move(-28);
     pros::delay(350);
@@ -398,7 +399,7 @@ void lowGoalSkills() {
     chassis.moveDistance(-20, 650, {.forwards = false}, false);
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    Score(50);
+    Score(35);
     pros::delay(750);
     stopIntaking();
     resetArm();
@@ -435,7 +436,7 @@ void lowGoalSkills() {
     matchloader.retract();
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    Score(45);
+    Score(33);
     pros::delay(750);
     resetArm();
     intake.move(-128);
@@ -478,7 +479,7 @@ void lowGoalSkills() {
     moveWithVoltage(0, 0);
     pros::delay(400);
     moveWithVoltage(55, 55);
-    pros::delay(700);
+    pros::delay(200);
     moveWithVoltage(0, 0);
     descorer.extend();
 }
