@@ -199,10 +199,10 @@ void lowGoalSkills() {
     chassis.moveToPoint(62, 38, 1500, {.maxSpeed=85, .maxAngularSpeed=10}, false);
     pros::delay(100);
 
-    //reset
-    // x = distanceResetX(true, 0);
-    // chassis.setPose(72-x, chassis.getPose().y, chassis.getPose().theta);
-    // pros::delay(100);
+    // reset
+    x = distanceResetX(true, 0);
+    chassis.setPose(72-x, chassis.getPose().y, chassis.getPose().theta);
+    pros::delay(100);
 
     chassis.turnToPoint(48, 42, 500, {.forwards = false}, false);
 
@@ -216,8 +216,8 @@ void lowGoalSkills() {
     chassis.moveDistance(-20, 600, {.forwards = false}, false);
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    Score(35);
-    pros::delay(750);
+    Score(42);
+    pros::delay(800);
     stopIntaking();
     resetArm();
     intake.move(-128);
@@ -252,8 +252,8 @@ void lowGoalSkills() {
     matchloader.retract();
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    Score(33);
-    pros::delay(750);
+    Score(45);
+    pros::delay(800);
     resetArm();
     intake.move(-128);
 
@@ -270,7 +270,7 @@ void lowGoalSkills() {
     chassis.moveToPoint(18, 64.6, 800, {.maxSpeed=100}, false);
     chassis.turnToHeading(-87, 500, {}, false);
     moveWithVoltage(-20, -20);
-    pros::delay(300);
+    pros::delay(150);
     shotgun.move(-128);
 
 
@@ -399,7 +399,7 @@ void lowGoalSkills() {
     chassis.moveDistance(-20, 650, {.forwards = false}, false);
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    Score(35);
+    Score(42);
     pros::delay(750);
     stopIntaking();
     resetArm();
@@ -436,7 +436,7 @@ void lowGoalSkills() {
     matchloader.retract();
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    Score(33);
+    Score(45);
     pros::delay(750);
     resetArm();
     intake.move(-128);
@@ -1180,12 +1180,12 @@ void lowGoalSoloSigAWP() {
     chassis.moveDistance(5, 400, {}, false);
     matchloader.retract();
 
-    chassis.turnToPoint(5, -5, 600, {}, false);
+    chassis.turnToPoint(6, -5, 600, {}, false);
     chassis.moveDistance(17, 580, {.maxSpeed = 70}, false);
     
     
-    intake.move(-64);
-    pros::delay(600);
+    intake.move(-40);
+    pros::delay(750);
     chassis.moveToPoint(45.5, -48, 1000, {.forwards = false});
     pros::delay(250);
     Intake();
