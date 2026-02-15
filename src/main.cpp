@@ -72,7 +72,7 @@ pros::adi::Pneumatics passTheJuice('B', false, false);
 
 
 // Inertial Sensor on port 10
-pros::Imu imu(17);
+pros::Imu imu(20);
 
 
 // tracking wheels
