@@ -23,6 +23,7 @@ extern pros::adi::Pneumatics matchloader;
 extern pros::adi::Pneumatics descorer;
 extern pros::adi::Pneumatics odomLift;
 extern pros::adi::Pneumatics lowFunnel;
+extern pros::adi::Pneumatics passTheJuice;
 extern pros::Distance distanceXLeft;
 extern pros::Distance distanceXRight;
 extern pros::Distance distanceY;

@@ -1020,8 +1020,97 @@ void rightAWP() {
     chassis.moveToPoint(33.5, -34, 950, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
     chassis.turnToHeading(6, 600, {}, false);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-    chassis.moveDistance(23, 900, {.maxSpeed=90}, false);
+    chassis.moveDistance(24, 750, {.maxSpeed=100}, false);
     chassis.turnToHeading(-30, 500, {.minSpeed=60}, false);
+}
+
+void longLowMid() {
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+    screenTaskRunning = false;
+    chassis.setPose(rightAWPStart);
+    drop.toggle();
+    chassis.moveToPoint(46, -48, 900, {}, false);
+    chassis.turnToPoint(47.8, -72, 600, {}, false);
+    Intake();
+    matchloader.extend();
+    pros::delay(250);
+    moveWithVoltage(40, 40);
+    pros::delay(550);
+    moveWithVoltage(60, 60);
+    pros::delay(700);
+    chassis.moveToPoint(47.5, -27, 800, {.forwards = false, .maxSpeed = 80, .maxAngularSpeed = 10}, false);
+    pros::lcd::print(1, "x: %f, y: %f, t: %f", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
+    printf("x: %f, y: %f, t: %f\n", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
+    shotgun.move_velocity(70);
+    moveWithVoltage(-50, -50);
+    pros::delay(700);
+    double x = distanceResetX(false, 180);
+    chassis.setPose((72-x), chassis.getPose().y, chassis.getPose().theta);
+    stopIntaking();
+    matchloader.retract();
+    armMoving = false;
+    stopIntaking();
+    pros::delay(250);
+    matchloader.retract();
+
+    // chassis.moveDistance(10, 500, {}, false);
+    resetArm();
+    intake.move(-128);
+    chassis.turnToPoint(24, -25.4, 750, {}, false);
+    Intake();
+    pros::delay(50);
+    chassis.moveToPoint(21, -23.5, 800, {.maxSpeed = 80, .maxAngularSpeed = 12, .minSpeed = 35, .earlyExitRange = 10}, false);
+    stopArm();
+    moveWithVoltage(30, 50);
+    pros::delay(250);
+    matchloader.extend();
+    // drop.toggle();
+    pros::delay(300);
+    moveWithVoltage(0, 0);
+    pros::delay(250);
+
+    chassis.moveDistance(-7, 500, {.forwards = false}, false);
+    matchloader.retract();
+    chassis.turnToPoint(4, -5, 600, {}, false);
+    chassis.moveDistance(14, 700, {}, false);
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+    intake.move(-50);
+    // chassis.turnToPoint(48, -48, 400, {.forwards=false}, false);
+    pros::delay(1050);
+    intake.move(0);
+    chassis.moveToPoint(24.5, -24.5, 600, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
+    Intake();
+    chassis.turnToPoint(-25, -24, 600, {}, false);
+    chassis.moveToPoint(-17, -24, 950, {.maxSpeed = 85, .maxAngularSpeed = 5, .minSpeed = 35, .earlyExitRange = 5});
+    // chassis.moveToPose(-20, -24, -90, 1800, {.lead = 0.35, .minSpeed = 40, .U30 = false});
+
+    chassis.waitUntilDone();
+    moveWithVoltage(25, 40);
+    pros::delay(60);
+    matchloader.extend();
+    pros::delay(370);
+
+    // score on mid goal
+    // chassis.moveDistance(-3, 400, {.forwards=false}, false);
+    matchloader.retract();
+    chassis.turnToPoint(-4, -5, 600, {.forwards = false}, false);
+    drop.retract();
+    chassis.moveDistance(-18.5, 600, {.forwards = false, .maxSpeed = 70}, false);
+
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+    shotgun.move_velocity(41);
+    pros::delay(1000);
+    shotgun.move(-70);
+    drop.extend();
+    chassis.moveDistance(7, 400, {}, false);
+    shotgun.move_velocity(60);
+    pros::delay(100);
+    passTheJuice.extend();
+    chassis.moveDistance(-12, 400, {.forwards = false});
+    // moveWithVoltage(-20, -20);
+    shotgun.move(-70);
+    pros::delay(700);
+    moveWithVoltage(0, 0);
 }
 
 void soloSigAWP() {
@@ -1218,12 +1307,13 @@ void lowGoalSoloSigAWP() {
     chassis.moveDistance(5, 350, {}, false);
     matchloader.retract();
 
-    chassis.turnToPoint(-5.5, 5, 600, {}, false);
+    // chassis.turnToHeading(160, 500, {}, false);
+    chassis.turnToPoint(4.7, -5, 1500, {.direction = lemlib::AngularDirection::CW_CLOCKWISE, .maxSpeed = 90}, false);
     chassis.moveDistance(17.6, 580, {.maxSpeed = 70}, false);
     
     
     intake.move(-48);
-    pros::delay(850);
+    pros::delay(900);
     chassis.moveToPoint(45.5, -48, 1000, {.forwards = false});
     pros::delay(250);
     Intake();
@@ -1237,11 +1327,11 @@ void lowGoalSoloSigAWP() {
 
     matchloader.extend();
     pros::delay(100);
-    chassis.turnToPoint(46.8, -72, 750, {}, false);
+    chassis.turnToPoint(47, -72, 750, {}, false);
     Intake();
     chassis.moveDistance(20, 620, {.maxSpeed = 62}, false);
     moveWithVoltage(40, 40);
-    pros::delay(500);
+    pros::delay(380);
     x = distanceResetX(false, 180);
     chassis.setPose((72-x), chassis.getPose().y, chassis.getPose().theta);
     pros::delay(100);
@@ -1255,6 +1345,7 @@ void lowGoalSoloSigAWP() {
     stopIntaking();
     matchloader.retract();
     stopArm();
+    descorer.extend();
 }
 
 void Push4Left() {
@@ -1461,6 +1552,7 @@ std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"left bonus", leftBonus},
     {"right AWP", rightAWP},
     {"left AWP", leftAWP},
+    {"long low mid", longLowMid},
     {"solo sig AWP", soloSigAWP},
     {"low goal solo sig AWP", lowGoalSoloSigAWP},
     {"4 push right", Push4Right},
