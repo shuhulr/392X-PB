@@ -107,9 +107,9 @@ lemlib::ControllerSettings linearController(5.5, // proportional gain (kP)
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(1.8, // proportional gain (kP)
-                                             0.25, // integral gain (kI)
-                                             11, // derivative gain (kD)
+lemlib::ControllerSettings angularController(1.7, // proportional gain (kP)
+                                             0.22, // integral gain (kI)
+                                             13.56, // derivative gain (kD)
                                              5, // anti windup
                                              1, // small error range, in degrees
                                              75, // small error range timeout, in milliseconds
@@ -193,15 +193,16 @@ void initialize() {
     //get<0>(auton) = sdcard index
     FILE* file = fopen("/usd/auto.txt", "r");
     if (file != NULL) {
-        char buf[2];        //one for digit, one for null terminator
-        fread(buf, 1, 1, file);
-        buf[1] = '\0';      // tells stoi where string ends
+        char buf[3];        //two for digit, one for null terminator
+        fread(buf, 1, 2, file);
+        buf[2] = '\0';      // tells stoi where string ends
         
         auton = std::stoi(buf); 
         printf("Loaded Auton: %s\n", buf);
         fclose(file);
     } else {
         auton = 0; // default if no file is found
+        printf("SD Card not found, defaulting to auton 0\n");
     }
 
 

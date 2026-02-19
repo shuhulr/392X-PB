@@ -1161,9 +1161,6 @@ void soloSigAWP() {
     pros::delay(200);
     matchloader.extend();
     pros::delay(200);
-    // moveWithVoltage(30, 60);
-    // pros::delay(300);
-    drop.toggle();
     pros::delay(25);
     chassis.turnToPoint(-24.6, -23.6, 550, {}, false);
     matchloader.retract();
@@ -1178,67 +1175,38 @@ void soloSigAWP() {
     moveWithVoltage(27, 27);
     pros::delay(250);
 
-    // score on mid goal
-    // chassis.moveDistance(-3, 400, {.forwards=false}, false);
-    matchloader.retract();
-    chassis.turnToPoint(-5, -5, 600, {.forwards = false}, false);
-    chassis.moveDistance(-17.5, 580, {.forwards = false, .maxSpeed = 70}, false);
-    stopIntaking();
-    // pros::Task instigateTask([]() {
-    //     int timer = 0;
-    //     while(timer < 600) {
-    //         moveWithVoltage(25, -25);
-    //         timer += 100;
-    //         pros::delay(100);
-    //         moveWithVoltage(-25, 25);
-    //         timer += 100;
-    //         pros::delay(100);
-    //     }
-    //     moveWithVoltage(0, 0);
-    // });
-    int timeout = 0;
-    while (shotgunRS.get_position() < 7600 && timeout < 800) {
-        //if(shotgunRS.get_position() < 1300) {
-            shotgun.move_velocity(28);
-        /*} else {
-            shotgun.move_velocity(25);
-        }*/
-        pros::delay(10);
-        timeout +=10;
-        printf("lever pos: %f\n", shotgunRS.get_position()/100.0f);
-    }
-    shotgun.move(-100);
-    intake.move(-128);
-    pros::delay(400);
-    drop.toggle();
-    chassis.moveToPoint(-45.5, -48, 1050, {});
-    pros::delay(250);
-    Intake();
-    chassis.waitUntilDone();
-    stopArm();
 
-    //reset
+    
+    chassis.moveToPoint(-46, -50, 800, {.maxSpeed = 90}, false);
+
+
+    pros::delay(200);
+    chassis.turnToPoint(-47.8, -24, 600, {.forwards = false}, false);
+    Intake();
+    chassis.moveDistance(-20, 500, {.forwards = false}, false);
+    moveWithVoltage(-40, -40);
+    pros::delay(100);
+    Score(60);
+    // reset 
     double x = distanceResetX(true, 180);
     chassis.setPose(-(72-x), chassis.getPose().y, chassis.getPose().theta);
-    
-
-    matchloader.extend();
-    pros::delay(100);
-    chassis.turnToPoint(-46.8, -72, 750, {}, false);
-    Intake();
-    chassis.moveDistance(20, 620, {.maxSpeed = 62}, false);
-    moveWithVoltage(40, 40);
-    pros::delay(500);
-
-
-    chassis.turnToPoint(-47.8, -24, 500, {.forwards = false}, false);
-    chassis.moveToPoint(-47.8, -27, 700, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
-    Score(60);
-    moveWithVoltage(-50, -50);
     pros::delay(600);
-    stopIntaking();
-    matchloader.retract();
-    stopArm();
+    resetArm();
+    intake.move(-128);
+    chassis.moveToPoint(-48, -67, 800, {.maxSpeed = 80, .maxAngularSpeed = 10});
+    pros::delay(200);
+    Intake();
+    shotgun.move(0);
+    chassis.waitUntilDone();
+    moveWithVoltage(35, 35);
+    pros::delay(700);
+    chassis.moveToPoint(-48, -48, 400, {.forwards = false}, false);
+    chassis.turnToPoint(-5, -5, 500, {.forwards = false}, false);
+    drop.toggle();
+    chassis.moveToPoint(-10, -10, 1200, {.forwards = false, .maxSpeed = 90, .maxAngularSpeed = 20}, false);
+    Score(35);
+    pros::delay(1000);
+    resetArm();
 }
 
 void lowGoalSoloSigAWP() {
@@ -1260,15 +1228,17 @@ void lowGoalSoloSigAWP() {
     matchloader.extend();
     pros::delay(100);
     moveWithVoltage(50, 50);
-    pros::delay(400);
+    pros::delay(500);
     moveWithVoltage(35, 35);
-    pros::delay(680);
+    pros::delay(700);
 
     // right long goal
     chassis.moveToPoint(-48.2, -27, 700, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
     Score(50);
     moveWithVoltage(-50, -50);
     pros::delay(400);
+
+
     armMoving = false;
     stopIntaking();
     pros::delay(300);
@@ -1280,17 +1250,15 @@ void lowGoalSoloSigAWP() {
     intake.move(-128);
     chassis.turnToPoint(-24, -24.4, 750, {}, false);
     Intake();
-    pros::delay(45);
+    pros::delay(50);
     chassis.moveToPoint(-21, -23.2, 800, {.maxSpeed = 80, .maxAngularSpeed = 12, .minSpeed = 35, .earlyExitRange = 10}, false);
     stopArm();
     moveWithVoltage(50, 30);
     pros::delay(200);
     matchloader.extend();
     pros::delay(200);
-    // moveWithVoltage(30, 60);
-    // pros::delay(300);
     pros::delay(25);
-    chassis.turnToPoint(24.4, -23.8, 550, {}, false);
+    chassis.turnToPoint(24.6, -23.6, 550, {}, false);
     matchloader.retract();
     shotgun.move(-55);
     chassis.moveToPoint(17, -24, 1050, {.maxSpeed = 75, .maxAngularSpeed = 5, .minSpeed = 40, .earlyExitRange = 6});
@@ -1303,49 +1271,36 @@ void lowGoalSoloSigAWP() {
     moveWithVoltage(27, 27);
     pros::delay(250);
 
-    // score on mid goal
-    chassis.moveDistance(5, 350, {}, false);
-    matchloader.retract();
 
-    // chassis.turnToHeading(160, 500, {}, false);
-    chassis.turnToPoint(4.7, -5, 1500, {.direction = lemlib::AngularDirection::CW_CLOCKWISE, .maxSpeed = 90}, false);
-    chassis.moveDistance(17.6, 580, {.maxSpeed = 70}, false);
     
-    
-    intake.move(-48);
-    pros::delay(900);
-    chassis.moveToPoint(45.5, -48, 1000, {.forwards = false});
-    pros::delay(250);
+    chassis.moveToPoint(47, -50, 800, {.maxSpeed = 90}, false);
+
+
+    pros::delay(200);
+    chassis.turnToPoint(47.8, -24, 600, {.forwards = false}, false);
     Intake();
-    chassis.waitUntilDone();
-    stopArm();
-
-    // reset
-    double x = distanceResetX(true, 0);
-    chassis.setPose((72-x), chassis.getPose().y, chassis.getPose().theta);
-    
-
-    matchloader.extend();
+    chassis.moveDistance(-20, 500, {.forwards = false}, false);
+    moveWithVoltage(-40, -40);
     pros::delay(100);
-    chassis.turnToPoint(47, -72, 750, {}, false);
-    Intake();
-    chassis.moveDistance(20, 620, {.maxSpeed = 62}, false);
-    moveWithVoltage(40, 40);
-    pros::delay(380);
-    x = distanceResetX(false, 180);
-    chassis.setPose((72-x), chassis.getPose().y, chassis.getPose().theta);
-    pros::delay(100);
-
-
-    chassis.turnToPoint(48.3, -24, 500, {.forwards = false}, false);
-    chassis.moveToPoint(48.2, -27, 700, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
     Score(60);
-    moveWithVoltage(-50, -50);
+    // reset 
+    double x = distanceResetX(false, 180);
+    chassis.setPose((72-x), chassis.getPose().y, chassis.getPose().theta);
+    pros::delay(600);
+    resetArm();
+    intake.move(-128);
+    chassis.moveToPoint(48, -67, 800, {.maxSpeed = 80, .maxAngularSpeed = 10});
+    pros::delay(200);
+    Intake();
+    shotgun.move(0);
+    chassis.waitUntilDone();
+    moveWithVoltage(35, 35);
     pros::delay(700);
-    stopIntaking();
+    chassis.moveToPoint(48, -48, 400, {.forwards = false}, false);
+    chassis.turnToPoint(5, -5, 670, {}, false);
     matchloader.retract();
-    stopArm();
-    descorer.extend();
+    chassis.moveToPoint(11, -11, 1200, {.maxSpeed = 90, .maxAngularSpeed = 20}, false);
+    intake.move(-41);
 }
 
 void Push4Left() {
@@ -1532,22 +1487,29 @@ void pidTest() {
     // pros::delay(2000);
 
     chassis.setPose(0, 0, 0);
+    // matchloader.extend();
+    pros::delay(1000);
+    chassis.turnToHeading(45, 500, {}, false);
+    printf("heading: %f\n", chassis.getPose().theta);
+    pros::delay(1000);
+    chassis.setPose(0, 0, 0);
+    chassis.turnToHeading(90, 500, {}, false);
+    printf("heading: %f\n", chassis.getPose().theta);
+    pros::delay(1000);
+    chassis.setPose(0, 0, 0);
     chassis.turnToHeading(135, 600, {}, false);
-    // pros::delay(1000);
-    // chassis.setPose(0, 0, 0);
-    // chassis.turnToHeading(10, 500, {}, false);
-    // pros::delay(1000);
-    // chassis.setPose(0, 0, 0);
-    // chassis.turnToHeading(20, 600, {}, false);
-    // pros::delay(1000);
-    // chassis.setPose(0, 0, 0);
-    // chassis.turnToHeading(30, 600, {}, false);
-    // pros::delay(1000);
+    printf("heading: %f\n", chassis.getPose().theta);
+    pros::delay(1000);
+    chassis.setPose(0, 0, 0);
+    chassis.turnToHeading(178, 600, {}, false);
+    printf("heading: %f\n", chassis.getPose().theta);
+    pros::delay(1000);
 }
 
 
 // vector of tuple of function description and pointers
 std::vector<std::tuple<std::string, void(*)()>> autons = {
+    {"pid test", pidTest},
     {"right bonus", rightBonus},
     {"left bonus", leftBonus},
     {"right AWP", rightAWP},
@@ -1558,10 +1520,7 @@ std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"4 push right", Push4Right},
     {"4 push left", Push4Left},
     {"skills", skills},
-    {"low goal skills", lowGoalSkills}, 
-
-
-    {"pid test", pidTest}
+    {"low goal skills", lowGoalSkills}
 
 
 };
