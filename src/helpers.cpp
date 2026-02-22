@@ -54,6 +54,17 @@ void Score(int speed) {
     armMoving = true;
 }
 
+void Score_S(int timeout) {
+    float error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
+    int counter = 0;
+    while(error > 5) {
+        error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
+        shotgun.move(128 - (80/(1 + pow(2, 0.2*(error - 70) ) ) ) );
+        pros::delay(10);
+        counter += 10;
+    }
+}
+
 void stopArm() {
     armMoving = false;
     shotgun.move(0);
