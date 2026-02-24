@@ -107,6 +107,7 @@ double distanceResetY(int wallOffset) {
     double angleDistanceX = ((distanceY.get() + (3.5)*sin(lemlib::degToRad(chassis.getPose().theta))) / 25.4) + 7;
     double finalDistanceX = angleDistanceX * cos(lemlib::degToRad(chassis.getPose().theta - wallOffset));
     double superFinalDistanceX = finalDistanceX * cos(lemlib::degToRad(imu.get_pitch()));
+    printf("distancey: %f\n", fabs(superFinalDistanceX));
     return fabs(superFinalDistanceX);
 }
 
