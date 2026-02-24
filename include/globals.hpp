@@ -41,7 +41,7 @@ extern void Score_S(int timeout);
 extern void stopArm();
 extern double distanceResetX(bool right, int wallOffset);
 extern double distanceResetX(bool right, double x, double heading);
-extern double distanceResetY();
+extern double distanceResetY(int wallOffset);
 extern double distanceResetY(int y, double heading);
 
 extern bool intaking;

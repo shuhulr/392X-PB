@@ -93,7 +93,7 @@ void antijamShotgun(int speed) {
 
 double distanceResetX(bool right, int wallOffset) {
     double angleDistanceX = (((right ? distanceXRight.get() : distanceXLeft.get()) + (right ? 3.1 : -3.1)*sin(lemlib::degToRad(chassis.getPose().theta))) / 25.4) + 5.1;
-    double finalDistanceX = angleDistanceX * cos(lemlib::degToRad(chassis.getPose().theta + (right ? -wallOffset : wallOffset)));
+    double finalDistanceX = angleDistanceX * cos(lemlib::degToRad(chassis.getPose().theta - wallOffset));
     return fabs(finalDistanceX);
 }
 
@@ -103,10 +103,11 @@ double distanceResetX(bool right, double x, double heading) {
     return fabs(finalDistanceX);
 }
 
-double distanceResetY() {
-    double angleDistanceY = (distanceY.get() / 25.4) + 4.8;
-    double finalDistanceY = angleDistanceY * cos(lemlib::degToRad(chassis.getPose().theta));
-    return fabs(finalDistanceY);
+double distanceResetY(int wallOffset) {
+    double angleDistanceX = ((distanceY.get() + (3.5)*sin(lemlib::degToRad(chassis.getPose().theta))) / 25.4) + 7;
+    double finalDistanceX = angleDistanceX * cos(lemlib::degToRad(chassis.getPose().theta - wallOffset));
+    double superFinalDistanceX = finalDistanceX * cos(lemlib::degToRad(imu.get_pitch()));
+    return fabs(superFinalDistanceX);
 }
 
 double distanceResetY(int y, double heading) {
