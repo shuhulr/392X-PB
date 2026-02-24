@@ -343,9 +343,11 @@ void opcontrol() {
         }
 
         //
-        if (controller.get_digital(DIGITAL_R2)) {
+        if (controller.get_digital_new_press(DIGITAL_R2) && (auton == 10 || auton == 11))
+            ScoreS();
+        else if (controller.get_digital(DIGITAL_R2)) {
             leverTarget = -1;
-            if((auton == 8 || auton == 9) && !drop.is_extended()) {
+            if((auton == 10 || auton == 11) && !drop.is_extended()) {
                 if(controller.get_digital(DIGITAL_Y))
                     shotgun.move_velocity(32.5);
                 else 
@@ -354,13 +356,11 @@ void opcontrol() {
             } else if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) && !drop.is_extended()) {
                 shotgun.move_velocity(30);
             } 
-            else if (controller.get_digital(DIGITAL_Y) && !(auton == 8 || auton == 9)) {
+            else if (controller.get_digital(DIGITAL_Y) && !(auton == 10 || auton == 11)) {
                 shotgun.move_velocity(100);
             }
             else {
-                if ((auton == 8 || auton == 9))
-                    shotgun.move_velocity(45);
-                else shotgun.move_velocity(70);
+                shotgun.move_velocity(70);
             }
 
         } else if(!leverDown) {

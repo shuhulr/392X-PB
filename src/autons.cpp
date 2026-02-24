@@ -222,7 +222,7 @@ void lowGoalSkills() {
     chassis.moveDistance(-20, 600, {.forwards = false}, false);
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    Score_S(800);
+    ScoreS(800);
     pros::delay(50);
     stopIntaking();
     resetArm();
@@ -258,7 +258,7 @@ void lowGoalSkills() {
     matchloader.retract();
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    Score_S(800);
+    ScoreS(800);
     pros::delay(100);
     resetArm();
     intake.move(-128);
@@ -459,7 +459,7 @@ void lowGoalSkills() {
     chassis.moveDistance(-20, 650, {.forwards = false}, false);
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    Score_S(800);
+    ScoreS(800);
     pros::delay(100);
     stopIntaking();
     resetArm();
@@ -496,7 +496,7 @@ void lowGoalSkills() {
     matchloader.retract();
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    Score_S(800);
+    ScoreS(800);
     pros::delay(100);
     resetArm();
     intake.move(-128);
