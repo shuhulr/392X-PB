@@ -37,6 +37,7 @@ extern void stopDrive();
 extern void antijamShotgun(int speed);
 extern void resetArm();
 extern void Score(int speed);
+extern void Score_S(int timeout);
 extern void stopArm();
 extern double distanceResetX(bool right, int wallOffset);
 extern double distanceResetX(bool right, double x, double heading);

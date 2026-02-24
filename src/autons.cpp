@@ -2,7 +2,7 @@
 #include "lemlib/chassis/chassis.hpp"
 #include "lemlib/pose.hpp"
 #include "globals.hpp"
-#include <array>
+#include <array> // IWYU pragma: keep
 #include <vector>
 #include <tuple>
 #include "lemlib/util.hpp"
@@ -136,7 +136,6 @@ void leftBonus() {
 void lowGoalSkills() {
     chassis.setPose(-7, -44.5, 0);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-    shotgun.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     screenTaskRunning = false;
 
     // first 2 stacks
@@ -153,7 +152,7 @@ void lowGoalSkills() {
     // chassis.moveDistance(-10, 800, {.forwards = false}, false);
     chassis.turnToPoint(24, -21, 650, {}, false);
     chassis.moveToPoint(20.5, -21, 1100, {.maxSpeed = 100, .maxAngularSpeed = 10}, false);
-    chassis.turnToPoint(-4, 5, 600, {}, false);
+    chassis.turnToPoint(-4.3, 5, 600, {}, false);
     drop.toggle();
     chassis.moveDistance(13, 700, {}, false);
     intake.move(-35);
@@ -214,17 +213,12 @@ void lowGoalSkills() {
 
     
     chassis.moveToPoint(49, 42, 550, {.forwards = false, .maxSpeed = 60, .maxAngularSpeed=10}, false);
-    chassis.turnToPoint(48.5, 24, 550, {.forwards=false}, false);
+    chassis.turnToPoint(48.6, 24, 550, {.forwards=false}, false);
     chassis.moveDistance(-20, 600, {.forwards = false}, false);
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    float error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
-    while(error > 5) {
-        error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
-        shotgun.move(128 - (80/(1 + pow(2, 0.2*(error - 70) ) ) ) );
-        pros::delay(10);
-    }
-    pros::delay(100);
+    Score_S(800);
+    pros::delay(50);
     stopIntaking();
     resetArm();
     intake.move(-128);
@@ -242,7 +236,7 @@ void lowGoalSkills() {
     //matchload 2
     matchloader.extend();
     chassis.moveToPoint(45, 48, 600, {.maxSpeed = 85, .maxAngularSpeed=10}, false);
-    chassis.turnToPoint(47.2, 72, 150, {}, false);
+    chassis.turnToPoint(47.2, 72, 300, {}, false);
     Intake();
     chassis.moveDistance(20, 600, {.maxSpeed = 45}, false);
     shotgun.move(-35);
@@ -259,12 +253,7 @@ void lowGoalSkills() {
     matchloader.retract();
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
-    while(error > 5) {
-        error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
-        shotgun.move(128 - (80/(1 + pow(2, 0.2*(error - 70) ) ) ) );
-        pros::delay(10);
-    }
+    Score_S(800);
     pros::delay(100);
     resetArm();
     intake.move(-128);
@@ -272,7 +261,6 @@ void lowGoalSkills() {
     // CHECKPOINT HERE
     chassis.setPose(48, 31, chassis.getPose().theta); // change theta
     drop.extend();
-    pros::delay(1000);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
     chassis.moveToPoint(42, 54, 800, {.maxSpeed=90, .maxAngularSpeed=15}, false);
     chassis.moveToPose(24, 64, -70, 850, {.lead = 0.3, .maxSpeed=100}, false);
@@ -296,15 +284,15 @@ void lowGoalSkills() {
     
     shotgun.move(-40);
     
-    moveWithVoltage(70, 70);
+    moveWithVoltage(75, 75);
     pros::delay(650);
     moveWithVoltage(0, 0);
     pros::delay(300);
     moveWithVoltage(70, 70);
-    pros::delay(1300);
+    pros::delay(1330);
     matchloader.extend();
     moveWithVoltage(0, 0);
-    pros::delay(500);
+    pros::delay(400);
 
     // reset after clear
     odomLift.extend();
@@ -313,7 +301,7 @@ void lowGoalSkills() {
     pros::delay(200);
 
     // chassis.moveDistance(-6, 500, {}, false);
-    chassis.turnToHeading(180, 600, {}, false);
+    chassis.turnToHeading(180, 700, {}, false);
 
     // resetArm();
     printf("\n\n\n\n\n\n\n\n Y RESET AFTER CLEAR: %f\n\n\n\n\n\n\n\n", chassis.getPose().y);
@@ -404,17 +392,12 @@ void lowGoalSkills() {
     chassis.setPose(chassis.getPose().x, -(72-x), chassis.getPose().theta);
     pros::delay(100);
 
-    chassis.moveToPoint(-49, -42, 500, {.forwards = false, .maxAngularSpeed=10}, false);
-    chassis.turnToPoint(-48, -24, 500, {.forwards=false}, false);
+    chassis.moveToPoint(-49.5, -42, 500, {.forwards = false, .maxAngularSpeed=10}, false);
+    chassis.turnToPoint(-48.3, -24, 500, {.forwards=false}, false);
     chassis.moveDistance(-20, 650, {.forwards = false}, false);
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
-    while(error > 5) {
-        error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
-        shotgun.move(128 - (80/(1 + pow(2, 0.2*(error - 70) ) ) ) );
-        pros::delay(10);
-    }
+    Score_S(800);
     pros::delay(100);
     stopIntaking();
     resetArm();
@@ -451,19 +434,15 @@ void lowGoalSkills() {
     matchloader.retract();
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
-    while(error > 5) {
-        error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
-        shotgun.move(128 - (80/(1 + pow(2, 0.2*(error - 70) ) ) ) );
-        pros::delay(10);
-    }
+    Score_S(800);
     pros::delay(100);
     resetArm();
     intake.move(-128);
 
     // reset again
 
-    chassis.setPose(-48, -31, chassis.getPose().theta);
+    chassis.setPose(-48, -31, chassis.getPose().theta); 
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
     drop.extend();
     chassis.moveToPoint(-42, -54, 800, {.maxSpeed=80, .maxAngularSpeed=15}, false);
     chassis.moveToPose(-24, -64.2, 70, 90, {.lead = 0.3, .maxSpeed=100}, false);
@@ -482,13 +461,14 @@ void lowGoalSkills() {
     moveWithVoltage(95, 95);
     Intake();
     pros::delay(300);
-    matchloader.retract();
     pros::delay(250);
     
     shotgun.move(-40);
     
     moveWithVoltage(70, 70);
-    pros::delay(750);
+    pros::delay(760);
+    
+    matchloader.retract();
     moveWithVoltage(0, 0);
     pros::delay(300);
     descorer.extend();
