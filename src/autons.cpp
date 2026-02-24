@@ -332,23 +332,26 @@ void lowGoalSkills() {
         counter += 20;
     }
     
-    // double parkClear = distanceResetY(90);
+    double parkClear = distanceResetY(90);
     moveWithVoltage(0, 0);
     pros::delay(50);
 
     printf("\n\n\n\n\n\nGAP\n\n\n\n\n\n\n");
 
     counter = 0;
-    while (distanceResetY(90) < 93 && counter < 2000) {
-        if(distanceResetY(90) > 200) {
-            continue;
-        }
+    while (parkClear < 93 && counter < 2000) {
         if(distanceResetY(90) > 82 && distanceResetY(90) < 87) {
             matchloader.extend();
         }
         moveWithVoltage(55, 55);
         pros::delay(20);
         counter += 20;
+        parkClear = distanceResetY(90);
+        while(parkClear > 200) {
+            pros::delay(20);
+            counter += 20;
+            parkClear = distanceResetY(90);
+        }
     }
     moveWithVoltage(0, 0);
     pros::delay(200);
