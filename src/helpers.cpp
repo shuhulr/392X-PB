@@ -1,6 +1,7 @@
 #include "globals.hpp"
 #include "lemlib/chassis/chassis.hpp"
 #include "lemlib/pose.hpp"
+#include "pros/misc.h"
 #include "pros/rtos.hpp"
 #include <cstdio>
 
@@ -66,7 +67,7 @@ void ScoreS(int timeout) {
 }
 void ScoreS() {
     float error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
-    while(error > 5) {
+    while(error > 5 && controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
         error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
         shotgun.move(128 - (80/(1 + pow(2, 0.2*(error - 70) ) ) ) );
         pros::delay(10);

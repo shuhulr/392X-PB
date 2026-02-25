@@ -58,7 +58,7 @@ pros::Rotation shotgunRS(-1);
 // distance sensors
 pros::Distance distanceXLeft(18);
 pros::Distance distanceXRight(5);
-pros::Distance distanceY(17);
+pros::Distance distanceY(4);
 
 // game color (0 for red, 1 for blue, -1 for none)
 int gameColor = -1;
@@ -295,6 +295,7 @@ void opcontrol() {
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
     printf("\nDriver Control Started\n");
     opControl = true;
+    float error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
 
     while (true) {
         // get joystick positions
@@ -327,8 +328,8 @@ void opcontrol() {
 
         // outtake
         else if (controller.get_digital(DIGITAL_L1) || (shotgunRS.get_position()/100 > 30 && shotgunRS.get_position()/100 < 270)) {
-            if (auton == 8 || auton == 9)
-                intake.move(-50);
+            if (auton == 10 || auton == 11)
+                intake.move(-30);
             else
                 intake.move(-80);
         }
@@ -343,24 +344,26 @@ void opcontrol() {
         }
 
         //
-        if (controller.get_digital_new_press(DIGITAL_R2) && (auton == 10 || auton == 11))
-            ScoreS();
-        else if (controller.get_digital(DIGITAL_R2)) {
+        if (controller.get_digital(DIGITAL_R2)) {
             leverTarget = -1;
             if((auton == 10 || auton == 11) && !drop.is_extended()) {
                 if(controller.get_digital(DIGITAL_Y))
-                    shotgun.move_velocity(32.5);
+                    shotgun.move_velocity(32);
                 else 
                     shotgun.move_velocity(17);
             
             } else if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) && !drop.is_extended()) {
                 shotgun.move_velocity(30);
             } 
-            else if (controller.get_digital(DIGITAL_Y) && !(auton == 10 || auton == 11)) {
-                shotgun.move_velocity(100);
-            }
+            //else if (controller.get_digital(DIGITAL_Y) && !(auton == 10 || auton == 11)) {
+            //    shotgun.move_velocity(100);
+            //}
             else {
-                shotgun.move_velocity(70);
+                if ((auton == 10 || auton == 11)){
+                    error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
+                    shotgun.move(128 - (80/(1 + pow(2, 0.2*(error - 70) ) ) ) );
+                }
+                //else shotgun.move_velocity(70);
             }
 
         } else if(!leverDown) {
