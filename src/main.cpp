@@ -346,15 +346,22 @@ void opcontrol() {
         //
         if (controller.get_digital(DIGITAL_R2)) {
             leverTarget = -1;
-            if((auton == 10 || auton == 11) && !drop.is_extended()) {
-                if(controller.get_digital(DIGITAL_Y))
-                    shotgun.move_velocity(32);
-                else 
-                    shotgun.move_velocity(17);
+            if(!drop.is_extended()) {
+                if ((auton == 10 || auton == 11)) {
+                    if(controller.get_digital(DIGITAL_Y))
+                        shotgun.move_velocity(32);
+                    else 
+                        shotgun.move_velocity(17);
+                }
+                else if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1))) {
+                    shotgun.move_velocity(30);
+                }
+                else {
+                    shotgun.move_velocity(70);
+                }
+
             
-            } else if (!(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) && !drop.is_extended()) {
-                shotgun.move_velocity(30);
-            } 
+            }
             //else if (controller.get_digital(DIGITAL_Y) && !(auton == 10 || auton == 11)) {
             //    shotgun.move_velocity(100);
             //}
@@ -363,7 +370,7 @@ void opcontrol() {
                     error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
                     shotgun.move(128 - (80/(1 + pow(2, 0.2*(error - 70) ) ) ) );
                 }
-                //else shotgun.move_velocity(70);
+                else shotgun.move_velocity(70);
             }
 
         } else if(!leverDown) {
