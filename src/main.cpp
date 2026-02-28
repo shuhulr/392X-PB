@@ -58,7 +58,7 @@ pros::Rotation shotgunRS(-1);
 // distance sensors
 pros::Distance distanceXLeft(18);
 pros::Distance distanceXRight(5);
-pros::Distance distanceY(4);
+pros::Distance distanceY(17);
 
 // game color (0 for red, 1 for blue, -1 for none)
 int gameColor = -1;
