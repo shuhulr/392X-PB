@@ -135,12 +135,18 @@ void leftBonus() {
 }
 
 void lowGoalSkills() {
+    // DO NOT COMMENT TS or GGGGGGGGGGGGGAAAAAAAAAYYYYYY !
+    double x;
+    double y;
+
+
     chassis.setPose(-7, -44.5, 0);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
     screenTaskRunning = false;
 
     // first 2 stacks
     Intake();
+    passTheJuice.extend();
     // chassis.moveDistance(26, 800, {.maxSpeed = 75});
     chassis.moveToPoint(-22, -26, 800, {.maxSpeed = 100}, false);
     chassis.waitUntil(20);
@@ -172,7 +178,7 @@ void lowGoalSkills() {
 
     // reset
     pros::delay(150);
-    double x = distanceResetX(false, 0);
+    x = distanceResetX(false, 0);
     chassis.setPose(72-x, chassis.getPose().y, chassis.getPose().theta);
     pros::delay(150);
 
@@ -211,7 +217,7 @@ void lowGoalSkills() {
     chassis.setPose(72-x, chassis.getPose().y, chassis.getPose().theta);
     // pros::delay(120);
 
-    double y = distanceResetY(180);
+    y = distanceResetY(180);
     chassis.setPose(chassis.getPose().x, 72-y, chassis.getPose().theta);
     pros::delay(150);
 
@@ -228,6 +234,7 @@ void lowGoalSkills() {
     chassis.moveDistance(-20, 600, {.forwards = false}, false);
 
     moveWithVoltage(-50, -50);
+    passTheJuice.retract();
     pros::delay(100);
     ScoreS(900);
     pros::delay(50);
@@ -248,6 +255,7 @@ void lowGoalSkills() {
     //matchload 2
     matchloader.extend();
     chassis.moveToPoint(47, 48, 600, {.maxSpeed = 85, .maxAngularSpeed=10}, false);
+    passTheJuice.extend();
     chassis.turnToPoint(47.5, 72, 300, {}, false);
     Intake();
     chassis.moveDistance(20, 600, {.maxSpeed = 45}, false);
@@ -264,6 +272,7 @@ void lowGoalSkills() {
     chassis.moveToPoint(47.8, 27, 700, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
     matchloader.retract();
     moveWithVoltage(-50, -50);
+    passTheJuice.retract();
     pros::delay(100);
     ScoreS(900);
     pros::delay(100);
@@ -272,11 +281,12 @@ void lowGoalSkills() {
 
     // CHECKPOINT HERE
 
-    chassis.setPose(48, 31, 0); // change theta
+    chassis.setPose(48, 31, chassis.getPose().theta); // change theta
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
     drop.extend();
-    pros::delay(200);
+    pros::delay(100);
     chassis.moveToPoint(42, 54, 800, {.maxSpeed=80, .maxAngularSpeed=15}, false);
+    passTheJuice.extend();
     chassis.moveToPose(24, 64.2, -110, 90, {.lead = 0.3, .maxSpeed=100}, false);
     chassis.moveToPoint(18, 64.7, 800, {.maxSpeed=100}, false);
     chassis.turnToHeading(-87, 500, {}, false);
@@ -308,7 +318,7 @@ void lowGoalSkills() {
             continue;
         }
         // printf("y: %f \n", currDistanceY);
-        if (currDistanceY > 52 && currDistanceY < 63) {
+        if (counter < 120) {
             matchloader.retract();
         }
 
@@ -379,21 +389,21 @@ void lowGoalSkills() {
     chassis.moveToPoint(-27, 24, 950, {.maxSpeed=90, .maxAngularSpeed=15}, false);
     drop.extend();
     pros::delay(150);
-    chassis.turnToPoint(-6, 5, 700, {}, false);
+    chassis.turnToPoint(-6.5, 5, 700, {}, false);
     stopIntaking();
     chassis.moveDistance(18, 800, {.maxSpeed=60}, false);
 
     // low goal scoring
-    intake.move(-30);
+    intake.move(-26);
     pros::delay(1000);
     intake.move(-12);
-    pros::delay(600);
+    pros::delay(500);
     moveWithVoltage(-10, -10);
     pros::delay(400);
     moveWithVoltage(0, 0);
-    pros::delay(950);
-    moveWithVoltage(-25, -25);
-    pros::delay(600);
+    pros::delay(200);
+    moveWithVoltage(-26, -26);
+    pros::delay(1300);
     stopIntaking();
     chassis.moveDistance(-15, 900, {.forwards=false, .maxSpeed=25}, false);
     intake.move(-128);
@@ -410,7 +420,7 @@ void lowGoalSkills() {
     chassis.setPose(-(72-x), chassis.getPose().y, chassis.getPose().theta);
     pros::delay(100);
 
-    chassis.turnToPoint(-47.3, 72, 700, {}, false);
+    chassis.turnToPoint(-47.5, 72, 700, {}, false);
     chassis.moveDistance(20, 600, {.maxSpeed = 45}, false);
     moveWithVoltage(30, 30);
     pros::delay(1500);
@@ -459,6 +469,7 @@ void lowGoalSkills() {
     Intake();
     chassis.moveDistance(-20, 650, {.forwards = false}, false);
     moveWithVoltage(-50, -50);
+    passTheJuice.retract();
     pros::delay(100);
     ScoreS(900);
     pros::delay(100);
@@ -479,6 +490,7 @@ void lowGoalSkills() {
     //matchload 2
     matchloader.extend();
     chassis.moveToPoint(-47.5, -50, 500, {.maxSpeed = 85, .maxAngularSpeed=10}, false);
+    passTheJuice.extend();
     chassis.turnToPoint(-48, -72, 300, {}, false);
     Intake();
     chassis.moveDistance(20, 640, {.maxSpeed = 45}, false);
@@ -496,6 +508,7 @@ void lowGoalSkills() {
     chassis.moveToPoint(-47.8, -27, 700, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
     matchloader.retract();
     moveWithVoltage(-50, -50);
+    passTheJuice.retract();
     pros::delay(100);
     ScoreS(900);
     pros::delay(100);
@@ -511,7 +524,7 @@ void lowGoalSkills() {
     chassis.moveToPoint(-42, -54, 800, {.maxSpeed=80, .maxAngularSpeed=15}, false);
     chassis.moveToPose(-24, -64.2, 70, 90, {.lead = 0.3, .maxSpeed=100}, false);
     chassis.moveToPoint(-18, -64.7, 800, {.maxSpeed=100}, false);
-     chassis.turnToHeading(93, 500, {}, false);
+    chassis.turnToHeading(93, 500, {}, false);
     moveWithVoltage(-20, -20);
     pros::delay(150);
     shotgun.move(-128);
@@ -527,7 +540,7 @@ void lowGoalSkills() {
     pros::delay(550);
     
     shotgun.move(-40);
-    while (distanceResetY(90) < 72.5) {
+    while (distanceResetY(90) < 73.2) {
         moveWithVoltage(70, 70);
         if (distanceResetY(90) > 144) {
             pros::delay(20);
@@ -545,7 +558,7 @@ void lowGoalSkills() {
     descorer.extend();
 }
 
-void skills() {
+void noSkills() {
     
     chassis.setPose(LeftStandardStart);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
@@ -1496,6 +1509,7 @@ void test() {
 }
 
 void pidTest() {
+    chassis.setPose(-7, -44.5, 0);
     // drop.extend();
     // Intake();
     // pros::delay(7500);
@@ -1538,12 +1552,14 @@ void pidTest() {
     // intake.move(-128);
     // pros::delay(1000);
     // descorer.retract();
-    screenTaskRunning = false;
+    
+    
+    /*screenTaskRunning = false;
     while(true) {
         pros::delay(50);
         pros::lcd::print(0, "Y: %.4f", 72 - distanceResetY(-90));
         pros::lcd::print(1, "X: %.4f", 72 - distanceResetX(true, 0));
-    }
+    }*/
 
 
     // chassis.setPose(0, 0, 0);
@@ -1592,7 +1608,7 @@ std::vector<std::tuple<std::string, void(*)()>> autons = {
     {"low goal solo sig AWP", lowGoalSoloSigAWP},
     {"4 push right", Push4Right},
     {"4 push left", Push4Left},
-    {"skills", skills},
+    {"skills", noSkills},
     {"low goal skills", lowGoalSkills}
 
 

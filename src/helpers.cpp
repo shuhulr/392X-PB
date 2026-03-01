@@ -60,7 +60,7 @@ void ScoreS(int timeout) {
     int counter = 0;
     while(error > 5 && counter < timeout) {
         error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
-        shotgun.move(128 - (80/(1 + pow(2, 0.2*(error - 65) ) ) ) );
+        shotgun.move(128 - (80/(1 + pow(2, 0.2*(error - 64) ) ) ) );
         pros::delay(10);
         counter += 10;
     }
