@@ -156,8 +156,12 @@ void lowGoalSkills() {
     chassis.turnToPoint(-4.5, 5, 600, {}, false);
     drop.toggle();
     chassis.moveDistance(13, 700, {}, false);
-    intake.move(-32);
+    intake.move(-29);
     pros::delay(1000);
+    drop.toggle();
+    pros::delay(75);
+    drop.toggle();
+    pros::delay(300);
     chassis.turnToPoint(48, -48, 500, {.forwards=false}, false);
     chassis.moveToPoint(47, -50, 1200, {.forwards=false, .maxSpeed=90, .maxAngularSpeed=10}, false);
     matchloader.extend();
@@ -199,17 +203,17 @@ void lowGoalSkills() {
     chassis.setPose(72-x, chassis.getPose().y, chassis.getPose().theta);
     pros::delay(100);
 
-    chassis.moveToPoint(62, 42, 1450, {.forwards=false, .maxSpeed=92, .maxAngularSpeed=10}, false);
-    pros::delay(100);
+    chassis.moveToPoint(62, 42, 1750, {.forwards=false, .maxSpeed=92, .maxAngularSpeed=10}, false);
+    pros::delay(150);
 
     // reset
-    x = distanceResetX(false, 0);
+    x = distanceResetX(false, 180);
     chassis.setPose(72-x, chassis.getPose().y, chassis.getPose().theta);
-    pros::delay(100);
+    // pros::delay(120);
 
     double y = distanceResetY(180);
     chassis.setPose(chassis.getPose().x, 72-y, chassis.getPose().theta);
-    pros::delay(100);
+    pros::delay(150);
 
     chassis.turnToPoint(48, 42, 500, {.forwards = false}, false);
 
@@ -225,7 +229,7 @@ void lowGoalSkills() {
 
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    ScoreS(800);
+    ScoreS(900);
     pros::delay(50);
     stopIntaking();
     resetArm();
@@ -253,7 +257,7 @@ void lowGoalSkills() {
     moveWithVoltage(-30, -30);
     pros::delay(150);
     moveWithVoltage(60, 60);
-    pros::delay(400);
+    pros::delay(600);
     
 
     //long goal score 2
@@ -261,7 +265,7 @@ void lowGoalSkills() {
     matchloader.retract();
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    ScoreS(800);
+    ScoreS(900);
     pros::delay(100);
     resetArm();
     intake.move(-128);
@@ -271,7 +275,7 @@ void lowGoalSkills() {
     chassis.setPose(48, 31, chassis.getPose().theta); // change theta
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
     drop.extend();
-    // pros::delay(1000);
+    pros::delay(100);
     chassis.moveToPoint(42, 54, 800, {.maxSpeed=80, .maxAngularSpeed=15}, false);
     chassis.moveToPose(24, 64.2, -110, 90, {.lead = 0.3, .maxSpeed=100}, false);
     chassis.moveToPoint(18, 64.7, 800, {.maxSpeed=100}, false);
@@ -294,37 +298,58 @@ void lowGoalSkills() {
     // double parkBump = distanceResetY(90);
     int counter = 0;
     pros::delay(50);
-    while (distanceResetY(-90) < 72 && counter < 2000) {
-        // printf("y: %f \n", distanceResetY(-90));
-        if (distanceResetY(-90) > 56 && distanceResetY(-90) < 64) {
+    moveWithVoltage(75, 70);
+    double currDistanceY;
+    while (counter < 2000) {
+        currDistanceY = distanceResetY(-90);
+        if (currDistanceY < 45 || currDistanceY > 144) {
+            counter += 20;
+            pros::delay(20);
+            continue;
+        }
+        // printf("y: %f \n", currDistanceY);
+        if (currDistanceY > 52 && currDistanceY < 63) {
             matchloader.retract();
         }
-        moveWithVoltage(70, 70);
-        pros::delay(20);
+
+        if (currDistanceY > 72) {
+            break;
+        }
+
+        pros::delay(20); 
         counter += 20;
+
+        printf("distance sensor: %f\n", currDistanceY);
     }
     
     double parkClear = distanceResetY(-90);
     moveWithVoltage(0, 0);
-    pros::delay(50);
+    pros::delay(200);
 
     printf("\n\n\n\n\n\nGAP\n\n\n\n\n\n\n");
 
     counter = 0;
-    while (parkClear < 95 && counter < 2000) {
-        if(distanceResetY(-90) > 85 && distanceResetY(-90) < 89) {
+    moveWithVoltage(65, 55);
+    while (counter < 2000) {
+        currDistanceY = distanceResetY(-90);
+        if (currDistanceY < 70 || currDistanceY > 144) {
+            counter += 20;
+            pros::delay(20);
+            continue;
+        }
+        // printf("y: %f \n", currDistanceY);
+        if (currDistanceY > 89 && currDistanceY < 95) {
             matchloader.extend();
         }
-        moveWithVoltage(55, 55);
-        pros::delay(20);
-        counter += 20;
-        parkClear = distanceResetY(-90);
-        // printf("y: %f\n", parkClear);
-        while(parkClear > 200) {
-            pros::delay(20);
-            counter += 20;
-            parkClear = distanceResetY(-90);
+
+        if (currDistanceY > 95) {
+            break;
         }
+
+        pros::delay(20); 
+        counter += 20;
+
+        printf("distance sensor: %f\n", currDistanceY);
     }
     moveWithVoltage(0, 0);
     pros::delay(200);
@@ -351,11 +376,12 @@ void lowGoalSkills() {
 
     matchloader.retract();   
     chassis.turnToPoint(-24, 24, 500, {}, false);
-    chassis.moveToPoint(-27, 24, 800, {.maxSpeed=90, .maxAngularSpeed=15}, false);
+    chassis.moveToPoint(-27, 24, 950, {.maxSpeed=90, .maxAngularSpeed=15}, false);
     drop.extend();
-    chassis.turnToPoint(-6, 5, 700, {}, false);
+    pros::delay(150);
+    chassis.turnToPoint(-5.2, 5, 700, {}, false);
     stopIntaking();
-    chassis.moveDistance(19.5, 800, {.maxSpeed=60}, false);
+    chassis.moveDistance(18.75, 800, {.maxSpeed=60}, false);
     intake.move(-30);
     pros::delay(1500);
     intake.move(-14);
@@ -363,10 +389,10 @@ void lowGoalSkills() {
     moveWithVoltage(-10, -10);
     pros::delay(300);
     moveWithVoltage(0, 0);
-    pros::delay(1100);
-    moveWithVoltage(-22, -22);
+    pros::delay(900);
+    moveWithVoltage(-24, -24);
     intake.move(-28);
-    pros::delay(350);
+    pros::delay(550);
     stopIntaking();
     chassis.moveDistance(-15, 900, {.forwards=false, .maxSpeed=25}, false);
     intake.move(-128);
@@ -410,7 +436,7 @@ void lowGoalSkills() {
     chassis.setPose(-(72-x), chassis.getPose().y, chassis.getPose().theta);
     pros::delay(100);
 
-    chassis.moveToPoint(-64, -42, 1450, {.forwards=false, .maxSpeed=85, .maxAngularSpeed=10}, false);
+    chassis.moveToPoint(-64, -42, 1450, {.forwards=false, .maxSpeed=92, .maxAngularSpeed=10}, false);
     pros::delay(100);
 
     
@@ -429,10 +455,11 @@ void lowGoalSkills() {
     chassis.moveToPoint(-49.5, -42, 500, {.forwards = false, .maxAngularSpeed=10}, false);
     chassis.turnToPoint(-48.3, -24, 500, {.forwards=false}, false);
     descorer.toggle();
+    Intake();
     chassis.moveDistance(-20, 650, {.forwards = false}, false);
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    ScoreS(800);
+    ScoreS(900);
     pros::delay(100);
     stopIntaking();
     resetArm();
@@ -451,7 +478,7 @@ void lowGoalSkills() {
     //matchload 2
     matchloader.extend();
     chassis.moveToPoint(-47.5, -50, 500, {.maxSpeed = 85, .maxAngularSpeed=10}, false);
-    chassis.turnToPoint(-47.8, -72, 150, {}, false);
+    chassis.turnToPoint(-48, -72, 300, {}, false);
     Intake();
     chassis.moveDistance(20, 640, {.maxSpeed = 45}, false);
     stopArm();
@@ -469,17 +496,17 @@ void lowGoalSkills() {
     matchloader.retract();
     moveWithVoltage(-50, -50);
     pros::delay(100);
-    ScoreS(800);
+    ScoreS(900);
     pros::delay(100);
     resetArm();
     intake.move(-128);
 
     // reset again
 
-    chassis.setPose(-48, -31, 180); 
+    chassis.setPose(-48, -31, chassis.getPose().theta); // change theta
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
     drop.extend();
-    pros::delay(1000);
+    pros::delay(100);
     chassis.moveToPoint(-42, -54, 800, {.maxSpeed=80, .maxAngularSpeed=15}, false);
     chassis.moveToPose(-24, -64.2, 70, 90, {.lead = 0.3, .maxSpeed=100}, false);
     chassis.moveToPoint(-18, -64.7, 800, {.maxSpeed=100}, false);
@@ -499,14 +526,21 @@ void lowGoalSkills() {
     pros::delay(550);
     
     shotgun.move(-40);
-    while (distanceResetY(90) < 72) {
+    while (distanceResetY(90) < 72.5) {
         moveWithVoltage(70, 70);
+        if (distanceResetY(90) > 144) {
+            pros::delay(20);
+            continue;
+        }
         pros::delay(20);
+        if (distanceResetY(-90) > 65 && distanceResetY(-90) < 70) {
+            matchloader.retract();
+        } 
     }
     
     matchloader.retract();
     moveWithVoltage(0, 0);
-    pros::delay(500);
+    pros::delay(670);
     descorer.extend();
 }
 
@@ -1461,54 +1495,54 @@ void test() {
 }
 
 void pidTest() {
-    drop.extend();
-    Intake();
-    pros::delay(7500);
-    descorer.extend();
-    pros::delay(600);
-    stopIntaking();
-    descorer.retract();
-    pros::delay(1000);
-    descorer.extend();
-    // SCORE
-    double error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
-    std::vector<float> speeds;
-    ScoreS(800);
-    for (float s : speeds) {
-        printf("%f\n ", s);
-    }
-    printf("\n");
-    pros::delay(1000);
-    resetArm();
-    intake.move(-128);
-    pros::delay(1000);
-    descorer.retract();
-    Intake();
-    pros::delay(7500);
-    descorer.extend();
-    pros::delay(600);
-    stopIntaking();
-    descorer.retract();
-    pros::delay(1000);
-    descorer.extend();
-    // SCORE
-    error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
-    std::vector<float> speeds2;
-    ScoreS(800);
-    for(float s : speeds2) {
-        printf("%f\n ", s);
-    }
-    pros::delay(1000);
-    resetArm();
-    intake.move(-128);
-    pros::delay(1000);
-    descorer.retract();
-    // screenTaskRunning = false;
-    // while(true) {
-    //     pros::delay(50);
-    //     pros::lcd::print(0, "Y: %.4f", 72 - distanceResetY(0));
-    //     pros::lcd::print(1, "X: %.4f", 72 - distanceResetX(true, 0));
+    // drop.extend();
+    // Intake();
+    // pros::delay(7500);
+    // descorer.extend();
+    // pros::delay(600);
+    // stopIntaking();
+    // descorer.retract();
+    // pros::delay(1000);
+    // descorer.extend();
+    // // SCORE
+    // double error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
+    // std::vector<float> speeds;
+    // ScoreS(800);
+    // for (float s : speeds) {
+    //     printf("%f\n ", s);
     // }
+    // printf("\n");
+    // pros::delay(1000);
+    // resetArm();
+    // intake.move(-128);
+    // pros::delay(1000);
+    // descorer.retract();
+    // Intake();
+    // pros::delay(7500);
+    // descorer.extend();
+    // pros::delay(600);
+    // stopIntaking();
+    // descorer.retract();
+    // pros::delay(1000);
+    // descorer.extend();
+    // // SCORE
+    // error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
+    // std::vector<float> speeds2;
+    // ScoreS(800);
+    // for(float s : speeds2) {
+    //     printf("%f\n ", s);
+    // }
+    // pros::delay(1000);
+    // resetArm();
+    // intake.move(-128);
+    // pros::delay(1000);
+    // descorer.retract();
+    screenTaskRunning = false;
+    while(true) {
+        pros::delay(50);
+        pros::lcd::print(0, "Y: %.4f", 72 - distanceResetY(-90));
+        pros::lcd::print(1, "X: %.4f", 72 - distanceResetX(true, 0));
+    }
 
 
     // chassis.setPose(0, 0, 0);

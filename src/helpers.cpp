@@ -60,7 +60,7 @@ void ScoreS(int timeout) {
     int counter = 0;
     while(error > 5 && counter < timeout) {
         error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
-        shotgun.move(128 - (80/(1 + pow(2, 0.2*(error - 70) ) ) ) );
+        shotgun.move(128 - (80/(1 + pow(2, 0.2*(error - 65) ) ) ) );
         pros::delay(10);
         counter += 10;
     }
@@ -69,7 +69,7 @@ void ScoreS() {
     float error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
     while(error > 5 && controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
         error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
-        shotgun.move(128 - (80/(1 + pow(2, 0.2*(error - 70) ) ) ) );
+        shotgun.move(128 - (80/(1 + pow(2, 0.2*(error - 65) ) ) ) );
         pros::delay(10);
     }
 }
@@ -116,7 +116,7 @@ double distanceResetY(int wallOffset) {
     double angleDistanceX = ((distanceY.get() + (3.5)*sin(lemlib::degToRad(chassis.getPose().theta))) / 25.4) + 7;
     double finalDistanceX = angleDistanceX * cos(lemlib::degToRad(chassis.getPose().theta - wallOffset));
     double superFinalDistanceX = finalDistanceX * cos(lemlib::degToRad(imu.get_pitch()));
-    printf("distancey: %f\n", fabs(superFinalDistanceX));
+    // printf("distancey: %f\n", fabs(superFinalDistanceX));
     return fabs(superFinalDistanceX);
 }
 
