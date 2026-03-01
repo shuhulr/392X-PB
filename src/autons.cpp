@@ -272,10 +272,10 @@ void lowGoalSkills() {
 
     // CHECKPOINT HERE
 
-    chassis.setPose(48, 31, chassis.getPose().theta); // change theta
+    chassis.setPose(48, 31, 0); // change theta
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
     drop.extend();
-    pros::delay(100);
+    pros::delay(200);
     chassis.moveToPoint(42, 54, 800, {.maxSpeed=80, .maxAngularSpeed=15}, false);
     chassis.moveToPose(24, 64.2, -110, 90, {.lead = 0.3, .maxSpeed=100}, false);
     chassis.moveToPoint(18, 64.7, 800, {.maxSpeed=100}, false);
@@ -379,20 +379,21 @@ void lowGoalSkills() {
     chassis.moveToPoint(-27, 24, 950, {.maxSpeed=90, .maxAngularSpeed=15}, false);
     drop.extend();
     pros::delay(150);
-    chassis.turnToPoint(-5.2, 5, 700, {}, false);
+    chassis.turnToPoint(-6, 5, 700, {}, false);
     stopIntaking();
-    chassis.moveDistance(18.75, 800, {.maxSpeed=60}, false);
+    chassis.moveDistance(18, 800, {.maxSpeed=60}, false);
+
+    // low goal scoring
     intake.move(-30);
-    pros::delay(1500);
-    intake.move(-14);
-    pros::delay(200);
+    pros::delay(1000);
+    intake.move(-12);
+    pros::delay(600);
     moveWithVoltage(-10, -10);
-    pros::delay(300);
+    pros::delay(400);
     moveWithVoltage(0, 0);
-    pros::delay(900);
-    moveWithVoltage(-24, -24);
-    intake.move(-28);
-    pros::delay(550);
+    pros::delay(950);
+    moveWithVoltage(-25, -25);
+    pros::delay(600);
     stopIntaking();
     chassis.moveDistance(-15, 900, {.forwards=false, .maxSpeed=25}, false);
     intake.move(-128);
@@ -436,8 +437,8 @@ void lowGoalSkills() {
     chassis.setPose(-(72-x), chassis.getPose().y, chassis.getPose().theta);
     pros::delay(100);
 
-    chassis.moveToPoint(-64, -42, 1450, {.forwards=false, .maxSpeed=92, .maxAngularSpeed=10}, false);
-    pros::delay(100);
+    chassis.moveToPoint(-64, -42, 1750, {.forwards=false, .maxSpeed=92, .maxAngularSpeed=10}, false);
+    pros::delay(150);
 
     
 
