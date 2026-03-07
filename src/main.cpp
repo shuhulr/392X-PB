@@ -296,6 +296,9 @@ void opcontrol() {
     printf("\nDriver Control Started\n");
     opControl = true;
     float error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
+    if(auton == 10 || auton == 11) {
+        passTheJuice.extend();
+    }
 
     while (true) {
         // get joystick positions
@@ -348,6 +351,7 @@ void opcontrol() {
             leverTarget = -1;
             if(!drop.is_extended()) {
                 if ((auton == 10 || auton == 11)) {
+                    passTheJuice.retract();
                     if(controller.get_digital(DIGITAL_Y))
                         shotgun.move_velocity(32);
                     else 
@@ -369,6 +373,7 @@ void opcontrol() {
                 if ((auton == 10 || auton == 11)){
                     error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
                     shotgun.move(128 - (80/(1 + pow(2, 0.2*(error - 70) ) ) ) );
+                    passTheJuice.retract();
                 }
                 else shotgun.move_velocity(70);
             }
