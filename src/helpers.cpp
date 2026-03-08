@@ -69,7 +69,7 @@ void ScoreS() {
     float error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
     while(error > 5 && controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
         error = lemlib::angleError(108, shotgunRS.get_position()/100.0, false);
-        shotgun.move(128 - (80/(1 + pow(2, 0.2*(error - 65) ) ) ) );
+        shotgun.move(128 - (75/(1 + pow(2, 0.2*(error - 65) ) ) ) );
         pros::delay(10);
     }
 }

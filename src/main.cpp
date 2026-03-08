@@ -381,6 +381,9 @@ void opcontrol() {
         } else if(!leverDown) {
             leverTarget = 0;
             leverSpeed = 70;
+            if(auton == 10 || auton == 11) {
+                passTheJuice.extend();
+            }
         }
 
         // matchloader B
