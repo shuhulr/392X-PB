@@ -141,144 +141,144 @@ void lowGoalSkills() {
     
 
 
-    // chassis.setPose(-7, -45, 0);
-    // chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
-    // screenTaskRunning = false;
+    chassis.setPose(-7, -45, 0);
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+    screenTaskRunning = false;
 
-    // // first 2 stacks
-    // Intake();
-    // passTheJuice.extend();
-    // //chassis.turnToHeading(-60, 500, {}, false);
-    // // chassis.moveDistance(26, 800, {.maxSpeed = 75});
-    // chassis.moveToPoint(-22, -26, 800, {.maxSpeed = 100}, false);
-    // chassis.waitUntil(20);
-    // // matchloader.extend();
-    // chassis.waitUntilDone();
-    // pros::delay(200);
-    // //chassis.turnToHeading(30, 300, {}, false);
-    // // matchloader.retract();
-
-    // // chassis.moveDistance(-10, 800, {.forwards = false}, false);
-    // chassis.turnToPoint(24, -21, 650, {}, false);
-    // chassis.moveToPoint(20.3, -21, 1100, {.maxSpeed = 100, .maxAngularSpeed = 10}, false);
-    // chassis.turnToPoint(-4.5, 5, 600, {}, false);
-    // drop.toggle();
-    // chassis.moveDistance(13, 700, {}, false);
-    // intake.move(-32);
-    // pros::delay(1350);
-    // chassis.turnToPoint(48, -48, 500, {.forwards=false}, false);
-    // chassis.moveToPoint(47, -50, 1200, {.forwards=false, .maxSpeed=90, .maxAngularSpeed=10}, false);
+    // first 2 stacks
+    Intake();
+    passTheJuice.extend();
+    //chassis.turnToHeading(-60, 500, {}, false);
+    // chassis.moveDistance(26, 800, {.maxSpeed = 75});
+    chassis.moveToPoint(-22, -26, 800, {.maxSpeed = 100}, false);
+    chassis.waitUntil(20);
     // matchloader.extend();
-    // shotgun.move(-35);
-    // Intake();
-    // pros::delay(300);
-    // chassis.turnToHeading(180, 500, {}, false);
+    chassis.waitUntilDone();
+    pros::delay(200);
+    //chassis.turnToHeading(30, 300, {}, false);
+    // matchloader.retract();
 
-    // // reset
-    // pros::delay(150);
-    // x = distanceResetX(false, 0);
-    // chassis.setPose(72-x, chassis.getPose().y, chassis.getPose().theta);
-    // pros::delay(150);
+    // chassis.moveDistance(-10, 800, {.forwards = false}, false);
+    chassis.turnToPoint(24, -21, 650, {}, false);
+    chassis.moveToPoint(20.3, -21, 1100, {.maxSpeed = 100, .maxAngularSpeed = 10}, false);
+    chassis.turnToPoint(-4.5, 5, 600, {}, false);
+    drop.toggle();
+    chassis.moveDistance(13, 700, {}, false);
+    intake.move(-32);
+    pros::delay(1350);
+    chassis.turnToPoint(48, -48, 500, {.forwards=false}, false);
+    chassis.moveToPoint(47, -50, 1200, {.forwards=false, .maxSpeed=90, .maxAngularSpeed=10}, false);
+    matchloader.extend();
+    shotgun.move(-35);
+    Intake();
+    pros::delay(300);
+    chassis.turnToHeading(180, 500, {}, false);
 
-    // // matchload 1
-    // chassis.turnToPoint(48, -72, 400, {}, false);
-    // chassis.moveDistance(20, 600, {.maxSpeed = 45}, false);
-    // moveWithVoltage(30, 30);
-    // pros::delay(1500);
-    // moveWithVoltage(-30, -30);
-    // pros::delay(150);
-    // moveWithVoltage(60, 60);
-    // pros::delay(400);
+    // reset
+    pros::delay(150);
+    x = distanceResetX(false, 0);
+    chassis.setPose(72-x, chassis.getPose().y, chassis.getPose().theta);
+    pros::delay(150);
+
+    // matchload 1
+    chassis.turnToPoint(48, -72, 400, {}, false);
+    chassis.moveDistance(20, 600, {.maxSpeed = 45}, false);
+    moveWithVoltage(30, 30);
+    pros::delay(1500);
+    moveWithVoltage(-30, -30);
+    pros::delay(150);
+    moveWithVoltage(60, 60);
+    pros::delay(400);
 
     
 
-    // chassis.moveToPoint(48, -48, 500, {.forwards=false}, false);
-    // stopIntaking();
-    // matchloader.retract();
+    chassis.moveToPoint(48, -48, 500, {.forwards=false}, false);
+    stopIntaking();
+    matchloader.retract();
 
-    // // hallway
-    // chassis.turnToHeading(-135, 600, {}, false);
-    // chassis.moveDistance(-18.5, 580, {.forwards = false}, false);
-    // // descorer.toggle();
+    // hallway
+    chassis.turnToHeading(-135, 600, {}, false);
+    chassis.moveDistance(-18.5, 580, {.forwards = false}, false);
+    // descorer.toggle();
 
-    // chassis.turnToPoint(62, 38, 550, {.forwards = false}, false);
+    chassis.turnToPoint(62, 38, 550, {.forwards = false}, false);
 
-    // pros::delay(100);
-    // x = distanceResetX(false, 0);
-    // chassis.setPose(72-x, chassis.getPose().y, chassis.getPose().theta);
-    // pros::delay(100);
+    pros::delay(100);
+    x = distanceResetX(false, 0);
+    chassis.setPose(72-x, chassis.getPose().y, chassis.getPose().theta);
+    pros::delay(100);
 
-    // chassis.moveToPoint(62, 42, 1750, {.forwards=false, .maxSpeed=92, .maxAngularSpeed=10}, false);
-    // pros::delay(100);
+    chassis.moveToPoint(62, 42, 1750, {.forwards=false, .maxSpeed=92, .maxAngularSpeed=10}, false);
+    pros::delay(100);
 
-    // // reset
-    // x = distanceResetX(false, 180);
-    // chassis.setPose(72-x, chassis.getPose().y, chassis.getPose().theta);
-    // // pros::delay(120);
+    // reset
+    x = distanceResetX(false, 180);
+    chassis.setPose(72-x, chassis.getPose().y, chassis.getPose().theta);
+    // pros::delay(120);
 
-    // // y = distanceResetY(180);
-    // // chassis.setPose(chassis.getPose().x, 72-y, chassis.getPose().theta);
-    // pros::delay(150);
+    // y = distanceResetY(180);
+    // chassis.setPose(chassis.getPose().x, 72-y, chassis.getPose().theta);
+    pros::delay(150);
 
-    // chassis.turnToPoint(48, 42, 500, {.forwards = false}, false);
+    chassis.turnToPoint(48, 42, 500, {.forwards = false}, false);
 
-    // // x = distanceResetX(false, 90);
-    // // chassis.setPose(chassis.getPose().x, 72-x, chassis.getPose().theta);
-    // // pros::delay(100);
-
-    // // descorer.toggle();
-    // chassis.moveToPoint(49, 42, 550, {.forwards = false, .maxSpeed = 60, .maxAngularSpeed=10}, false);
-    // chassis.turnToPoint(48.6, 24, 500, {.forwards=false}, false);
-    // Intake();
-    // chassis.moveDistance(-20, 600, {.forwards = false}, false);
-
-    // moveWithVoltage(-50, -50);
-    // passTheJuice.retract();
-    // pros::delay(100);
-    // ScoreS(900);
-    // pros::delay(50);
-    // stopIntaking();
-    // resetArm();
-    // intake.move(-128);
-
-
-    // // reset again
-    // pros::delay(100);
-    // chassis.setPose(48, 31, chassis.getPose().theta);
+    // x = distanceResetX(false, 90);
+    // chassis.setPose(chassis.getPose().x, 72-x, chassis.getPose().theta);
     // pros::delay(100);
 
+    // descorer.toggle();
+    chassis.moveToPoint(49, 42, 550, {.forwards = false, .maxSpeed = 60, .maxAngularSpeed=10}, false);
+    chassis.turnToPoint(48.6, 24, 500, {.forwards=false}, false);
+    Intake();
+    chassis.moveDistance(-20, 600, {.forwards = false}, false);
+
+    moveWithVoltage(-50, -50);
+    passTheJuice.retract();
+    pros::delay(100);
+    ScoreS(900);
+    pros::delay(50);
+    stopIntaking();
+    resetArm();
+    intake.move(-128);
 
 
-    // //matchload 2
-    // matchloader.extend();
-    // chassis.moveToPoint(48, 48, 600, {.maxSpeed = 85, .maxAngularSpeed=10}, false);
-    // passTheJuice.extend();
-    // chassis.turnToPoint(47.5, 72, 300, {}, false);
-    // Intake();
-    // chassis.moveDistance(20, 600, {.maxSpeed = 45}, false);
-    // shotgun.move(-35);
-    // moveWithVoltage(30, 30);
-    // pros::delay(1500);
-    // moveWithVoltage(-30, -30);
-    // pros::delay(150);
-    // moveWithVoltage(60, 60);
-    // pros::delay(600);
+    // reset again
+    pros::delay(100);
+    chassis.setPose(48, 31, chassis.getPose().theta);
+    pros::delay(100);
+
+
+
+    //matchload 2
+    matchloader.extend();
+    chassis.moveToPoint(48, 48, 600, {.maxSpeed = 85, .maxAngularSpeed=10}, false);
+    passTheJuice.extend();
+    chassis.turnToPoint(47.5, 72, 300, {}, false);
+    Intake();
+    chassis.moveDistance(20, 600, {.maxSpeed = 45}, false);
+    shotgun.move(-35);
+    moveWithVoltage(30, 30);
+    pros::delay(1500);
+    moveWithVoltage(-30, -30);
+    pros::delay(150);
+    moveWithVoltage(60, 60);
+    pros::delay(600);
     
 
-    // //long goal score 2
-    // chassis.moveToPoint(47.8, 27, 700, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
-    // matchloader.retract();
-    // moveWithVoltage(-50, -50);
-    // passTheJuice.retract();
-    // pros::delay(100);
-    // ScoreS(900);
-    // pros::delay(100);
-    // resetArm();
-    // intake.move(-128);
+    //long goal score 2
+    chassis.moveToPoint(47.8, 27, 700, {.forwards = false, .maxSpeed = 100, .maxAngularSpeed = 10}, false);
+    matchloader.retract();
+    moveWithVoltage(-50, -50);
+    passTheJuice.retract();
+    pros::delay(100);
+    ScoreS(900);
+    pros::delay(100);
+    resetArm();
+    intake.move(-128);
 
     // ! CHECKPOINT HERE
 
-    chassis.setPose(48, 31, 0); // change theta
+    chassis.setPose(48, 31, chassis.getPose().theta); // change theta
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
     drop.extend();
     pros::delay(100);
