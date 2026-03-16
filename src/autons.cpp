@@ -1184,6 +1184,11 @@ void longLowMid() {
 void soloSigAWP() {
     shotgunRS.reset_position();
     chassis.setPose(rightAWPStart);
+
+    RclMain.setRclPose(chassis.getPose());
+    //RclMain.updateBotPose(&backRcl);
+    RclMain.updateBotPose(&leftRcl);
+
     screenTaskRunning = false;
     drop.toggle();
     Intake();
@@ -1254,9 +1259,8 @@ void soloSigAWP() {
     Score(47);
     // reset 
     pros::delay(450);
-    double x = distanceResetX(true, 180);
+    RclMain.updateBotPose(&rightRcl);
     // chassis.setPose(-(72-x), chassis.getPose().y, chassis.getPose().theta);
-    chassis.setPose(-48, -31, chassis.getPose().theta);
     pros::delay(100);
     resetArm();
     intake.move(-128);
@@ -1541,7 +1545,10 @@ void test() {
 }
 
 void pidTest() {
-    chassis.setPose(-7, -44.5, 0);
+    pros::lcd::print(0, "X: %.4f", chassis.getPose().x); // x
+    pros::lcd::print(1, "Y: %.4f", chassis.getPose().y); // y
+    pros::lcd::print(2, "Theta: %.3f", chassis.getPose().theta); // heading
+    //chassis.setPose(-7, -44.5, 0);
     // drop.extend();
     // Intake();
     // pros::delay(7500);

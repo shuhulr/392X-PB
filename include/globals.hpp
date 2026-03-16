@@ -4,6 +4,7 @@
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"
+#include "RclTracking.hpp"
 
 // Declare chassis so other files can use it
 extern lemlib::Chassis chassis;
@@ -24,10 +25,15 @@ extern pros::adi::Pneumatics descorer;
 extern pros::adi::Pneumatics odomLift;
 extern pros::adi::Pneumatics lowFunnel;
 extern pros::adi::Pneumatics passTheJuice;
-extern pros::Distance distanceXLeft;
-extern pros::Distance distanceXRight;
-extern pros::Distance distanceY;
+extern pros::Distance leftDist;
+extern pros::Distance rightDist;
+extern pros::Distance backDist;
 extern pros::Imu imu;
+extern RclSensor rightRcl;
+extern RclSensor leftRcl;
+extern RclSensor backRcl;
+extern RclTracking RclMain;
+
 
 extern void turnToHeadingU30(float heading, int timeout, lemlib::TurnToHeadingParams params = {}, bool async = true);
 extern void Intake();
