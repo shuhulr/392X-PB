@@ -105,9 +105,9 @@ lemlib::ControllerSettings linearController(5.5, // proportional gain (kP)
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(1.7, // proportional gain (kP)
-                                             0.22, // integral gain (kI)
-                                             13.56, // derivative gain (kD)
+lemlib::ControllerSettings angularController(angular_kp, // proportional gain (kP)
+                                             angular_ki, // integral gain (kI)
+                                             angular_kd, // derivative gain (kD)
                                              5, // anti windup
                                              1, // small error range, in degrees
                                              75, // small error range timeout, in milliseconds
@@ -483,6 +483,10 @@ void opcontrol() {
             if(odomLift.is_extended()) {
                 controller.rumble(".");
             }
+        }
+
+        if (controller.get_digital_new_press(DIGITAL_X)) {
+            pidTest();
         }
         
         

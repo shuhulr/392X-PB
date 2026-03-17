@@ -1640,6 +1640,13 @@ void pidTest() {
     // chassis.turnToHeading(178, 600, {}, false);
     // printf("heading: %f\n", chassis.getPose().theta);
     // pros::delay(1000);
+
+    pidTuneAngular(45);
+        pidTuneAngular(60);
+            pidTuneAngular(90);
+                pidTuneAngular(120);
+                    pidTuneAngular(150);
+                        pidTuneAngular(180);
 }
 
 

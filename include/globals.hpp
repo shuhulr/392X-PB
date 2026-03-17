@@ -50,6 +50,14 @@ extern double distanceResetX(bool right, int wallOffset);
 extern double distanceResetX(bool right, double x, double heading);
 extern double distanceResetY(int wallOffset);
 extern double distanceResetY(int y, double heading);
+extern void pidTuneAngular(int target);
+extern double angular_kp;
+extern double angular_ki;
+extern double angular_kd;
+extern void tune_kp(int target, int& oscillation);
+extern void tune_ki(int target, int& oscillation);
+extern void tune_kd(int target, int& oscillation);
+
 
 extern bool intaking;
 extern bool armMoving;

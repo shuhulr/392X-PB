@@ -4,6 +4,7 @@
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
 #include <cstdio>
+#include <vector>
 
 bool intaking = false;
 bool armMoving = false;
@@ -125,3 +126,82 @@ double distanceResetY(int y, double heading) {
     double finalDistanceY = angleDistanceY * cos(lemlib::degToRad(heading));
     return fabs(finalDistanceY);
 }
+
+void tune_kp(int target, int& oscillation) {
+    chassis.setPose(0, 0, 0);
+    oscillation = 0;
+    int currError = lemlib::angleError(target, chassis.getPose().theta, false);
+    int prevError;
+    chassis.turnToHeading(target, 1000);
+    for(int i = 0; i < 100; i++) {
+        prevError = currError;
+        currError = lemlib::angleError(target, chassis.getPose().theta, false);
+        pros::delay(10);
+        if(currError * prevError < 0) {
+            oscillation++;
+        }
+    }
+    if(oscillation == 0) {
+        angular_kp+=0.1;
+    } else if (oscillation > 1) {
+        angular_kp-=0.05*oscillation;
+    }
+}
+void tune_ki(int target, int& oscillation) {
+    chassis.setPose(0, 0, 0);
+    oscillation = 0;
+    int currError = lemlib::angleError(target, chassis.getPose().theta, false);
+    int prevError;
+    chassis.turnToHeading(target, 1000);
+    for(int i = 0; i < 100; i++) {
+        prevError = currError;
+        currError = lemlib::angleError(target, chassis.getPose().theta, false);
+        pros::delay(10);
+        if(currError * prevError < 0) {
+            oscillation++;
+        }
+    }
+    
+    if (currError > 1 && angular_ki < 0.3) {
+        angular_ki+=0.01;
+    } else if (oscillation > 0) {
+        angular_ki-=0.005*oscillation;
+    }
+}
+void tune_kd(int target, int& oscillation) {
+    chassis.setPose(0, 0, 0);
+    oscillation = 0;
+    int currError = lemlib::angleError(target, chassis.getPose().theta, false);
+    int prevError;
+    chassis.turnToHeading(target, 1000);
+    for(int i = 0; i < 100; i++) {
+        prevError = currError;
+        currError = lemlib::angleError(target, chassis.getPose().theta, false);
+        pros::delay(10);
+        if(currError * prevError < 0) {
+            oscillation++;
+        }
+    }
+    if(oscillation > 0) {
+        angular_kd+=0.5;
+    } else if (currError > 1.5) {
+        angular_kd-=0.1;
+    }
+}
+
+void pidTuneAngular(int target) {
+    int oscillation = 0;
+    angular_kp = 3;
+    angular_ki = 0;
+    angular_kd = 0;
+    do {
+        tune_kp(target, oscillation);
+    } while (oscillation != 1);
+    do {
+        tune_kd(target, oscillation);
+    } while (oscillation > 0);
+    do {
+        tune_ki(target, oscillation);
+    } while (oscillation > 0 && lemlib::angleError(target, chassis.getPose().theta, false) > 1);
+}
+
