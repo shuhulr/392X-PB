@@ -35,7 +35,7 @@ bool screenTaskRunning = true;
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // motor groups
-pros::MotorGroup leftMotors({-13, 14, -15}, pros::MotorGearset::blue); // left motor group - ports 1, 2 (reversed), 3
+pros::MotorGroup leftMotors({9, -7, -16}, pros::MotorGearset::blue); // left motor group - ports 1, 2 (reversed), 3
 pros::MotorGroup rightMotors({10, 6, -8}, pros::MotorGearset::blue); // right motor group - ports 4 (reversed), 5, 6 (reversed)
 
 bool leverDown = true;
@@ -48,10 +48,10 @@ bool opControl = false;
 
 // motors
 pros::Motor intakeRight(19);
-pros::Motor intakeLeft(-21);
-pros::MotorGroup intake({19, -21});
-pros::Motor shotgun(3, pros::MotorGearset::red);
-pros::Rotation shotgunRS(-1);
+pros::Motor intakeLeft(-12);
+pros::MotorGroup intake({19, -12});
+pros::Motor shotgun(13, pros::MotorGearset::red);
+pros::Rotation shotgunRS(21);
 
 // optical disconnect on port 12
 // pros::Optical opticalSensor(12);
@@ -77,7 +77,7 @@ pros::Imu imu(20);
 // horizontal tracking wheel encoder. Rotation sensor, port 8, not reversed
 pros::Rotation horizontalEnc(12);
 // vertical tracking wheel encoder. Rotation sensor, port 7, not reversed
-pros::Rotation verticalEnc(-2);
+pros::Rotation verticalEnc(-17);
 // horizontal tracking wheel. 2.75" diameter, 5.75" offset, back of the robot (negative)
 lemlib::TrackingWheel horizontal(&horizontalEnc, 2, -3.7);
 // vertical tracking wheel. 2.75" diameter, 2.5" offset, left of the robot (negative)
