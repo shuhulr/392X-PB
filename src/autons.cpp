@@ -83,6 +83,10 @@ void rightBonus() {
 
 void leftBonus() {
     chassis.setPose(LeftStandardStart);
+    RclMain.setRclPose(chassis.getPose());
+    RclMain.updateBotPose(&backRcl);
+    RclMain.updateBotPose(&leftRcl);
+
     Intake();
     drop.extend();
     chassis.moveDistance(18, 800, {.minSpeed = 35, .earlyExitRange = 5}, false);
@@ -1021,6 +1025,8 @@ void rightAWP() {
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
     screenTaskRunning = false;
     chassis.setPose(rightAWPStart);
+    RclMain.setRclPose(chassis.getPose());
+    RclMain.updateBotPose(&rightRcl);
     drop.toggle();
     chassis.moveDistance(27.7, 800, {}, false);
     chassis.turnToHeading(180, 550, {}, false);
