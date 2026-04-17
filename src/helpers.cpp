@@ -9,9 +9,9 @@
 bool intaking = false;
 bool armMoving = false;
 
-double angular_kp = 1.62;
-double angular_ki = 0.25;
-double angular_kd = 12;
+float angular_kp = 1.62;
+float angular_ki = 0.25;
+float angular_kd = 12;
 
 
 pros::Task instigateTask([]() {});
@@ -134,16 +134,17 @@ double distanceResetY(int y, double heading) {
 void tune_kp(int target, int& oscillation) {
     chassis.setPose(0, 0, 0);
     oscillation = 0;
-    int currError = lemlib::angleError(target, chassis.getPose().theta, false);
-    int prevError;
-    chassis.turnToHeading(target, 1000);
-    for(int i = 0; i < 100; i++) {
+    float currError = lemlib::angleError(target, chassis.getPose().theta, false);
+    float prevError;
+    chassis.turnToHeading(target, 2000, {.PIDConstants = {angular_kp, angular_ki, angular_kd, (target < 30 ? float(4) : float(5))}});
+    for(int i = 0; i < 200; i++) {
         prevError = currError;
         currError = lemlib::angleError(target, chassis.getPose().theta, false);
-        pros::delay(10);
         if(currError * prevError < 0) {
             oscillation++;
+            printf("\n oscillation! curr: %f, prev: %f\n", currError, prevError);
         }
+        pros::delay(10);
     }
     if(oscillation == 0) {
         angular_kp+=0.1;
@@ -154,16 +155,17 @@ void tune_kp(int target, int& oscillation) {
 void tune_ki(int target, int& oscillation) {
     chassis.setPose(0, 0, 0);
     oscillation = 0;
-    int currError = lemlib::angleError(target, chassis.getPose().theta, false);
-    int prevError;
-    chassis.turnToHeading(target, 1000);
-    for(int i = 0; i < 100; i++) {
+    float currError = lemlib::angleError(target, chassis.getPose().theta, false);
+    float prevError;
+    chassis.turnToHeading(target, 2000, {.PIDConstants = {angular_kp, angular_ki, angular_kd, (target < 30 ? float(4) : float(5))}});
+    for(int i = 0; i < 200; i++) {
         prevError = currError;
         currError = lemlib::angleError(target, chassis.getPose().theta, false);
-        pros::delay(10);
         if(currError * prevError < 0) {
             oscillation++;
+            printf("\n oscillation! curr: %f, prev: %f\n", currError, prevError);
         }
+        pros::delay(10);
     }
     
     if (currError > 1 && angular_ki < 0.3) {
@@ -175,10 +177,10 @@ void tune_ki(int target, int& oscillation) {
 void tune_kd(int target, int& oscillation) {
     chassis.setPose(0, 0, 0);
     oscillation = 0;
-    int currError = lemlib::angleError(target, chassis.getPose().theta, false);
-    int prevError;
-    chassis.turnToHeading(target, 1000);
-    for(int i = 0; i < 100; i++) {
+    float currError = lemlib::angleError(target, chassis.getPose().theta, false);
+    float prevError;
+    chassis.turnToHeading(target, 2000, {.PIDConstants = {angular_kp, angular_ki, angular_kd, (target < 30 ? float(4) : float(5))}});
+    for(int i = 0; i < 200; i++) {
         prevError = currError;
         currError = lemlib::angleError(target, chassis.getPose().theta, false);
         pros::delay(10);
@@ -200,12 +202,19 @@ void pidTuneAngular(int target) {
     angular_kd = 0;
     do {
         tune_kp(target, oscillation);
+        printf("kp: %f\n", angular_kp);
+        pros::delay(500);
     } while (oscillation != 1);
     do {
         tune_kd(target, oscillation);
+        printf("kd: %f\n", angular_kd);
+        pros::delay(500);
     } while (oscillation > 0);
     do {
         tune_ki(target, oscillation);
+        printf("ki: %f\n", angular_ki);
+        pros::delay(500);
     } while (oscillation > 0 && lemlib::angleError(target, chassis.getPose().theta, false) > 1);
+    printf("PID: %f, %f, %f \n", angular_kp, angular_ki, angular_kd);
 }
 

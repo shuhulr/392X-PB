@@ -35,7 +35,7 @@ bool screenTaskRunning = true;
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // motor groups
-pros::MotorGroup leftMotors({9, -7, -16}, pros::MotorGearset::blue); // left motor group - ports 1, 2 (reversed), 3
+pros::MotorGroup leftMotors({9, -7, -19}, pros::MotorGearset::blue); // left motor group - ports 1, 2 (reversed), 3
 pros::MotorGroup rightMotors({10, 6, -8}, pros::MotorGearset::blue); // right motor group - ports 4 (reversed), 5, 6 (reversed)
 
 bool leverDown = true;
@@ -47,10 +47,10 @@ bool competitionInitialize = false;
 bool opControl = false;
 
 // motors
-pros::Motor intakeRight(19);
-pros::Motor intakeLeft(-12);
-pros::MotorGroup intake({19, -12});
-pros::Motor shotgun(13, pros::MotorGearset::red);
+pros::Motor intakeRight(11);
+pros::Motor intakeLeft(-15);
+pros::MotorGroup intake({11, -15});
+pros::Motor shotgun(20, pros::MotorGearset::red);
 pros::Rotation shotgunRS(21);
 
 // optical disconnect on port 12
@@ -70,7 +70,7 @@ pros::adi::Pneumatics passTheJuice('B', false, false);
 
 
 // Inertial Sensor on port 10
-pros::Imu imu(20);
+pros::Imu imu(12);
 
 
 // tracking wheels
@@ -105,9 +105,9 @@ lemlib::ControllerSettings linearController(5.5, // proportional gain (kP)
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(angular_kp, // proportional gain (kP)
-                                             angular_ki, // integral gain (kI)
-                                             angular_kd, // derivative gain (kD)
+lemlib::ControllerSettings angularController(2, // proportional gain (kP)
+                                             0, // integral gain (kI)
+                                             0, // derivative gain (kD)
                                              5, // anti windup
                                              1, // small error range, in degrees
                                              75, // small error range timeout, in milliseconds

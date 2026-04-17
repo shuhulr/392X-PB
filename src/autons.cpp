@@ -1652,6 +1652,12 @@ void pidTest() {
                 pidTuneAngular(120);
                     pidTuneAngular(150);
                         pidTuneAngular(180);
+
+    // chassis.setPose(0, 0, 0);
+    // chassis.turnToHeading(90, 2000, {.PIDConstants = {1, 0, 0, 5}}, false);
+    // pros::delay(2000);
+    // chassis.setPose(0, 0, 0);
+    // chassis.turnToHeading(90, 2000, {.PIDConstants = {6, 0, 0, 5}}, false);
 }
 
 
